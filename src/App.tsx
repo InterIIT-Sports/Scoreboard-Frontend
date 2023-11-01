@@ -1,25 +1,19 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
 function App() {
+  const wireStyle = {};
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className="wire navbar">Navbar</div>
+      <div className="content">
+        <div className="leftContainer">
+          <div className="wire liveEvents">Live Events</div>
+          <div className="wire allEvents">
+            All Events sorted according to time of event
+          </div>
+        </div>
+        <div className="wire rightContainer">IIT Medal Tally/Leaderboard</div>
+      </div>
+      <div className="wire footer">Footer</div>
+    </>
   );
 }
 
