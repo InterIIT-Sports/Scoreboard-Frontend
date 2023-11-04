@@ -1,18 +1,41 @@
+import AuthProvider from "react-auth-kit/AuthProvider";
+import RequireAuth from "react-auth-kit/PrivateRoute";
+import Home from "./Screens/Home";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./Screens/Login";
+
 function App() {
-  const wireStyle = {};
   return (
     <>
-      <div className="wire navbar">Navbar</div>
-      <div className="content">
-        <div className="leftContainer">
-          <div className="wire liveEvents">Live Events</div>
-          <div className="wire allEvents">
-            All Events sorted according to time of event
-          </div>
-        </div>
-        <div className="wire rightContainer">IIT Medal Tally/Leaderboard</div>
-      </div>
-      <div className="wire footer">Footer</div>
+      <AuthProvider
+        authType={"cookie"}
+        authName="_auth"
+        cookieDomain={window.location.hostname}
+        cookieSecure={window.location.protocol === "https:"}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route
+              path={"/admin"}
+              element={
+                <RequireAuth loginPath={"/login"}>
+                  <div>ADMIN PAGE</div>
+                </RequireAuth>
+              }
+            />
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="*"
+              element={
+                <>
+                  <h2>404 Page Not Found</h2>
+                  <h3>Please check the URL</h3>
+                </>
+              }
+            />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
     </>
   );
 }
