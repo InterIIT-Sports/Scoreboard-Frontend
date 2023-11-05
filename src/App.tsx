@@ -1,8 +1,8 @@
-import AuthProvider from "react-auth-kit/AuthProvider";
-import RequireAuth from "react-auth-kit/PrivateRoute";
 import Home from "./Screens/Home";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./Screens/Login";
+import { AuthProvider, RequireAuth } from "react-auth-kit";
+import { refreshApi } from "./Utilities/AuthUtils";
 
 function App() {
   return (
@@ -10,6 +10,7 @@ function App() {
       <AuthProvider
         authType={"cookie"}
         authName="_auth"
+        refresh={refreshApi}
         cookieDomain={window.location.hostname}
         cookieSecure={window.location.protocol === "https:"}>
         <BrowserRouter>

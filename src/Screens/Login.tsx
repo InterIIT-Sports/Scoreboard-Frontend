@@ -1,27 +1,49 @@
 import { useState } from "react";
 import "./styles/Login.css";
-import axios from "axios";
 import API from "../Utilities/ApiEndpoints";
+import { useSignIn } from "react-auth-kit";
+import {
+  ACCESS_TOKEN_EXPIRY_TIME,
+  REFRESH_TOKEN_EXPIRY_TIME,
+} from "../Utilities/AuthUtils";
+import { useNavigate } from "react-router";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
-  const handleSubmit = (e: any) => {
+  const signIn = useSignIn();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (username === "" || password === "") {
       setErrorMsg("Enter Username and Password!");
       setTimeout(() => setErrorMsg(""), 3000);
       return;
     }
-    axios
-      .post(API.LoginWithUsernameAndPassword, {
-        username: username,
-        password: password,
-      })
-      .then(res => setErrorMsg(res.data.accessToken))
-      .catch(err => setErrorMsg(err.message));
+    try {
+      const res = await API.LoginWithUsernameAndPassword({
+        username,
+        password,
+      });
+      if (
+        signIn({
+          tokenType: res.data.type as string,
+          token: res.data.accessToken as string,
+          expiresIn: ACCESS_TOKEN_EXPIRY_TIME,
+          refreshToken: res.data.refreshToken as string,
+          refreshTokenExpireIn: REFRESH_TOKEN_EXPIRY_TIME,
+          authState: { username: username },
+        })
+      ) {
+        console.log("Login Successfull " + username);
+        navigate("/admin");
+      }
+    } catch (error: any) {
+      setErrorMsg(JSON.parse(error.request.response).message);
+    }
   };
 
   return (
