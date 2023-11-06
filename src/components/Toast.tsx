@@ -18,9 +18,7 @@ const ToastOverlay = ({ children }: { children: React.JSX.Element }) => {
         toastMessage: message,
         setToastMessage: handleSetMessage,
       }}>
-      <div className="toastOverlay">
-        {message && <div className="toast">{message}</div>}
-      </div>
+      {message && <div className="toast">{message}</div>}
       {children}
     </ToastContext.Provider>
   );
