@@ -1,7 +1,13 @@
+import { useNavigate } from "react-router";
+
 const Home = () => {
+  const navigate = useNavigate();
+
   return (
     <>
-      <div className="wire navbar">Navbar</div>
+      <div className="wire navbar">
+        <button onClick={() => navigate("/login")}>Login</button>Navbar
+      </div>
       <div className="content">
         <div className="leftContainer">
           <div className="wire liveEvents">Live Events</div>

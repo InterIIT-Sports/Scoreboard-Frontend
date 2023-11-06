@@ -1,9 +1,12 @@
-import Home from "./Screens/Home";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./Screens/Login";
 import { AuthProvider, RequireAuth } from "react-auth-kit";
 import { refreshApi } from "./Utilities/AuthUtils";
 import ToastOverlay from "./components/Toast";
+import SplashScreen from "./components/SplashScreen";
+import { Suspense, lazy } from "react";
+const Home = lazy(() => import("./Screens/Home"));
+const Login = lazy(() => import("./Screens/Login"));
+const AdminDashboard = lazy(() => import("./Screens/Admin/AdminDashboard"));
 
 function App() {
   return (
@@ -16,27 +19,29 @@ function App() {
         cookieSecure={window.location.protocol === "https:"}>
         <ToastOverlay>
           <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route
-                path={"/admin"}
-                element={
-                  <RequireAuth loginPath={"/login"}>
-                    <div>ADMIN PAGE</div>
-                  </RequireAuth>
-                }
-              />
-              <Route path="/login" element={<Login />} />
-              <Route
-                path="*"
-                element={
-                  <>
-                    <h2>404 Page Not Found</h2>
-                    <h3>Please check the URL</h3>
-                  </>
-                }
-              />
-            </Routes>
+            <Suspense fallback={<SplashScreen />}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route
+                  path={"/admin"}
+                  element={
+                    <RequireAuth loginPath={"/login"}>
+                      <AdminDashboard />
+                    </RequireAuth>
+                  }
+                />
+                <Route path="/login" element={<Login />} />
+                <Route
+                  path="*"
+                  element={
+                    <>
+                      <h2>404 Page Not Found</h2>
+                      <h3>Please check the URL</h3>
+                    </>
+                  }
+                />
+              </Routes>
+            </Suspense>
           </BrowserRouter>
         </ToastOverlay>
       </AuthProvider>
