@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "./styles/Login.css";
 import API from "../Utilities/ApiEndpoints";
 import { useSignIn } from "react-auth-kit";
@@ -7,6 +7,7 @@ import {
   REFRESH_TOKEN_EXPIRY_TIME,
 } from "../Utilities/AuthUtils";
 import { useNavigate } from "react-router";
+import { ToastContext } from "../Utilities/ToastContext";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -15,6 +16,7 @@ const Login = () => {
 
   const signIn = useSignIn();
   const navigate = useNavigate();
+  const setToast = useContext(ToastContext).setToastMessage;
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -38,7 +40,7 @@ const Login = () => {
           authState: { username: username },
         })
       ) {
-        console.log("Login Successfull " + username);
+        setToast("Login Successfull!");
         navigate("/admin");
       }
     } catch (error: any) {
