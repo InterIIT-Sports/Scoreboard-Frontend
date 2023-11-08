@@ -44,7 +44,11 @@ const Login = () => {
         navigate("/admin");
       }
     } catch (error: any) {
-      setErrorMsg(JSON.parse(error.request.response).message);
+      try {
+        setErrorMsg(JSON.parse(error.request.response).message);
+      } catch {
+        setErrorMsg("Could not connect with the Server");
+      }
     }
   };
 
