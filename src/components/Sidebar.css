@@ -1,4 +1,15 @@
 .sidebar {
-  height: 100vh;
-  width: max(200px, 15vw);
+	height: 100vh;
+	width: 100px;
+	border-right: 2px solid black;
+	display: flex;
+	flex-direction: column;
+
+	.items {
+		flex-grow: 1;
+		padding: 5px;
+	}
+	.bottom {
+		padding: 5px;
+	}
 }

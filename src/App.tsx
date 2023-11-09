@@ -23,7 +23,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route
-                  path={"/admin"}
+                  path={"/admin/*"}
                   element={
                     <RequireAuth loginPath={"/login"}>
                       <AdminDashboard />
