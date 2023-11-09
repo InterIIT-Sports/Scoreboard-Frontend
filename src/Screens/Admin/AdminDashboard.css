@@ -1,7 +1,7 @@
-.admin-container{
-    display: flex;
+.admin-container {
+	display: flex;
 
-    .admin-content{
-        flex-grow: 1;
-    }
+	.admin-content {
+		flex-grow: 1;
+	}
 }

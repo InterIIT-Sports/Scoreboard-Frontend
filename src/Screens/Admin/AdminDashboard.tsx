@@ -3,8 +3,8 @@ import SideBar from "../../components/Sidebar";
 import { useEffect, useRef } from "react";
 import { UserRole } from "../../types/UserRole";
 import "./AdminDashboard.css";
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import ScoreboardIcon from '@mui/icons-material/Scoreboard';
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import ScoreboardIcon from "@mui/icons-material/Scoreboard";
 
 const AdminDashboard = ({ role = UserRole.ADMIN }) => {
 	const urlParam = useParams();
@@ -15,14 +15,14 @@ const AdminDashboard = ({ role = UserRole.ADMIN }) => {
 					{
 						title: "Users",
 						linkTo: "users",
-						icon: PeopleAltIcon
+						icon: PeopleAltIcon,
 					},
 			  ]
 			: []),
 		{
 			title: "Edit Scores",
 			linkTo: "edit_scores",
-			icon: ScoreboardIcon
+			icon: ScoreboardIcon,
 		},
 	]);
 

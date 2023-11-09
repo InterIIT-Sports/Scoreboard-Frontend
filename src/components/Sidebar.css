@@ -1,22 +1,44 @@
 .sidebar {
 	height: 100vh;
 	width: 100px;
-	border-right: 2px solid black;
 	display: flex;
 	flex-direction: column;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 
 	.items {
 		flex-grow: 1;
-		padding: 5px;
+	}
 
-		.item {
-			padding: 5px;
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
+	.item {
+		cursor: pointer;
+		padding: 10px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		.title {
+			text-align: center;
 		}
 	}
-	.bottom {
-		padding: 5px;
+	.item:hover {
+		background-color: #ebebeb;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	.sidebar {
+		position: fixed;
+		bottom: 0;
+		/* flex-direction: row; */
+		height: min-content;
+		width: 100vw;
+
+		.items {
+			display: flex;
+
+			.item {
+				width: 50vw;
+			}
+		}
 	}
 }

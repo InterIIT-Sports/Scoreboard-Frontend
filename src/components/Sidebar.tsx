@@ -8,21 +8,23 @@ const SideBar = ({
 }) => {
 	const navigate = useNavigate();
 	const handleLogout = () => {
+		console.log("logout");
 		//TODO: implement logout
 	};
 	return (
 		<div className="sidebar">
 			<div className="items">
 				{items.map((item, i) => (
-					<div className="item" key={i} onClick={() => navigate(item.linkTo)}>
-						<item.icon />
-						<br />
-						<span>{item.title}</span>
+					<div
+						className="item"
+						tabIndex={1}
+						key={i}
+						onClick={() => navigate(item.linkTo)}
+					>
+						<item.icon fontSize="large" />
+						<span className="title">{item.title}</span>
 					</div>
 				))}
-			</div>
-			<div className="bottom">
-				<button onClick={handleLogout}>Login</button>
 			</div>
 		</div>
 	);
