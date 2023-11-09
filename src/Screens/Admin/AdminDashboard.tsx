@@ -3,6 +3,8 @@ import SideBar from "../../components/Sidebar";
 import { useEffect, useRef } from "react";
 import { UserRole } from "../../types/UserRole";
 import "./AdminDashboard.css";
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import ScoreboardIcon from '@mui/icons-material/Scoreboard';
 
 const AdminDashboard = ({ role = UserRole.ADMIN }) => {
 	const urlParam = useParams();
@@ -13,17 +15,19 @@ const AdminDashboard = ({ role = UserRole.ADMIN }) => {
 					{
 						title: "Users",
 						linkTo: "users",
+						icon: PeopleAltIcon
 					},
 			  ]
 			: []),
 		{
 			title: "Edit Scores",
 			linkTo: "edit_scores",
+			icon: ScoreboardIcon
 		},
 	]);
 
 	useEffect(() => {
-		if (!urlParam["*"]) navigate(SideBarItems.current[0].linkTo);
+		if (!urlParam["*"]) navigate(SideBarItems.current[0].linkTo); //navigate to the first sidebar item if /admin visited
 	}, [navigate, urlParam]);
 
 	return (
