@@ -7,12 +7,16 @@ import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import ScoreboardIcon from "@mui/icons-material/Scoreboard";
 import Users from "./Users";
 import EditScores from "./EditScores";
-import { useSignOut } from "react-auth-kit";
+import { useAuthUser, useSignOut } from "react-auth-kit";
+import { AuthStateUserObject } from "react-auth-kit/dist/types";
+import { User } from "../../types/User";
 
 const AdminDashboard = ({ role = UserRole.ADMIN }) => {
 	const urlParam = useParams();
 	const navigate = useNavigate();
 	const signOut = useSignOut();
+	const auth = useAuthUser() as () => AuthStateUserObject;
+	const user = useRef(auth() as User);
 
 	const handleLogout = () => {
 		// navigate("/login");
@@ -46,7 +50,9 @@ const AdminDashboard = ({ role = UserRole.ADMIN }) => {
 		<div className="admin-container">
 			<SideBar items={SideBarItems.current} />
 			<div className="admin-content">
-				<button onClick={handleLogout}>Logout</button>
+				<button className="styledButton floatingButton" onClick={handleLogout}>
+					{user.current.username}
+				</button>
 				<Routes>
 					{SideBarItems.current.map(
 						(

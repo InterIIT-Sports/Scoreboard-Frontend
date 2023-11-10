@@ -1,14 +1,21 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AuthProvider, RequireAuth } from "react-auth-kit";
+import { AuthProvider, useIsAuthenticated } from "react-auth-kit";
 import { refreshApi } from "./Utilities/AuthUtils";
 import ToastOverlay from "./components/Toast";
 import SplashScreen from "./components/SplashScreen";
 import { Suspense, lazy } from "react";
+import { Navigate } from "react-router";
 const Home = lazy(() => import("./Screens/Home"));
 const Login = lazy(() => import("./Screens/Login"));
 const AdminDashboard = lazy(() => import("./Screens/Admin/AdminDashboard"));
 
 function App() {
+	const PrivateRoute = ({ Component }: { Component: React.JSX.Element }) => {
+		const isAuthenticated = useIsAuthenticated();
+		const auth = isAuthenticated();
+		return auth ? Component : <Navigate to="/login" />;
+	};
+
 	return (
 		<>
 			<AuthProvider
@@ -25,11 +32,7 @@ function App() {
 								<Route path="/" element={<Home />} />
 								<Route
 									path={"/admin/*"}
-									element={
-										// <RequireAuth loginPath={"/login"}>
-										<AdminDashboard />
-										// </RequireAuth>
-									}
+									element={<PrivateRoute Component={<AdminDashboard />} />}
 								/>
 								<Route path="/login" element={<Login />} />
 								<Route

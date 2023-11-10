@@ -4,4 +4,9 @@
 	.admin-content {
 		flex-grow: 1;
 	}
+	.floatingButton {
+		position: fixed;
+		right: 15px;
+		top: 15px;
+	}
 }
