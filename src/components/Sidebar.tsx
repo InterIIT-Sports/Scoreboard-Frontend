@@ -4,13 +4,15 @@ import "./Sidebar.css";
 const SideBar = ({
 	items,
 }: {
-	items: { title: string; linkTo: string; icon: any }[];
+	items: {
+		title: string;
+		linkTo: string;
+		icon: any;
+		element: React.JSX.Element;
+	}[];
 }) => {
 	const navigate = useNavigate();
-	const handleLogout = () => {
-		console.log("logout");
-		//TODO: implement logout
-	};
+
 	return (
 		<div className="sidebar">
 			<div className="items">
