@@ -1,6 +1,6 @@
 import { Route, Routes, useNavigate, useParams } from "react-router";
 import SideBar from "../../components/Sidebar";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { UserRole } from "../../types/UserRole";
 import "./AdminDashboard.css";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
@@ -10,6 +10,7 @@ import EditScores from "./EditScores";
 import { useAuthUser, useSignOut } from "react-auth-kit";
 import { AuthStateUserObject } from "react-auth-kit/dist/types";
 import { User } from "../../types/User";
+import UserRoleChip from "../../components/UserRoleChip";
 
 const AdminDashboard = ({ role = UserRole.ADMIN }) => {
 	const urlParam = useParams();
@@ -18,9 +19,11 @@ const AdminDashboard = ({ role = UserRole.ADMIN }) => {
 	const auth = useAuthUser() as () => AuthStateUserObject;
 	const user = useRef(auth() as User);
 
+	const [showProfileDialog, setShowProfileDialog] = useState(false);
+
 	const handleLogout = () => {
-		// navigate("/login");
-		// signOut();
+		navigate("/login");
+		signOut();
 	};
 
 	const SideBarItems = useRef([
@@ -49,10 +52,31 @@ const AdminDashboard = ({ role = UserRole.ADMIN }) => {
 	return (
 		<div className="admin-container">
 			<SideBar items={SideBarItems.current} />
-			<div className="admin-content">
-				<button className="styledButton floatingButton" onClick={handleLogout}>
-					{user.current.username}
-				</button>
+			<section className="admin-content">
+				<section className="floatingDialogBox">
+					<button
+						className="styledButton"
+						onClick={() => setShowProfileDialog((prev) => !prev)}
+					>
+						<span className="user-name-text">{user.current.username}</span>{" "}
+						{/*change username to name*/}
+						<UserRoleChip role={role} />
+					</button>
+					{showProfileDialog && (
+						<div style={{ margin: "10px" }}>
+							Username:
+							<br />
+							{user.current.username}
+							<button
+								onClick={handleLogout}
+								style={{ marginTop: "5px" }}
+								className="styledButton"
+							>
+								Logout
+							</button>
+						</div>
+					)}
+				</section>
 				<Routes>
 					{SideBarItems.current.map(
 						(
@@ -66,7 +90,7 @@ const AdminDashboard = ({ role = UserRole.ADMIN }) => {
 						)
 					)}
 				</Routes>
-			</div>
+			</section>
 		</div>
 	);
 };
