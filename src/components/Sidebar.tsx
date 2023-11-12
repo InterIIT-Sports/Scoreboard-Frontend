@@ -8,7 +8,6 @@ const SideBar = ({
 		title: string;
 		linkTo: string;
 		icon: any;
-		element: React.JSX.Element;
 	}[];
 }) => {
 	const navigate = useNavigate();

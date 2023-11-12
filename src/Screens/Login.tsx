@@ -25,12 +25,7 @@ const Login = () => {
 			setTimeout(() => setErrorMsg(""), 3000);
 			return;
 		}
-		// API.CreateUserWithUsernameAndPassword({
-		//   name: "Romit",
-		//   username: username,
-		//   password: password,
-		//   role: UserRole.ADMIN,
-		// });
+
 		try {
 			const res = await API.LoginWithUsernameAndPassword({
 				username,
@@ -43,7 +38,11 @@ const Login = () => {
 					expiresIn: ACCESS_TOKEN_EXPIRY_TIME,
 					refreshToken: res.data.refreshToken as string,
 					refreshTokenExpireIn: REFRESH_TOKEN_EXPIRY_TIME,
-					authState: { username: username },
+					authState: {
+						username: username,
+						name: res.data.user.name,
+						role: res.data.user.role,
+					},
 				})
 			) {
 				setToast("Login Successfull!");
@@ -54,6 +53,7 @@ const Login = () => {
 				setErrorMsg(JSON.parse(error.request.response).message);
 			} catch {
 				setErrorMsg("Could not connect with the Server");
+				console.log(error);
 			}
 		}
 	};

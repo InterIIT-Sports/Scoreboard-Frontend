@@ -7,33 +7,31 @@ import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import ScoreboardIcon from "@mui/icons-material/Scoreboard";
 import Users from "./Users";
 import EditScores from "./EditScores";
-import { useAuthUser, useSignOut } from "react-auth-kit";
+import { useAuthHeader, useAuthUser, useSignOut } from "react-auth-kit";
 import { AuthStateUserObject } from "react-auth-kit/dist/types";
 import { User } from "../../types/User";
 import UserRoleChip from "../../components/UserRoleChip";
+import API from "../../Utilities/ApiEndpoints";
+import { getRefreshToken } from "../../Utilities/AuthUtils";
 
-const AdminDashboard = ({ role = UserRole.ADMIN }) => {
+const AdminDashboard = () => {
 	const urlParam = useParams();
 	const navigate = useNavigate();
 	const signOut = useSignOut();
 	const auth = useAuthUser() as () => AuthStateUserObject;
 	const user = useRef(auth() as User);
+	const getAcessToken = useAuthHeader();
 
 	const [showProfileDialog, setShowProfileDialog] = useState(false);
-
-	const handleLogout = () => {
-		navigate("/login");
-		signOut();
-	};
+	const [allUsers, setAllUsers] = useState<User[]>([]);
 
 	const SideBarItems = useRef([
-		...(role === UserRole.ADMIN
+		...(user.current.role === UserRole.ADMIN
 			? [
 					{
 						title: "Users",
 						linkTo: "users",
 						icon: PeopleAltIcon,
-						element: <Users />,
 					},
 			  ]
 			: []),
@@ -41,13 +39,53 @@ const AdminDashboard = ({ role = UserRole.ADMIN }) => {
 			title: "Edit Scores",
 			linkTo: "edit_scores",
 			icon: ScoreboardIcon,
-			element: <EditScores />,
 		},
 	]);
 
 	useEffect(() => {
+		const fetchUsers = async () => {
+			const result = (await API.GetUsers(getAcessToken())).data;
+			const Users: User[] = result.map((obj: any) => {
+				return {
+					name: obj.name,
+					username: obj.username,
+					role: obj.role,
+				};
+			});
+			setAllUsers(Users);
+		};
+
+		if (user.current.role === UserRole.ADMIN) fetchUsers();
+	}, []);
+
+	useEffect(() => {
 		if (!urlParam["*"]) navigate(SideBarItems.current[0].linkTo); //navigate to the first sidebar item if /admin visited
-	}, [navigate, urlParam]);
+	}, []);
+
+	const handleLogout = () => {
+		navigate("/login");
+		API.Logout({
+			refreshToken: getRefreshToken(),
+		});
+		signOut();
+	};
+
+	const getRoutes = () => {
+		return [
+			...(user.current.role === UserRole.ADMIN
+				? [
+						{
+							linkTo: "users",
+							element: <Users users={allUsers} />,
+						},
+				  ]
+				: []),
+			{
+				linkTo: "edit_scores",
+				element: <EditScores />,
+			},
+		];
+	};
 
 	return (
 		<div className="admin-container">
@@ -58,9 +96,8 @@ const AdminDashboard = ({ role = UserRole.ADMIN }) => {
 						className="styledButton"
 						onClick={() => setShowProfileDialog((prev) => !prev)}
 					>
-						<span className="user-name-text">{user.current.username}</span>{" "}
-						{/*change username to name*/}
-						<UserRoleChip role={role} />
+						<span className="user-name-text">{user.current.name}</span>{" "}
+						<UserRoleChip role={user.current.role} />
 					</button>
 					{showProfileDialog && (
 						<div style={{ margin: "10px" }}>
@@ -78,12 +115,12 @@ const AdminDashboard = ({ role = UserRole.ADMIN }) => {
 					)}
 				</section>
 				<Routes>
-					{SideBarItems.current.map(
+					{getRoutes().map(
 						(
 							{
 								linkTo,
 								element,
-							}: { title: string; linkTo: string; element: React.JSX.Element },
+							}: { linkTo: string; element: React.JSX.Element },
 							i: number
 						) => (
 							<Route key={i} path={linkTo} element={element} />
