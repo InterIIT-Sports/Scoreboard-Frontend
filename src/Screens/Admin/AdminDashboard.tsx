@@ -1,6 +1,6 @@
 import { Route, Routes, useNavigate, useParams } from "react-router";
 import SideBar from "../../components/Sidebar";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { UserRole } from "../../types/UserRole";
 import "./AdminDashboard.css";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
@@ -13,14 +13,16 @@ import { User } from "../../types/User";
 import UserRoleChip from "../../components/UserRoleChip";
 import API from "../../Utilities/ApiEndpoints";
 import { getRefreshToken } from "../../Utilities/AuthUtils";
+import { ToastContext } from "../../Utilities/ToastContext";
 
 const AdminDashboard = () => {
 	const urlParam = useParams();
 	const navigate = useNavigate();
 	const signOut = useSignOut();
+	const setToast = useContext(ToastContext).setToastMessage;
 	const auth = useAuthUser() as () => AuthStateUserObject;
 	const user = useRef(auth() as User);
-	const getAcessToken = useAuthHeader();
+	const getAccessToken = useAuthHeader();
 
 	const [showProfileDialog, setShowProfileDialog] = useState(false);
 	const [allUsers, setAllUsers] = useState<User[]>([]);
@@ -42,19 +44,19 @@ const AdminDashboard = () => {
 		},
 	]);
 
-	useEffect(() => {
-		const fetchUsers = async () => {
-			const result = (await API.GetUsers(getAcessToken())).data;
-			const Users: User[] = result.map((obj: any) => {
-				return {
-					name: obj.name,
-					username: obj.username,
-					role: obj.role,
-				};
-			});
-			setAllUsers(Users);
-		};
+	const fetchUsers = async () => {
+		const result = (await API.GetUsers(getAccessToken())).data;
+		const Users: User[] = result.map((obj: any) => {
+			return {
+				name: obj.name,
+				username: obj.username,
+				role: obj.role,
+			};
+		});
+		setAllUsers(Users);
+	};
 
+	useEffect(() => {
 		if (user.current.role === UserRole.ADMIN) fetchUsers();
 	}, []);
 
@@ -62,12 +64,54 @@ const AdminDashboard = () => {
 		if (!urlParam["*"]) navigate(SideBarItems.current[0].linkTo); //navigate to the first sidebar item if /admin visited
 	}, []);
 
-	const handleLogout = () => {
+	const handleLogout = async () => {
 		navigate("/login");
-		API.Logout({
+		await API.Logout({
 			refreshToken: getRefreshToken(),
 		});
+		setToast("Logged Out");
 		signOut();
+	};
+
+	const handleAddUser = async (userToAdd: User, password: string) => {
+		try {
+			await API.CreateUserWithUsernameAndPassword({
+				name: userToAdd.name,
+				username: userToAdd.username,
+				role: userToAdd.role,
+				password: password,
+				accessToken: getAccessToken(),
+			});
+			await fetchUsers();
+			setToast("Added User " + userToAdd.username);
+		} catch (error: any) {
+			try {
+				setToast(JSON.parse(error.request.response).message);
+			} catch {
+				setToast("Could not connect with the Server");
+				console.log(error);
+			}
+		}
+	};
+
+	const handleUserDelete = async (userToDelete: User) => {
+		if (userToDelete.username === user.current.username) {
+			setToast("You Cant Delete Yourself!");
+			return;
+		} else {
+			try {
+				await API.DeleteUser(userToDelete.username, getAccessToken());
+				await fetchUsers();
+				setToast("Deleted User " + userToDelete.username);
+			} catch (error: any) {
+				try {
+					setToast(JSON.parse(error.request.response).message);
+				} catch {
+					setToast("Could not connect with the Server");
+					console.log(error);
+				}
+			}
+		}
 	};
 
 	const getRoutes = () => {
@@ -76,7 +120,13 @@ const AdminDashboard = () => {
 				? [
 						{
 							linkTo: "users",
-							element: <Users users={allUsers} />,
+							element: (
+								<Users
+									onUserAdd={handleAddUser}
+									onDelete={handleUserDelete}
+									users={allUsers}
+								/>
+							),
 						},
 				  ]
 				: []),

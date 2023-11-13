@@ -14,6 +14,16 @@ const API = {
 			},
 		}),
 
+	DeleteUser: (username: string, accessToken: string) =>
+		axios.delete(ServerURL + "admin/user", {
+			data: {
+				username: username,
+			},
+			headers: {
+				Authorization: accessToken,
+			},
+		}),
+
 	CreateUserWithUsernameAndPassword: ({
 		name,
 		username,
