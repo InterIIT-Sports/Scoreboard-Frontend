@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
-import UserRoleChip from "../../components/UserRoleChip";
 import { User } from "../../types/User";
 import "./Users.css";
 import { UserRole } from "../../types/UserRole";
+import UserRow from "./components/UserRow";
 
 const Users = ({
 	users,
@@ -116,21 +116,7 @@ const Users = ({
 					</thead>
 					<tbody>
 						{users.map((user, i) => (
-							<tr key={i}>
-								<td>{user.name}</td>
-								<td>{user.username}</td>
-								<td className="chipCell">
-									<UserRoleChip role={user.role} />
-								</td>
-								<td>
-									<button
-										className="styledButton"
-										onClick={() => onDelete(user)}
-									>
-										Delete
-									</button>
-								</td>
-							</tr>
+							<UserRow key={i} user={user} onDelete={onDelete} />
 						))}
 					</tbody>
 				</table>

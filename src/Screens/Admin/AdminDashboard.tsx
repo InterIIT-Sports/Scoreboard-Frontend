@@ -51,6 +51,7 @@ const AdminDashboard = () => {
 				name: obj.name,
 				username: obj.username,
 				role: obj.role,
+				password: obj.password,
 			};
 		});
 		setAllUsers(Users);
