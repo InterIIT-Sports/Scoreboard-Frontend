@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router";
+import Header from "../components/Header/header";
 
 const Home = () => {
 	const navigate = useNavigate();
@@ -6,7 +7,7 @@ const Home = () => {
 	return (
 		<>
 			<div className="wire navbar">
-				<button onClick={() => navigate("/admin")}>admin</button>Navbar
+				<Header />
 			</div>
 			<div className="content">
 				<div className="leftContainer">
