@@ -86,6 +86,8 @@ const Login = () => {
 						/>
 					</label>
 					<input type="submit" value={"Continue"} />
+					<br></br>
+					<span onClick={() => navigate("..")}>Go to Homepage</span>
 				</form>
 				<div>{errorMsg}</div>
 			</div>
