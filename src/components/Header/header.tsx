@@ -5,6 +5,7 @@ import "./header.css";
 function Header() {
 	const Navigate = useNavigate();
 	const [headerBackground, setHeaderBackground] = useState("transparent");
+	const [showNavbar, setShowNavbar] = useState(false);
 	const color = "white";
 	const anticolor = color === "white" ? "black" : "white";
 	const [linkbg, setLinkbg] = useState(color);
@@ -111,8 +112,11 @@ function Header() {
 				style={{ backgroundColor: headerBackground }}
 			>
 				<div className="cm-menu-wrap">
-					<div className="cm-menu-btn fa fa-bars"></div>
-					<div className="cm-menu-inner">
+					<div
+						onClick={() => setShowNavbar((prev) => !prev)}
+						className="cm-menu-btn fa fa-bars"
+					></div>
+					<div className={"cm-menu-inner " + (showNavbar ? "show" : "")}>
 						<ul className="menu-ul clear-all">
 							<li className="has-child">
 								<div

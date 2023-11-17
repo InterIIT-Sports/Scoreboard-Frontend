@@ -1,12 +1,9 @@
-import { useNavigate } from "react-router";
 import Header from "../components/Header/header";
 
 const Home = () => {
-	const navigate = useNavigate();
-
 	return (
 		<>
-			<div className="wire navbar">
+			<div className="navbar">
 				<Header />
 			</div>
 			<div className="content">
