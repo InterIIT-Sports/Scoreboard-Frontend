@@ -76,3 +76,9 @@
 	font-size: 12px;
 	padding: 5px 10px;
 }
+
+@media screen and (max-width: 900px) {
+	.usersContainer {
+		margin: 10px;
+	}
+}

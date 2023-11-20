@@ -7,6 +7,28 @@ export const ServerURL =
 		: window.location.hostname;
 
 const API = {
+	GetTeams: (accessToken: string) =>
+		axios.get(ServerURL + "admin/teams", {
+			headers: {
+				Authorization: accessToken,
+			},
+		}),
+
+	AddTeam: (accessToken: string, team: any) =>
+		axios.post(
+			ServerURL + "admin/teams",
+			{
+				name: team.name,
+			},
+			{
+				headers: {
+					Authorization: accessToken,
+				},
+			}
+		),
+
+	DeleteTeam: (accessToken: string, team: any) => {},
+
 	GetUsers: (accessToken: string) =>
 		axios.get(ServerURL + "admin/users", {
 			headers: {

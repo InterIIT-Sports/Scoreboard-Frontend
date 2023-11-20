@@ -5,6 +5,7 @@ import { UserRole } from "../../types/UserRole";
 import "./AdminDashboard.css";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import ScoreboardIcon from "@mui/icons-material/Scoreboard";
+import Diversity2Icon from "@mui/icons-material/Diversity2";
 import Users from "./Users";
 import EditScores from "./EditScores";
 import { useAuthHeader, useAuthUser, useSignOut } from "react-auth-kit";
@@ -14,6 +15,7 @@ import UserRoleChip from "../../components/UserRoleChip";
 import API from "../../Utilities/ApiEndpoints";
 import { getRefreshToken } from "../../Utilities/AuthUtils";
 import { ToastContext } from "../../Utilities/ToastContext";
+import Teams from "./Teams";
 
 const AdminDashboard = () => {
 	const urlParam = useParams();
@@ -26,6 +28,7 @@ const AdminDashboard = () => {
 
 	const [showProfileDialog, setShowProfileDialog] = useState(false);
 	const [allUsers, setAllUsers] = useState<User[]>([]);
+	const [allTeams, setAllTeams] = useState([]);
 
 	const SideBarItems = useRef([
 		...(user.current.role === UserRole.ADMIN
@@ -42,7 +45,53 @@ const AdminDashboard = () => {
 			linkTo: "edit_scores",
 			icon: ScoreboardIcon,
 		},
+		...(user.current.role === UserRole.ADMIN
+			? [
+					{
+						title: "Teams",
+						linkTo: "teams",
+						icon: Diversity2Icon,
+					},
+			  ]
+			: []),
 	]);
+
+	const getRoutes = (): { linkTo: string; element: React.JSX.Element }[] => {
+		return [
+			...(user.current.role === UserRole.ADMIN
+				? [
+						{
+							linkTo: "users",
+							element: (
+								<Users
+									onUserAdd={handleAddUser}
+									onDelete={handleUserDelete}
+									users={allUsers}
+								/>
+							),
+						},
+				  ]
+				: []),
+			{
+				linkTo: "edit_scores",
+				element: <EditScores />,
+			},
+			...(user.current.role === UserRole.ADMIN
+				? [
+						{
+							linkTo: "teams",
+							element: (
+								<Teams
+									teams={allTeams}
+									onTeamAdd={handleAddTeam}
+									onTeamDelete={handleDeleteTeam}
+								/>
+							),
+						},
+				  ]
+				: []),
+		];
+	};
 
 	const fetchUsers = async () => {
 		const result = (await API.GetUsers(getAccessToken())).data;
@@ -57,8 +106,21 @@ const AdminDashboard = () => {
 		setAllUsers(Users);
 	};
 
+	const fetchTeams = async () => {
+		const result = (await API.GetTeams(getAccessToken())).data;
+		const Teams = result.map((obj: any) => {
+			return {
+				name: obj.name,
+			};
+		});
+		setAllTeams(Teams);
+	};
+
 	useEffect(() => {
-		if (user.current.role === UserRole.ADMIN) fetchUsers();
+		if (user.current.role === UserRole.ADMIN) {
+			fetchUsers();
+			fetchTeams();
+		}
 	}, []);
 
 	useEffect(() => {
@@ -115,27 +177,34 @@ const AdminDashboard = () => {
 		}
 	};
 
-	const getRoutes = () => {
-		return [
-			...(user.current.role === UserRole.ADMIN
-				? [
-						{
-							linkTo: "users",
-							element: (
-								<Users
-									onUserAdd={handleAddUser}
-									onDelete={handleUserDelete}
-									users={allUsers}
-								/>
-							),
-						},
-				  ]
-				: []),
-			{
-				linkTo: "edit_scores",
-				element: <EditScores />,
-			},
-		];
+	const handleAddTeam = async (teamToAdd: { name: string }) => {
+		try {
+			await API.AddTeam(getAccessToken(), teamToAdd);
+			await fetchTeams();
+			setToast("Added Team " + teamToAdd.name);
+		} catch (error: any) {
+			try {
+				setToast(JSON.parse(error.request.response).message);
+			} catch {
+				setToast("Could not connect with the Server");
+				console.log(error);
+			}
+		}
+	};
+
+	const handleDeleteTeam = async (teamToDelete: any) => {
+		try {
+			await API.DeleteTeam(getAccessToken(), teamToDelete.name);
+			await fetchTeams();
+			setToast("Deleted Team " + teamToDelete.name);
+		} catch (error: any) {
+			try {
+				setToast(JSON.parse(error.request.response).message);
+			} catch {
+				setToast("Could not connect with the Server");
+				console.log(error);
+			}
+		}
 	};
 
 	return (
