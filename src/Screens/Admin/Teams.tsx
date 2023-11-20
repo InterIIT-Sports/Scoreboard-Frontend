@@ -11,7 +11,9 @@ const Teams = ({
 	onTeamDelete: (teamToDelete: any) => void;
 }) => {
 	const addTeamDialog = useRef<HTMLDialogElement | null>(null);
+	const confirmDeleteDialog = useRef<HTMLDialogElement | null>(null);
 	const [newTeamName, setNewTeamName] = useState("");
+	const [teamToDelete, setTeamToDelete] = useState<{ name: string }>();
 	const [errorMsg, setErrorMsg] = useState("");
 
 	const openDialog = () => {
@@ -19,6 +21,7 @@ const Teams = ({
 	};
 	const closeDialog = () => {
 		addTeamDialog.current?.close();
+		confirmDeleteDialog.current?.close();
 	};
 
 	const handleAddTeam = (e: any) => {
@@ -30,6 +33,11 @@ const Teams = ({
 		}
 		onTeamAdd({ name: newTeamName });
 		addTeamDialog.current?.close();
+	};
+
+	const confirmTeamDelete = (teamToDelete: any) => {
+		setTeamToDelete(teamToDelete);
+		confirmDeleteDialog.current?.showModal();
 	};
 
 	return (
@@ -59,6 +67,26 @@ const Teams = ({
 					</form>
 					{errorMsg}
 				</dialog>
+				<dialog ref={confirmDeleteDialog}>
+					<button className="styledButton" onClick={closeDialog}>
+						Close
+					</button>
+					<h3>Caution</h3>
+					Are you sure you want to Delete
+					<br /> <b>{teamToDelete?.name} ?</b>
+					<form
+						onSubmit={(e) => {
+							e.preventDefault();
+							onTeamDelete(teamToDelete);
+							confirmDeleteDialog.current?.close();
+							setTeamToDelete(undefined);
+						}}
+					>
+						<button className="styledButton" type="submit">
+							Yes
+						</button>
+					</form>
+				</dialog>
 			</div>
 			<div className="main">
 				<table>
@@ -70,7 +98,7 @@ const Teams = ({
 					</thead>
 					<tbody>
 						{teams.map((team: any, i: number) => (
-							<TeamRow key={i} team={team} onDelete={onTeamDelete} />
+							<TeamRow key={i} team={team} onDelete={confirmTeamDelete} />
 						))}
 					</tbody>
 				</table>
