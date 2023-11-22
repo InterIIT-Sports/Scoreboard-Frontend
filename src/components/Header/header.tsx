@@ -7,8 +7,8 @@ function Header() {
 	const [headerBackground, setHeaderBackground] = useState("transparent");
 	const [showNavbar, setShowNavbar] = useState(false);
 	const color = "white";
-	const anticolor = color === "white" ? "black" : "white";
-	const [linkbg, setLinkbg] = useState(color);
+	// const anticolor = color === "white" ? "black" : "white";
+	const linkbg = color;
 	const handleLinkClick = () => {
 		window.location.href = "/#/Results"; // Set the URL to the desired location
 		window.location.reload();
