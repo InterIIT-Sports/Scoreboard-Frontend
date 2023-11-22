@@ -1,10 +1,7 @@
 import axios from "axios";
 import { UserRole } from "../types/UserRole";
 
-export const ServerURL =
-	process.env.NODE_ENV === "development"
-		? "http://localhost:5000/"
-		: window.location.hostname;
+export const ServerURL = "https://interiit-sports-server.cyclic.app/";
 
 const API = {
 	GetTeams: (accessToken: string) =>

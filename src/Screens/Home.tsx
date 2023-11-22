@@ -13,7 +13,7 @@ const Home = () => {
 						All Events sorted according to time of event
 					</div>
 				</div>
-				<div className="wire rightContainer">IIT Medal Tally/Leaderboard</div>
+				<div className="wire rightContainer">Past Games Results</div>
 			</div>
 			<div className="wire footer">Footer</div>
 		</>
