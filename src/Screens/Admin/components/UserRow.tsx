@@ -15,6 +15,7 @@ const UserRow = ({
 		<tr>
 			<td>{user.name}</td>
 			<td
+				className="noTextTransform"
 				onClick={() => {
 					setShowPassword(true);
 					setTimeout(() => setShowPassword(false), 2000);

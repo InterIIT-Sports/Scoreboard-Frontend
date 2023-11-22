@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Route, Routes, useNavigate, useParams } from "react-router";
 import SideBar from "../../components/Sidebar";
 import { useContext, useEffect, useRef, useState } from "react";

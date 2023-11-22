@@ -60,6 +60,10 @@ input[type="submit"]:active,
 	background-color: var(--dark_blue);
 }
 
+.noTextTransform {
+	text-transform: none;
+}
+
 .wire {
 	display: flex;
 	justify-content: center;
