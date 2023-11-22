@@ -1,6 +1,6 @@
 import { Route, Routes, useNavigate, useParams } from "react-router";
 import SideBar from "../../components/Sidebar";
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { UserRole } from "../../types/UserRole";
 import "./AdminDashboard.css";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
@@ -93,7 +93,7 @@ const AdminDashboard = () => {
 		];
 	};
 
-	const fetchUsers = useCallback(async () => {
+	const fetchUsers = async () => {
 		const result = (await API.GetUsers(getAccessToken())).data;
 		const Users: User[] = result.map((obj: any) => {
 			return {
@@ -104,9 +104,9 @@ const AdminDashboard = () => {
 			};
 		});
 		setAllUsers(Users);
-	}, [getAccessToken]);
+	};
 
-	const fetchTeams = useCallback(async () => {
+	const fetchTeams = async () => {
 		const result = (await API.GetTeams(getAccessToken())).data;
 		const Teams = result.map((obj: any) => {
 			return {
@@ -114,18 +114,18 @@ const AdminDashboard = () => {
 			};
 		});
 		setAllTeams(Teams);
-	}, [getAccessToken]);
+	};
 
 	useEffect(() => {
 		if (user.current.role === UserRole.ADMIN) {
 			fetchUsers();
 			fetchTeams();
 		}
-	}, [fetchTeams, fetchUsers]);
+	}, []);
 
 	useEffect(() => {
 		if (!urlParam["*"]) navigate(SideBarItems.current[0].linkTo); //navigate to the first sidebar item if /admin visited
-	}, [navigate, urlParam]);
+	}, []);
 
 	const handleLogout = async () => {
 		navigate("/login");
