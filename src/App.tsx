@@ -5,7 +5,12 @@ import ToastOverlay from "./components/Toast";
 import SplashScreen from "./components/SplashScreen";
 import { Suspense, lazy } from "react";
 import { Navigate } from "react-router";
-const Home = lazy(() => import("./Screens/Home"));
+const Home = lazy(() => {
+	return Promise.all([
+		import("./Screens/Home"),
+		new Promise((resolve) => setTimeout(resolve, 3000)),
+	]).then(([moduleExports]) => moduleExports);
+});
 const Login = lazy(() => import("./Screens/Login"));
 const AdminDashboard = lazy(() => import("./Screens/Admin/AdminDashboard"));
 
