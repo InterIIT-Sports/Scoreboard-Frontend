@@ -1,0 +1,71 @@
+.liveEventBox {
+	margin: 5px;
+	min-width: 400px;
+	background-color: var(--red);
+	min-height: 200px;
+	border-radius: 10px;
+	scroll-snap-align: center;
+	color: white;
+
+	.VS {
+		font-size: 1.3rem;
+		color: #ffb2b2;
+	}
+
+	.eventCategory {
+		background-color: rgba(255, 255, 255, 0.3);
+		font-size: 18px;
+		margin: 5px;
+		padding: 2px;
+		padding-right: 5px;
+		border-radius: 5px;
+		display: flex;
+		width: min-content;
+		align-items: center;
+	}
+	.footballScoresContainer {
+		padding: 10px 0px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+}
+
+.liveEventBox h3 {
+	margin: 0px;
+	font-weight: 500;
+	text-align: center;
+}
+
+.footballScoresContainer h3 {
+	display: inline;
+}
+.footballScoresContainer > div {
+	background-color: rgba(255, 255, 255, 0.1);
+	border: 3px dashed var(--red);
+	display: flex;
+	margin: 0px 10px;
+	padding: 5px 10px;
+	border-radius: 5px;
+	flex-direction: column;
+	align-items: center;
+}
+.footballScoresContainer > div > p {
+	margin: 0.5em;
+	padding: 7px;
+	border-top: groove black 3px;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	font-size: 1.7rem;
+	font-weight: 600;
+	background-color: rgba(255, 255, 255, 0.2);
+}
+.footballScoresContainer div:nth-child(1) {
+	margin-right: 20px;
+}
+.footballScoresContainer div:nth-child(3) {
+	margin-left: 20px;
+}
+.footballScoresContainer h3 {
+	font-size: 1.4rem;
+}

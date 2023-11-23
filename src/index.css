@@ -19,6 +19,7 @@ code {
 }
 
 :root {
+	--red: #f23030;
 	--dark_blue: #0554a5;
 	--light_blue: #40c4eb;
 	--shadow_grey: #d6d6d6;

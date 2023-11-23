@@ -1,6 +1,7 @@
 import axios from "axios";
 import { UserRole } from "../types/UserRole";
 import { Team } from "../types/Team";
+import { FootballScore } from "../types/FootballEvent";
 
 export const ServerURL =
 	process.env.NODE_ENV === "production"
@@ -8,6 +9,30 @@ export const ServerURL =
 		: "http://localhost:5000/";
 
 const API = {
+	UpdateFootballScores: (
+		accessToken: string,
+		id: string,
+		score: FootballScore
+	) =>
+		axios.put(
+			ServerURL + "events/football/" + id,
+			{
+				...score,
+			},
+			{
+				headers: {
+					Authorization: accessToken,
+				},
+			}
+		),
+
+	GetEvents: (accessToken: string) =>
+		axios.get(ServerURL + "events", {
+			headers: {
+				Authorization: accessToken,
+			},
+		}),
+
 	GetTeams: (accessToken: string) =>
 		axios.get(ServerURL + "admin/teams", {
 			headers: {
