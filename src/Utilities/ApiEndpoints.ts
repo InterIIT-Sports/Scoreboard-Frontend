@@ -1,5 +1,6 @@
 import axios from "axios";
 import { UserRole } from "../types/UserRole";
+import { Team } from "../types/Team";
 
 export const ServerURL =
 	process.env.NODE_ENV === "production"
@@ -14,7 +15,7 @@ const API = {
 			},
 		}),
 
-	AddTeam: (accessToken: string, team: any) =>
+	AddTeam: (accessToken: string, team: Team) =>
 		axios.post(
 			ServerURL + "admin/teams",
 			{
@@ -27,7 +28,12 @@ const API = {
 			}
 		),
 
-	DeleteTeam: (accessToken: string, team: any) => {},
+	DeleteTeam: (accessToken: string, team: Team) =>
+		axios.delete(ServerURL + "admin/teams/" + team._id, {
+			headers: {
+				Authorization: accessToken,
+			},
+		}),
 
 	GetUsers: (accessToken: string) =>
 		axios.get(ServerURL + "admin/users", {

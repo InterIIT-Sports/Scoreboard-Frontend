@@ -1,9 +1,11 @@
+import { Team } from "../../../types/Team";
+
 const TeamRow = ({
 	team,
 	onDelete,
 }: {
-	team: { name: string };
-	onDelete: (teamToDelete: any) => void;
+	team: Team;
+	onDelete: (teamToDelete: Team) => void;
 }) => {
 	return (
 		<tr>

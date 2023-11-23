@@ -1,19 +1,20 @@
 import { useRef, useState } from "react";
 import TeamRow from "./components/TeamRow";
+import { Team } from "../../types/Team";
 
 const Teams = ({
 	teams,
 	onTeamAdd,
 	onTeamDelete,
 }: {
-	teams: any;
-	onTeamAdd: (teamToAdd: any) => void;
-	onTeamDelete: (teamToDelete: any) => void;
+	teams: Team[];
+	onTeamAdd: (teamToAdd: Team) => void;
+	onTeamDelete: (teamToDelete: Team) => void;
 }) => {
 	const addTeamDialog = useRef<HTMLDialogElement | null>(null);
 	const confirmDeleteDialog = useRef<HTMLDialogElement | null>(null);
 	const [newTeamName, setNewTeamName] = useState("");
-	const [teamToDelete, setTeamToDelete] = useState<{ name: string }>();
+	const [teamToDelete, setTeamToDelete] = useState<Team>();
 	const [errorMsg, setErrorMsg] = useState("");
 
 	const openDialog = () => {
@@ -35,7 +36,7 @@ const Teams = ({
 		addTeamDialog.current?.close();
 	};
 
-	const confirmTeamDelete = (teamToDelete: any) => {
+	const confirmTeamDelete = (teamToDelete: Team) => {
 		setTeamToDelete(teamToDelete);
 		confirmDeleteDialog.current?.showModal();
 	};
@@ -77,7 +78,7 @@ const Teams = ({
 					<form
 						onSubmit={(e) => {
 							e.preventDefault();
-							onTeamDelete(teamToDelete);
+							onTeamDelete(teamToDelete as Team);
 							confirmDeleteDialog.current?.close();
 							setTeamToDelete(undefined);
 						}}
@@ -97,7 +98,7 @@ const Teams = ({
 						</tr>
 					</thead>
 					<tbody>
-						{teams.map((team: any, i: number) => (
+						{teams.map((team, i) => (
 							<TeamRow key={i} team={team} onDelete={confirmTeamDelete} />
 						))}
 					</tbody>

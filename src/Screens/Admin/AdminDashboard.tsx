@@ -17,6 +17,7 @@ import API from "../../Utilities/ApiEndpoints";
 import { getRefreshToken } from "../../Utilities/AuthUtils";
 import { ToastContext } from "../../Utilities/ToastContext";
 import Teams from "./Teams";
+import { Team } from "../../types/Team";
 
 const AdminDashboard = () => {
 	const urlParam = useParams();
@@ -29,7 +30,7 @@ const AdminDashboard = () => {
 
 	const [showProfileDialog, setShowProfileDialog] = useState(false);
 	const [allUsers, setAllUsers] = useState<User[]>([]);
-	const [allTeams, setAllTeams] = useState([]);
+	const [allTeams, setAllTeams] = useState<Team[]>([]);
 
 	const SideBarItems = useRef([
 		...(user.current.role === UserRole.ADMIN
@@ -109,9 +110,12 @@ const AdminDashboard = () => {
 
 	const fetchTeams = async () => {
 		const result = (await API.GetTeams(getAccessToken())).data;
-		const Teams = result.map((obj: any) => {
+		const Teams: Team[] = result.map((obj: any) => {
 			return {
+				_id: obj._id,
 				name: obj.name,
+				medals: { ...obj.medals },
+				points: obj.points,
 			};
 		});
 		setAllTeams(Teams);
@@ -178,7 +182,7 @@ const AdminDashboard = () => {
 		}
 	};
 
-	const handleAddTeam = async (teamToAdd: { name: string }) => {
+	const handleAddTeam = async (teamToAdd: Team) => {
 		try {
 			await API.AddTeam(getAccessToken(), teamToAdd);
 			await fetchTeams();
@@ -193,9 +197,9 @@ const AdminDashboard = () => {
 		}
 	};
 
-	const handleDeleteTeam = async (teamToDelete: any) => {
+	const handleDeleteTeam = async (teamToDelete: Team) => {
 		try {
-			await API.DeleteTeam(getAccessToken(), teamToDelete.name);
+			await API.DeleteTeam(getAccessToken(), teamToDelete);
 			await fetchTeams();
 			setToast("Deleted Team " + teamToDelete.name);
 		} catch (error: any) {
