@@ -78,15 +78,12 @@ input[type="submit"]:active,
 .content {
 	display: flex;
 }
-.leftContainer {
-	flex-grow: 8;
-}
 .rightContainer {
 	flex-grow: 2;
 	height: 90vh;
 }
 .liveEvents {
-	min-height: 30vh;
+	min-height: 20vh;
 	display: flex;
 	overflow-x: scroll;
 	scroll-snap-type: x proximity;
@@ -97,9 +94,17 @@ input[type="submit"]:active,
 .footer {
 	height: 50vh;
 }
+@media screen and (min-width: 900px) {
+	.leftContainer {
+		width: 70vw;
+	}
+}
 
 @media screen and (max-width: 900px) {
 	.content {
 		flex-direction: column;
+	}
+	.navbar {
+		height: 70px;
 	}
 }

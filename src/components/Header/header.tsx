@@ -103,8 +103,11 @@ function Header() {
 		<section className="header">
 			<div className="logos">
 				<Link to="/">
-					{" "}
-					{/* <img className="comapny-logo" src={require("./Assests/logo-1.png")} /> */}
+					<img
+						alt="InterIIT Logo"
+						className="company-logo"
+						src="../favicon.ico"
+					/>
 				</Link>
 			</div>
 			<div

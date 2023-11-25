@@ -8,7 +8,7 @@ const LiveEventsViewer = () => {
 	useEffect(() => {}, []);
 
 	return (
-		<div className="wire liveEvents">
+		<div className={liveEvents ? "liveEvents" : "liveEvents wire"}>
 			{liveEvents ? (
 				liveEvents.map((event, i) => <LiveScoresBox event={event} key={i} />)
 			) : (
