@@ -7,7 +7,7 @@ export default interface Event {
 	isStarted: boolean;
 	startTime: number;
 	endTime: number;
-	teams: []; // list of teams who are compeating
+	teams: any[]; // list of teams who are compeating
 	roomID: EventCatagories; // event is the roomID for socketIO
 	score: {};
 }

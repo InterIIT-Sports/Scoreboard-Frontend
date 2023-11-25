@@ -19,9 +19,8 @@ const EditScores = () => {
 	);
 
 	const fetchEvents = async () => {
-		const result: Event[] = (await API.GetEvents(getAccessToken())).data;
+		const result: Event[] = (await API.GetEvents()).data;
 		setallEvents(result);
-		console.log(result);
 		setLoading(false);
 	};
 

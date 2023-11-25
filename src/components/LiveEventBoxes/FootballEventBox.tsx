@@ -20,7 +20,7 @@ const FootballEventBox = ({
 			<h3 className="fjalla">{event.title}</h3>
 			<div className="footballScoresContainer">
 				<div>
-					<h3>IIT Bombay</h3>
+					<h3>{event.teams[0].name}</h3>
 					<p>{event.score.teamA_score}</p>
 					{isAdmin && (
 						<button
@@ -38,7 +38,7 @@ const FootballEventBox = ({
 				</div>
 				<p className=" fjalla VS">VS</p>
 				<div>
-					<h3>IIT Gandhinagar</h3>
+					<h3>{event.teams[1].name}</h3>
 					<p>{event.score.teamB_score}</p>
 					{isAdmin && (
 						<button

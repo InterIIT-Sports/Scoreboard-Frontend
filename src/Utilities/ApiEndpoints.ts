@@ -26,12 +26,7 @@ const API = {
 			}
 		),
 
-	GetEvents: (accessToken: string) =>
-		axios.get(ServerURL + "events", {
-			headers: {
-				Authorization: accessToken,
-			},
-		}),
+	GetEvents: () => axios.get(ServerURL + "events"),
 
 	GetTeams: (accessToken: string) =>
 		axios.get(ServerURL + "admin/teams", {

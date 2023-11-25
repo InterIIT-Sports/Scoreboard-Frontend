@@ -9,7 +9,9 @@ const LiveScoresBox = ({ event }: { event: Event }) => {
 	const [liveEvent, setLiveEvent] = useState(event);
 
 	useEffect(() => {
-		const updateScore = (score: any) => {
+		const updateScore = (data: string) => {
+			const score = JSON.parse(data);
+			console.log(score);
 			setLiveEvent((prev) => {
 				return { ...prev, score };
 			});
