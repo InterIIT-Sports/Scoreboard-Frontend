@@ -86,7 +86,10 @@ input[type="submit"]:active,
 	height: 90vh;
 }
 .liveEvents {
-	height: 30vh;
+	min-height: 30vh;
+	display: flex;
+	overflow-x: scroll;
+	scroll-snap-type: x proximity;
 }
 .allEvents {
 	height: 60vh;

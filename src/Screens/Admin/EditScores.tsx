@@ -21,6 +21,7 @@ const EditScores = () => {
 	const fetchEvents = async () => {
 		const result: Event[] = (await API.GetEvents(getAccessToken())).data;
 		setallEvents(result);
+		console.log(result);
 		setLoading(false);
 	};
 
@@ -61,7 +62,7 @@ const EditScores = () => {
 			<div className="main">
 				{!loading ? (
 					liveEvents && (
-						<section className="liveEventsEditor">
+						<section className="liveEvents">
 							{liveEvents.map((event, i) => getEventBox(event, i))}
 						</section>
 					)
