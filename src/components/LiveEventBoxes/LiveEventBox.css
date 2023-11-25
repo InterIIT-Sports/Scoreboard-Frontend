@@ -1,7 +1,7 @@
 .liveEventBox {
 	margin: 5px;
 	min-width: 400px;
-	background-color: var(--red);
+	background-color: #04aa6d;
 	min-height: 200px;
 	border-radius: 10px;
 	scroll-snap-align: center;
@@ -9,7 +9,7 @@
 
 	.VS {
 		font-size: 1.3rem;
-		color: #ffb2b2;
+		color: #65f0bd;
 	}
 
 	.eventCategory {
@@ -42,7 +42,7 @@
 }
 .footballScoresContainer > div {
 	background-color: rgba(255, 255, 255, 0.1);
-	border: 3px dashed var(--red);
+	border: 3px dashed #04aa6d;
 	display: flex;
 	margin: 0px 10px;
 	padding: 5px 10px;
