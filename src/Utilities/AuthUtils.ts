@@ -1,7 +1,7 @@
 import { createRefresh } from "react-auth-kit";
 import API from "./ApiEndpoints";
 
-export const ACCESS_TOKEN_EXPIRY_TIME = 10; //in Mins
+export const ACCESS_TOKEN_EXPIRY_TIME = 30; //in Mins
 export const REFRESH_TOKEN_EXPIRY_TIME = 24 * 60;
 
 export const getRefreshToken = () => {

@@ -6,6 +6,7 @@
 	"dependencies": {
 		"@emotion/react": "^11.11.1",
 		"@emotion/styled": "^11.11.0",
+		"@handsontable/react": "^13.1.0",
 		"@mui/icons-material": "^5.14.16",
 		"@testing-library/jest-dom": "^5.17.0",
 		"@testing-library/react": "^13.4.0",
@@ -15,6 +16,7 @@
 		"@types/react": "^18.2.33",
 		"@types/react-dom": "^18.2.14",
 		"axios": "^1.6.0",
+		"handsontable": "^13.1.0",
 		"react": "^18.2.0",
 		"react-auth-kit": "^2.12.7",
 		"react-dom": "^18.2.0",

@@ -7,6 +7,7 @@
 		overflow-y: scroll;
 	}
 	.floatingDialogBox {
+		z-index: 1000;
 		position: fixed;
 		right: 15px;
 		top: 15px;

@@ -7,6 +7,7 @@ import "./AdminDashboard.css";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import ScoreboardIcon from "@mui/icons-material/Scoreboard";
 import Diversity2Icon from "@mui/icons-material/Diversity2";
+import TableChartIcon from "@mui/icons-material/TableChart";
 import Users from "./Users";
 import EditScores from "./EditScores";
 import { useAuthHeader, useAuthUser, useSignOut } from "react-auth-kit";
@@ -18,6 +19,7 @@ import { getRefreshToken } from "../../Utilities/AuthUtils";
 import { ToastContext } from "../../Utilities/ToastContext";
 import Teams from "./Teams";
 import { Team } from "../../types/Team";
+import ScheduleEditor from "./ScheduleEditor";
 
 const AdminDashboard = () => {
 	const urlParam = useParams();
@@ -56,6 +58,15 @@ const AdminDashboard = () => {
 					},
 			  ]
 			: []),
+		...(user.current.role === UserRole.ADMIN
+			? [
+					{
+						title: "Schedule",
+						linkTo: "schedule",
+						icon: TableChartIcon,
+					},
+			  ]
+			: []),
 	]);
 
 	const getRoutes = (): { linkTo: string; element: React.JSX.Element }[] => {
@@ -89,6 +100,14 @@ const AdminDashboard = () => {
 									onTeamDelete={handleDeleteTeam}
 								/>
 							),
+						},
+				  ]
+				: []),
+			...(user.current.role === UserRole.ADMIN
+				? [
+						{
+							linkTo: "schedule",
+							element: <ScheduleEditor />,
 						},
 				  ]
 				: []),
