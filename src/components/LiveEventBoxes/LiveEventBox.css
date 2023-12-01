@@ -1,9 +1,10 @@
 .liveEventBox {
 	margin: 5px;
-	min-width: 400px;
+	min-width: 370px;
+	/* width: 100%; */
 	background-color: #04aa6d;
 	min-height: 200px;
-	border-radius: 10px;
+	border-radius: 2px;
 	scroll-snap-align: center;
 	color: white;
 

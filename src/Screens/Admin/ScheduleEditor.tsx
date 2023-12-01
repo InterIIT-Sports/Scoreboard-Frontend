@@ -22,7 +22,7 @@ const ScheduleEditor = () => {
 				colHeaders={["Name", "Start Time", "Team 1", "Team 2"]}
 				height="auto"
 				minSpareRows={1}
-				colWidths={"100px"}
+				colWidths={[200, 100, 150, 150]}
 				licenseKey="non-commercial-and-evaluation" // for non-commercial use only
 			/>
 		</div>
