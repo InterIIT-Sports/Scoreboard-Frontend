@@ -107,7 +107,7 @@ const AdminDashboard = () => {
 				? [
 						{
 							linkTo: "schedule",
-							element: <ScheduleEditor />,
+							element: <ScheduleEditor teams={allTeams} />,
 						},
 				  ]
 				: []),
