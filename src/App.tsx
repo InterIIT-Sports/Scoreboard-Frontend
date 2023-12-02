@@ -8,7 +8,7 @@ import { Navigate } from "react-router";
 const Home = lazy(() => {
 	return Promise.all([
 		import("./Screens/Home"),
-		new Promise((resolve) => setTimeout(resolve, 3000)),
+		new Promise((resolve) => setTimeout(resolve, 2500)),
 	]).then(([moduleExports]) => moduleExports);
 });
 const Login = lazy(() => import("./Screens/Login"));
