@@ -23,17 +23,31 @@ const FootballEventBox = ({
 					<h3>{event.teams[0].name}</h3>
 					<p>{event.score.teamA_score}</p>
 					{isAdmin && (
-						<button
-							onClick={() => {
-								onScoreUpdate!({
-									...event.score,
-									teamA_score: event.score.teamA_score + 1,
-								});
-							}}
-							className="styledButton"
-						>
-							Add 1
-						</button>
+						<>
+							<button
+								onClick={() => {
+									onScoreUpdate!({
+										...event.score,
+										teamA_score: event.score.teamA_score + 1,
+									});
+								}}
+								className="styledButton"
+							>
+								Add 1
+							</button>
+							<button
+								style={{ marginTop: "5px" }}
+								onClick={() => {
+									onScoreUpdate!({
+										...event.score,
+										teamA_score: event.score.teamA_score - 1,
+									});
+								}}
+								className="styledButton"
+							>
+								Minus 1
+							</button>
+						</>
 					)}
 				</div>
 				<p className=" fjalla VS">VS</p>
@@ -41,17 +55,31 @@ const FootballEventBox = ({
 					<h3>{event.teams[1].name}</h3>
 					<p>{event.score.teamB_score}</p>
 					{isAdmin && (
-						<button
-							onClick={() => {
-								onScoreUpdate!({
-									...event.score,
-									teamB_score: event.score.teamB_score + 1,
-								});
-							}}
-							className="styledButton"
-						>
-							Add 1
-						</button>
+						<>
+							<button
+								onClick={() => {
+									onScoreUpdate!({
+										...event.score,
+										teamB_score: event.score.teamB_score + 1,
+									});
+								}}
+								className="styledButton"
+							>
+								Add 1
+							</button>
+							<button
+								style={{ marginTop: "5px" }}
+								onClick={() => {
+									onScoreUpdate!({
+										...event.score,
+										teamB_score: event.score.teamB_score - 1,
+									});
+								}}
+								className="styledButton"
+							>
+								Minus 1
+							</button>
+						</>
 					)}
 				</div>
 			</div>
