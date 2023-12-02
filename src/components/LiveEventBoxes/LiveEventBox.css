@@ -1,7 +1,8 @@
 .liveEventBox {
 	margin: 5px;
 	min-width: 370px;
-	background-color: #04aa6d;
+	--theme_color: #04aa6d;
+	background-color: var(--theme_color);
 	border-radius: 2px;
 	scroll-snap-align: center;
 	color: white;
@@ -9,7 +10,7 @@
 
 	.VS {
 		font-size: 1.3rem;
-		color: #04aa6d;
+		color: var(--theme_color);
 	}
 
 	.eventCategory {
@@ -57,7 +58,7 @@
 	border-bottom-right-radius: 5px;
 	font-size: 1.7rem;
 	font-weight: 600;
-	background-color: #04aa6d;
+	background-color: var(--theme_color);
 	color: white;
 }
 
