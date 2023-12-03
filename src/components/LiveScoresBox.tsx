@@ -1,30 +1,30 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Event from "../types/Event";
 import EventCatagories from "../types/EventCategories";
 import FootballEvent from "../types/FootballEvent";
 import FootballEventBox from "./LiveEventBoxes/FootballEventBox";
 import { socket } from "../Utilities/Socket";
 
-const LiveScoresBox = ({ event }: { event: Event }) => {
-	const [liveEvent, setLiveEvent] = useState(event);
-
+const LiveScoresBox = ({
+	event,
+	onScoreUpdate,
+}: {
+	event: Event;
+	onScoreUpdate: (score: {}, eventID: string) => void;
+}) => {
 	useEffect(() => {
-		const updateScore = (data: string) => {
-			const score = JSON.parse(data);
-			console.log(score);
-			setLiveEvent((prev) => {
-				return { ...prev, score };
-			});
-		};
-
 		socket.emit("subscribe", EventCatagories.FOOTBALL);
-		socket.on(`scoreUpdate/${event.roomID}`, updateScore);
+		socket.on(`scoreUpdate/${event.roomID}`, (data: string) =>
+			onScoreUpdate(JSON.parse(data), event._id!)
+		);
 
 		return () => {
 			socket.emit("unsubscribe", event.roomID);
-			socket.off(`scoreUpdate/${event.roomID}`, updateScore);
+			socket.off(`scoreUpdate/${event.roomID}`, (data: string) =>
+				onScoreUpdate(JSON.parse(data), event._id!)
+			);
 		};
-	}, [event]);
+	}, [event, onScoreUpdate]);
 
 	const getEventBox = (event: Event): React.JSX.Element => {
 		switch (event.event) {
@@ -34,7 +34,7 @@ const LiveScoresBox = ({ event }: { event: Event }) => {
 				return <></>;
 		}
 	};
-	return getEventBox(liveEvent);
+	return getEventBox(event);
 };
 
 export default LiveScoresBox;

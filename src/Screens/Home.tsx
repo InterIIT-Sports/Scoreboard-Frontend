@@ -16,6 +16,12 @@ const Home = () => {
 		setIsLoading(false);
 	};
 
+	const updateScoreOfEvent = (score: {}, eventID: string) => {
+		setEvents((prev) =>
+			prev.map((event) => (eventID === event._id ? { ...event, score } : event))
+		);
+	};
+
 	useEffect(() => {
 		const updateEventsStatus = (data: string) => {
 			console.log(JSON.parse(data));
@@ -55,7 +61,10 @@ const Home = () => {
 					</div>
 					<div className="content">
 						<div className="leftContainer">
-							<LiveEventsViewer liveEvents={liveEvents} />
+							<LiveEventsViewer
+								onScoreUpdate={updateScoreOfEvent}
+								liveEvents={liveEvents}
+							/>
 							<div className="wire allEvents">
 								All Events sorted according to time of event
 							</div>
