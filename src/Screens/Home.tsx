@@ -17,11 +17,25 @@ const Home = () => {
 	};
 
 	useEffect(() => {
+		const updateEventsStatus = (data: string) => {
+			console.log(JSON.parse(data));
+			const eventToBeUpdated = JSON.parse(data);
+			setEvents((prev) =>
+				prev.map((event) =>
+					eventToBeUpdated.eventID === event._id
+						? { ...event, isStarted: eventToBeUpdated.isStarted }
+						: event
+				)
+			);
+		};
+
 		socket.on("connect", () => console.log("connected WS"));
 		fetchEvents();
+		socket.on("eventStartOrEnd", updateEventsStatus);
 
 		return () => {
 			socket.off("connect");
+			socket.off("eventStartOrEnd", updateEventsStatus);
 		};
 	}, []);
 

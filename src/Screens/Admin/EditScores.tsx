@@ -68,6 +68,21 @@ const EditScores = () => {
 				) : (
 					<>Loading Events Data...</>
 				)}
+				<div>
+					{allEvents.map((event) => (
+						<p>
+							{event.event} {event.title} {event.teams.map((team) => team.name)}{" "}
+							<button
+								onClick={async () => {
+									await API.ToggleEventStatus(getAccessToken(), event._id!);
+									fetchEvents();
+								}}
+							>
+								Toggle Live
+							</button>
+						</p>
+					))}
+				</div>
 			</div>
 		</div>
 	);

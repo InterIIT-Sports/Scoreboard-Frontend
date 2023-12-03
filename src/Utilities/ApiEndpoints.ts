@@ -28,6 +28,11 @@ const API = {
 
 	GetEvents: () => axios.get(ServerURL + "events"),
 
+	ToggleEventStatus: (accessToken: string, id: string) =>
+		axios.patch(ServerURL + "events/toggleLive/" + id, null, {
+			headers: { Authorization: accessToken },
+		}),
+
 	GetTeams: (accessToken: string) =>
 		axios.get(ServerURL + "admin/teams", {
 			headers: {
