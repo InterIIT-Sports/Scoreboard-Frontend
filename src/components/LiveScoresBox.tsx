@@ -13,7 +13,7 @@ const LiveScoresBox = ({
 	onScoreUpdate: (score: {}, eventID: string) => void;
 }) => {
 	useEffect(() => {
-		socket.emit("subscribe", EventCatagories.FOOTBALL);
+		socket.emit("subscribe", event.roomID);
 		socket.on(`scoreUpdate/${event.roomID}`, (data: string) =>
 			onScoreUpdate(JSON.parse(data), event._id!)
 		);
