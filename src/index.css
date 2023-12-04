@@ -69,7 +69,12 @@ input[type="submit"]:active,
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	border: 2px solid black;
+	font-size: 1.4rem;
+	font-weight: 600;
+	background: -webkit-linear-gradient(var(--light_blue), var(--dark_blue));
+	background: linear-gradient(135deg, var(--light_blue), var(--dark_blue));
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
 }
 .liveEvents {
 	min-height: 20vh;
