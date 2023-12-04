@@ -12,6 +12,16 @@ const Home = () => {
 	const [events, setEvents] = useState<Event[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 
+	const liveEvents = useMemo(
+		() => events.filter((event) => event.isStarted),
+		[events]
+	);
+
+	const upcomingEvents = useMemo(
+		() => events.filter((event) => event.endTime > new Date().getTime()),
+		[events]
+	);
+
 	const fetchEvents = async () => {
 		const result: Event[] = (await API.GetEvents()).data;
 		setEvents(result);
@@ -26,7 +36,6 @@ const Home = () => {
 
 	useEffect(() => {
 		const updateEventsStatus = (data: string) => {
-			console.log(JSON.parse(data));
 			const eventToBeUpdated = JSON.parse(data);
 			setEvents((prev) =>
 				prev.map((event) =>
@@ -47,11 +56,6 @@ const Home = () => {
 		};
 	}, []);
 
-	const liveEvents = useMemo(
-		() => events.filter((event) => event.isStarted),
-		[events]
-	);
-
 	return (
 		<>
 			{isLoading ? (
@@ -67,7 +71,7 @@ const Home = () => {
 								onScoreUpdate={updateScoreOfEvent}
 								liveEvents={liveEvents}
 							/>
-							<UpcomingEventsViewer events={events} />
+							<UpcomingEventsViewer events={upcomingEvents} />
 						</div>
 						<div className="wire rightContainer">Past Games Results</div>
 					</div>
