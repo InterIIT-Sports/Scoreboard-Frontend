@@ -10,6 +10,7 @@ import { registerPlugin, ExportFile } from "handsontable/plugins";
 import EventCatagories from "../../types/EventCategories";
 import { Team } from "../../types/Team";
 import { useEffect, useRef } from "react";
+import "./ScheduleEditor.css";
 
 registerCellType(TimeCellType);
 registerCellType(DropdownCellType);
@@ -54,32 +55,37 @@ const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 				Save
 			</button>
 
-			<HotTable
-				ref={hotRef}
-				style={{ marginTop: "5px" }}
-				rowHeaders={true}
-				columns={[
-					{ type: "dropdown", source: Object.values(EventCatagories) },
-					{ type: "text" },
-					{ type: "text" },
-					{ type: "date", correctFormat: true },
-					{ type: "time", timeFormat: "h:mm:ss a", correctFormat: true },
-					{ type: "dropdown", source: teams.map((team) => team.name) },
-					{ type: "dropdown", source: teams.map((team) => team.name) },
-				]}
-				colHeaders={[
-					"Event",
-					"Name",
-					"Subtite",
-					"Date",
-					"Start Time",
-					"Team 1",
-					"Team 2",
-				]}
-				minSpareRows={1}
-				colWidths={[150, 150, 150, 100, 100, 150, 150]}
-				licenseKey="non-commercial-and-evaluation" // for non-commercial use only
-			/>
+			<div
+				className="tableContainer"
+				style={{ overflowX: "hidden", maxHeight: "80vh" }}
+			>
+				<HotTable
+					ref={hotRef}
+					style={{ marginTop: "5px", boxSizing: "border-box" }}
+					rowHeaders={true}
+					columns={[
+						{ type: "dropdown", source: Object.values(EventCatagories) },
+						{ type: "text" },
+						{ type: "text" },
+						{ type: "date", correctFormat: true },
+						{ type: "time", timeFormat: "h:mm:ss a", correctFormat: true },
+						{ type: "dropdown", source: teams.map((team) => team.name) },
+						{ type: "dropdown", source: teams.map((team) => team.name) },
+					]}
+					colHeaders={[
+						"Event",
+						"Name",
+						"Subtite",
+						"Date",
+						"Start Time",
+						"Team 1",
+						"Team 2",
+					]}
+					minSpareRows={10}
+					colWidths={[150, 150, 150, 100, 100, 150, 150]}
+					licenseKey="non-commercial-and-evaluation" // for non-commercial use only
+				/>
+			</div>
 		</div>
 	);
 };
