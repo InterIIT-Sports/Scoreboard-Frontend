@@ -5,6 +5,8 @@ import { socket } from "../Utilities/Socket";
 import API from "../Utilities/ApiEndpoints";
 import Event from "../types/Event";
 import SplashScreen from "../components/SplashScreen";
+import UpcomingEventsViewer from "./Admin/components/UpcomingEventsViewer";
+import "./styles/Home.css";
 
 const Home = () => {
 	const [events, setEvents] = useState<Event[]>([]);
@@ -65,9 +67,7 @@ const Home = () => {
 								onScoreUpdate={updateScoreOfEvent}
 								liveEvents={liveEvents}
 							/>
-							<div className="wire allEvents">
-								All Events sorted according to time of event
-							</div>
+							<UpcomingEventsViewer events={events} />
 						</div>
 						<div className="wire rightContainer">Past Games Results</div>
 					</div>

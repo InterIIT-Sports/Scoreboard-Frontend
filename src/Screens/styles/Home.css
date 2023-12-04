@@ -1,0 +1,75 @@
+.navbar {
+	height: 10vh;
+}
+.content {
+	display: flex;
+}
+.rightContainer {
+	flex-grow: 2;
+	height: 90vh;
+}
+
+.allEvents {
+	height: 60vh;
+	padding: 10px;
+}
+.allEvents > div {
+	position: relative;
+	height: 100px;
+	border: 3px solid #f2f5f7;
+	margin-block-end: 1px;
+	display: flex;
+	align-items: center;
+	font-size: 1.4rem;
+}
+.allEvents > div > ul::before {
+	content: "Teams:";
+	position: absolute;
+	left: -30px;
+	top: 0;
+	bottom: 0;
+	display: flex;
+	align-items: center;
+}
+.allEvents > div > ul {
+	position: absolute;
+	right: 0;
+	margin-block-start: 0.5em;
+	margin-block-end: 0.5em;
+	margin-right: 10px;
+	list-style-type: upper-alpha;
+	font-size: 1rem;
+}
+.allEvents > div > .vertical-line-blue {
+	background-color: #0d4fad;
+	height: 50%;
+	margin-right: 40px;
+	width: 5px;
+}
+.allEvents > div > .vertical-line-grey {
+	background-color: #ebeef0;
+	height: 50%;
+	margin: 0 30px;
+	width: 3px;
+}
+.allEvents > div > span {
+	margin-right: 30px;
+}
+
+.footer {
+	height: 50vh;
+}
+@media screen and (min-width: 900px) {
+	.leftContainer {
+		width: 70vw;
+	}
+}
+
+@media screen and (max-width: 900px) {
+	.content {
+		flex-direction: column;
+	}
+	.navbar {
+		height: 70px;
+	}
+}

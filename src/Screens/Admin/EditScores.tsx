@@ -55,8 +55,8 @@ const EditScores = () => {
 
 	return (
 		<div className="usersContainer">
-			<div className="top">
-				<select className="styledButton"></select>
+			<div className="top" style={{ fontWeight: "600" }}>
+				Live Events
 			</div>
 			<div className="main">
 				{!loading ? (
@@ -68,11 +68,23 @@ const EditScores = () => {
 				) : (
 					<>Loading Events Data...</>
 				)}
-				<div>
-					{allEvents.map((event) => (
-						<p>
-							{event.event} {event.title} {event.teams.map((team) => team.name)}{" "}
+				<section className="liveAbleEvents">
+					{allEvents.map((event, i) => (
+						<div key={i}>
+							{event.event} - {event.title} - Start Time:{" "}
+							{new Date(event.startTime).toLocaleString("en-US", {
+								hour: "numeric",
+								minute: "numeric",
+								hour12: true,
+							})}{" "}
+							- {event.isStarted ? "Is Live" : "Not Live"}
+							<ul>
+								{event.teams.map((team, i) => (
+									<li key={i}>{team.name} </li>
+								))}
+							</ul>
 							<button
+								className="styledButton"
 								onClick={async () => {
 									await API.ToggleEventStatus(getAccessToken(), event._id!);
 									fetchEvents();
@@ -80,9 +92,9 @@ const EditScores = () => {
 							>
 								Toggle Live
 							</button>
-						</p>
+						</div>
 					))}
-				</div>
+				</section>
 			</div>
 		</div>
 	);

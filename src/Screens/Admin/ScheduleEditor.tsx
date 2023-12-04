@@ -1,5 +1,4 @@
 import "handsontable/dist/handsontable.full.min.css";
-import Handsontable from "handsontable/base";
 import { HotTable } from "@handsontable/react";
 import {
 	registerCellType,
@@ -28,24 +27,25 @@ const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 		const exportPlugin = hot!.getPlugin("exportFile");
 
 		buttonClickCallback.current = async () => {
-			const exportedBlob = exportPlugin!.exportAsBlob("csv", {
+			const exportedString = exportPlugin!.exportAsString("csv", {
 				bom: false,
 				columnDelimiter: ",",
 				columnHeaders: false,
 				exportHiddenColumns: true,
 				exportHiddenRows: true,
-				mimeType: "text/csv",
 				rowDelimiter: "\r\n",
 				rowHeaders: true,
 			});
 
-			console.log(await exportedBlob.text());
+			console.log(exportedString); //string to be sent to the server
 		};
 	}, []);
 
 	return (
 		<div className="usersContainer">
-			<div className="top">Schedule Table</div>
+			<div className="top" style={{ fontWeight: "600" }}>
+				Schedule Table
+			</div>
 			<button
 				className="styledButton"
 				style={{ marginTop: "5px" }}

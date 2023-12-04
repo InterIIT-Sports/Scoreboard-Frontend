@@ -71,40 +71,9 @@ input[type="submit"]:active,
 	align-items: center;
 	border: 2px solid black;
 }
-
-.navbar {
-	height: 10vh;
-}
-.content {
-	display: flex;
-}
-.rightContainer {
-	flex-grow: 2;
-	height: 90vh;
-}
 .liveEvents {
 	min-height: 20vh;
 	display: flex;
 	overflow-x: scroll;
 	scroll-snap-type: x proximity;
-}
-.allEvents {
-	height: 60vh;
-}
-.footer {
-	height: 50vh;
-}
-@media screen and (min-width: 900px) {
-	.leftContainer {
-		width: 70vw;
-	}
-}
-
-@media screen and (max-width: 900px) {
-	.content {
-		flex-direction: column;
-	}
-	.navbar {
-		height: 70px;
-	}
 }
