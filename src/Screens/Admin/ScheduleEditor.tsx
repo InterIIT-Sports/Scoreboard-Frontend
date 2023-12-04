@@ -21,27 +21,11 @@ registerPlugin(ExportFile);
 const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 	const hotRef = useRef<HotTable | null>(null);
 
-	const buttonClickCallback = useRef<() => void>();
-
-	useEffect(() => {
+	const saveTableData = async () => {
 		const hot = hotRef?.current?.hotInstance;
-		const exportPlugin = hot!.getPlugin("exportFile");
-
-		buttonClickCallback.current = async () => {
-			const exportedString = exportPlugin!.exportAsString("csv", {
-				bom: false,
-				columnDelimiter: ",",
-				columnHeaders: false,
-				exportHiddenColumns: true,
-				exportHiddenRows: true,
-				rowDelimiter: "\r\n",
-				rowHeaders: true,
-			});
-			// const exportedString = hot?.getData();
-
-			console.log(exportedString); //string to be sent to the server
-		};
-	}, []);
+		const data = hot?.getData();
+		console.log(data); //data to be sent to the server
+	};
 
 	return (
 		<div className="usersContainer">
@@ -51,7 +35,7 @@ const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 			<button
 				className="styledButton"
 				style={{ marginTop: "5px" }}
-				onClick={buttonClickCallback.current}
+				onClick={saveTableData}
 			>
 				Save
 			</button>
