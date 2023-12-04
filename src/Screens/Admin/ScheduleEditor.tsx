@@ -37,6 +37,7 @@ const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 				rowDelimiter: "\r\n",
 				rowHeaders: true,
 			});
+			// const exportedString = hot?.getData();
 
 			console.log(exportedString); //string to be sent to the server
 		};
@@ -69,6 +70,7 @@ const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 						{ type: "text" },
 						{ type: "date", correctFormat: true },
 						{ type: "time", timeFormat: "h:mm:ss a", correctFormat: true },
+						{ type: "time", timeFormat: "h:mm:ss a", correctFormat: true },
 						{ type: "dropdown", source: teams.map((team) => team.name) },
 						{ type: "dropdown", source: teams.map((team) => team.name) },
 					]}
@@ -78,11 +80,12 @@ const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 						"Subtite",
 						"Date",
 						"Start Time",
+						"End Time",
 						"Team 1",
 						"Team 2",
 					]}
 					minSpareRows={10}
-					colWidths={[150, 150, 150, 100, 100, 150, 150]}
+					colWidths={[150, 150, 150, 100, 100, 100, 150, 150]}
 					licenseKey="non-commercial-and-evaluation" // for non-commercial use only
 				/>
 			</div>
