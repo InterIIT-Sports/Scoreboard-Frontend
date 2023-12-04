@@ -1,15 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import "./EditScores.css";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useContext } from "react";
 import Event from "../../types/Event";
 import EventCatagories from "../../types/EventCategories";
 import FootballEvent, { FootballScore } from "../../types/FootballEvent";
 import FootballEventBox from "../../components/LiveEventBoxes/FootballEventBox";
 import API from "../../Utilities/ApiEndpoints";
 import { useAuthHeader } from "react-auth-kit";
+import { ToastContext } from "../../Utilities/ToastContext";
 
 const EditScores = () => {
 	const getAccessToken = useAuthHeader();
+	const setToast = useContext(ToastContext).setToastMessage;
+
 	const [loading, setLoading] = useState(true);
 
 	const [allEvents, setallEvents] = useState<Event[]>([]);
@@ -86,8 +89,17 @@ const EditScores = () => {
 							<button
 								className="styledButton"
 								onClick={async () => {
-									await API.ToggleEventStatus(getAccessToken(), event._id!);
-									fetchEvents();
+									try {
+										await API.ToggleEventStatus(getAccessToken(), event._id!);
+										fetchEvents();
+									} catch (error: any) {
+										try {
+											setToast(JSON.parse(error.request.response).message);
+										} catch {
+											setToast("Could not connect with the Server");
+											console.log(error);
+										}
+									}
 								}}
 							>
 								Toggle Live
