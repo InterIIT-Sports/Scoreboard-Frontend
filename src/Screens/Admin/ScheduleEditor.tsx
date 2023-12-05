@@ -15,6 +15,7 @@ import "./ScheduleEditor.css";
 import { ToastContext } from "../../Utilities/ToastContext";
 import API from "../../Utilities/ApiEndpoints";
 import Event from "../../types/Event";
+import { useAuthHeader } from "react-auth-kit";
 
 registerCellType(TimeCellType);
 registerCellType(DropdownCellType);
@@ -50,7 +51,6 @@ const makeEventsArrayForDatabase = (data: any[]) => {
 			startTime: getTime(arr[3], arr[4]),
 			endTime: getTime(arr[3], arr[5]),
 			teams: arr.slice(6, arr.indexOf(null)),
-			isStarted: false,
 		};
 	});
 	return events;
@@ -59,6 +59,7 @@ const makeEventsArrayForDatabase = (data: any[]) => {
 const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 	const hotRef = useRef<HotTable | null>(null);
 	const setToast = useContext(ToastContext).setToastMessage;
+	const getAccessToken = useAuthHeader();
 
 	const [allEvents, setAllEvents] = useState<Event[]>([]);
 	const [loading, setLoading] = useState(true);
@@ -70,6 +71,20 @@ const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 		});
 		return indexes;
 	}, [allEvents]);
+
+	useEffect(() => {
+		const hot = hotRef?.current?.hotInstance;
+		hot?.updateSettings({
+			cells(row, col) {
+				let cellProperties: any = {};
+				if (completedEventsIndexes.includes(row)) {
+					cellProperties.readOnly = true;
+				}
+
+				return cellProperties;
+			},
+		});
+	}, [completedEventsIndexes]);
 
 	const formatForTable = (events: any[]) => {
 		const fEvents = events.map((e) => {
@@ -103,24 +118,30 @@ const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 		const result: Event[] = (await API.GetEvents()).data;
 		setAllEvents(formatForTable(result));
 		setLoading(false);
-		const hot = hotRef?.current?.hotInstance;
-		hot?.updateSettings({
-			cells(row, col) {
-				let cellProperties: any = {};
-
-				if (hot.getData()[row][col] === "Nissan") {
-					cellProperties.readOnly = true;
-				}
-
-				return cellProperties;
-			},
-		});
 	};
 
 	const saveTableData = async () => {
 		const hot = hotRef?.current?.hotInstance;
-		const validRows = hot?.getData()!.filter((arr) => arr[0] !== null);
-		if (validRows?.length === 0) return;
+		const allRows = hot?.getData()!;
+		const notCompletedEventsRows = allRows.filter(
+			(row: any[], i) => !completedEventsIndexes.includes(i)
+		);
+		const validRows = notCompletedEventsRows!.filter((arr) => arr[0] !== null);
+		if (validRows?.length === 0) {
+			//set schedule as empty
+			try {
+				API.PostSchedule([], getAccessToken());
+				setToast("Updated Schedule Successfully!");
+			} catch (error: any) {
+				try {
+					setToast(JSON.parse(error.request.response).message);
+				} catch {
+					setToast("Could not connect with the Server");
+					console.log(error);
+				}
+			}
+			return;
+		}
 		for (let i = 0; i < validRows!.length; i++) {
 			const row: any[] = validRows![i];
 			let last = row.length;
@@ -136,7 +157,17 @@ const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 		}
 		const data = makeEventsArrayForDatabase(validRows!);
 		//data to be sent to the server
-		console.log(data);
+		try {
+			API.PostSchedule(data, getAccessToken());
+			setToast("Updated Schedule Successfully!");
+		} catch (error: any) {
+			try {
+				setToast(JSON.parse(error.request.response).message);
+			} catch {
+				setToast("Could not connect with the Server");
+				console.log(error);
+			}
+		}
 	};
 
 	useEffect(() => {
