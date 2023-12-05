@@ -15,7 +15,7 @@ const EditScores = () => {
 
 	const [loading, setLoading] = useState(true);
 
-	const [allEvents, setallEvents] = useState<Event[]>([]);
+	const [allEvents, setAllEvents] = useState<Event[]>([]);
 	const liveEvents = useMemo(
 		() => allEvents.filter((event) => event.isStarted),
 		[allEvents]
@@ -23,7 +23,7 @@ const EditScores = () => {
 
 	const fetchEvents = async () => {
 		const result: Event[] = (await API.GetEvents()).data;
-		setallEvents(result);
+		setAllEvents(result);
 		setLoading(false);
 	};
 
@@ -33,7 +33,7 @@ const EditScores = () => {
 			if (e._id === id) return { ...e, score: score };
 			else return e;
 		});
-		setallEvents(newEvents);
+		setAllEvents(newEvents);
 	};
 
 	useEffect(() => {
