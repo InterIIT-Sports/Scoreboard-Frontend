@@ -18,7 +18,10 @@ const Home = () => {
 	);
 
 	const upcomingEvents = useMemo(
-		() => events.filter((event) => event.endTime > new Date().getTime()),
+		() =>
+			events.filter(
+				(event) => (event.endTime as number) > new Date().getTime()
+			),
 		[events]
 	);
 

@@ -5,8 +5,9 @@ export default interface Event {
 	title: string;
 	event: EventCatagories;
 	isStarted: boolean;
-	startTime: number;
-	endTime: number;
+	isCompleted: boolean;
+	startTime: number | string;
+	endTime: number | string;
 	teams: any[]; // list of teams who are compeating
 	roomID: EventCatagories; // event is the roomID for socketIO
 	score: {};
