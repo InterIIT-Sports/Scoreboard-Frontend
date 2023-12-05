@@ -9,6 +9,13 @@ export const ServerURL =
 		: "http://localhost:5000/";
 
 const API = {
+	PostSchedule: (events: any[], accessToken: string) =>
+		axios.patch(
+			ServerURL + "admin/schedule",
+			{ events: events },
+			{ headers: { Authorization: accessToken } }
+		),
+
 	UpdateFootballScores: (
 		accessToken: string,
 		id: string,
