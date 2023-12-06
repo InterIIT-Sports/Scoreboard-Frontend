@@ -32,8 +32,17 @@ const FootballEventBox = ({
 			<hr className="hr" />
 			<div className="footballScoresContainer">
 				<div>
-					<h3>{event.teams[0].name}</h3>
-					<p>{event.score.teamA_score}</p>
+					<h3 className="fjalla">{event.teams[0].name}</h3>
+				</div>
+				<p className=" fjalla VS">VS</p>
+				<div>
+					<h3 className="fjalla">{event.teams[1].name}</h3>
+				</div>
+			</div>
+			<hr className="hr" />
+			<div className="footballScoresContainer">
+				<div>
+					<span className="fjalla">{event.score.teamA_score}</span>
 					{isAdmin && (
 						<>
 							<button
@@ -62,10 +71,9 @@ const FootballEventBox = ({
 						</>
 					)}
 				</div>
-				<p className=" fjalla VS">VS</p>
+				<p className=" fjalla VS"></p>
 				<div>
-					<h3>{event.teams[1].name}</h3>
-					<p>{event.score.teamB_score}</p>
+					<span className="fjalla">{event.score.teamB_score}</span>
 					{isAdmin && (
 						<>
 							<button
