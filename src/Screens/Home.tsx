@@ -7,6 +7,7 @@ import Event from "../types/Event";
 import SplashScreen from "../components/SplashScreen";
 import UpcomingEventsViewer from "./Admin/components/UpcomingEventsViewer";
 import "./styles/Home.css";
+import PastGamesResultsViewer from "../components/PastGamesResultsViewer";
 
 const Home = () => {
 	const [events, setEvents] = useState<Event[]>([]);
@@ -25,6 +26,11 @@ const Home = () => {
 					event.isStarted === false &&
 					event.isCompleted === false
 			),
+		[events]
+	);
+
+	const pastEvents = useMemo(
+		() => events.filter((e) => e.isCompleted),
 		[events]
 	);
 
@@ -79,7 +85,7 @@ const Home = () => {
 							/>
 							<UpcomingEventsViewer events={upcomingEvents} />
 						</div>
-						<div className="wire rightContainer">Past Games Results</div>
+						<PastGamesResultsViewer events={pastEvents} />
 					</div>
 					<div className="wire footer">Footer</div>
 				</>
