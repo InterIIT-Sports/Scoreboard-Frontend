@@ -15,7 +15,7 @@ import SquashEvent from "../../types/SquashEvent";
 import TennisEventBox from "../../components/LiveEventBoxes/TennisEventBox";
 import TennisEvent from "../../types/TennisEvent";
 
-const EVENT_START_BUFFER = 10 * 60 * 1000; //in milliseconds
+const EVENT_START_BUFFER = 15 * 60 * 1000; //in milliseconds
 
 const EditScores = () => {
 	const getAccessToken = useAuthHeader();
@@ -134,6 +134,12 @@ const EditScores = () => {
 								<button
 									className="styledButton"
 									onClick={async () => {
+										if (event.isStarted) {
+											if ((event.endTime as number) > new Date().getTime()) {
+												setToast("Can't end this event right now!");
+												return;
+											}
+										}
 										try {
 											await API.ToggleEventStatus(getAccessToken(), event._id!);
 											fetchEvents();
@@ -147,7 +153,7 @@ const EditScores = () => {
 										}
 									}}
 								>
-									Toggle Live
+									{event.isStarted ? "End Event" : "Go Live"}
 								</button>
 							</div>
 						))
