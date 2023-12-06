@@ -1,8 +1,7 @@
-import GridView from "@mui/icons-material/GridView";
 import { StartingDate } from "../../Screens/Admin/components/UpcomingEventsViewer";
 import ChessEvent, { ChessScore } from "../../types/ChessEvent";
 import "./LiveEventBox.css";
-import GridViewIcon from "@mui/icons-material/GridView";
+import GridOnIcon from "@mui/icons-material/GridOn";
 
 const ChessEventBox = ({
 	event,
@@ -16,7 +15,7 @@ const ChessEventBox = ({
 	return (
 		<div className="liveEventBox chess">
 			<span className="eventCategory">
-				<GridView />
+				<GridOnIcon />
 				Chess
 			</span>
 			<h3 className="fjalla">{event.title}</h3>
