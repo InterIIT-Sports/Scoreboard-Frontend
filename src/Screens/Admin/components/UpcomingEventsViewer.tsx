@@ -9,7 +9,7 @@ const UpcomingEventsViewer = ({ events }: { events: Event[] }) => {
 				events.map((event, i) => (
 					<div key={i} className="fjalla">
 						<div className="vertical-line-blue"></div>
-						<div>{event.event}</div>
+						<div className="event-event">{event.event}</div>
 						<div className="vertical-line-grey"></div>
 						<span>{event.title}</span>
 						<span style={{ color: "rgb(127, 132, 140)" }}>
