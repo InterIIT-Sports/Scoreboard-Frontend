@@ -16,6 +16,7 @@ import { ToastContext } from "../../Utilities/ToastContext";
 import API from "../../Utilities/ApiEndpoints";
 import Event from "../../types/Event";
 import { useAuthHeader } from "react-auth-kit";
+import { socket } from "../../Utilities/Socket";
 
 registerCellType(TimeCellType);
 registerCellType(DropdownCellType);
@@ -67,7 +68,7 @@ const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 	const completedEventsIndexes = useMemo(() => {
 		let indexes: any[] = [];
 		allEvents.forEach((e, i) => {
-			if (e.isCompleted) indexes.push(i);
+			if (e.isCompleted || e.isStarted) indexes.push(i);
 		});
 		return indexes;
 	}, [allEvents]);
@@ -171,7 +172,22 @@ const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 	};
 
 	useEffect(() => {
+		const updateEventsStatus = (data: string) => {
+			const eventToBeUpdated = JSON.parse(data);
+			setAllEvents((prev) =>
+				prev.map((event) =>
+					eventToBeUpdated.eventID === event._id
+						? { ...event, isStarted: eventToBeUpdated.isStarted }
+						: event
+				)
+			);
+		};
+		socket.on("eventStartOrEnd", updateEventsStatus);
 		fetchEvents();
+
+		return () => {
+			socket.off("eventStartOrEnd", updateEventsStatus);
+		};
 	}, []);
 
 	return (
