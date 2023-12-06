@@ -8,6 +8,7 @@ import SplashScreen from "../components/SplashScreen";
 import UpcomingEventsViewer from "./Admin/components/UpcomingEventsViewer";
 import "./styles/Home.css";
 import PastGamesResultsViewer from "../components/PastGamesResultsViewer";
+import Footer from "../components/Footer/Footer";
 
 const Home = () => {
 	const [events, setEvents] = useState<Event[]>([]);
@@ -87,7 +88,7 @@ const Home = () => {
 						</div>
 						<PastGamesResultsViewer events={pastEvents} />
 					</div>
-					<div className="wire footer">Footer</div>
+					<Footer />
 				</>
 			)}
 		</>
