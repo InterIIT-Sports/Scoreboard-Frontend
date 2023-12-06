@@ -264,7 +264,7 @@ const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 								"Team 2",
 								"Team 3",
 							]}
-							minSpareRows={5}
+							minSpareRows={2}
 							colWidths={[150, 150, 150, 100, 100, 100, 150, 150, 150]}
 							licenseKey="non-commercial-and-evaluation" // for non-commercial use only
 						/>

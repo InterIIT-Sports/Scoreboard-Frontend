@@ -75,6 +75,7 @@
 	.allEvents > div {
 		flex-direction: column;
 		height: auto;
+		font-size: 1.2rem;
 	}
 	.allEvents > div > .event-event {
 		margin-top: 10px;

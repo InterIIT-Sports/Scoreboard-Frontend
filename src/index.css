@@ -79,6 +79,8 @@ input[type="submit"]:active,
 }
 .liveEvents {
 	min-height: 20vh;
+	padding-bottom: 10px;
+	padding-left: 10px;
 	display: flex;
 	overflow-x: scroll;
 	scroll-snap-type: x proximity;

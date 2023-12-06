@@ -4,6 +4,8 @@ import EventCatagories from "../types/EventCategories";
 import FootballEvent from "../types/FootballEvent";
 import FootballEventBox from "./LiveEventBoxes/FootballEventBox";
 import { socket } from "../Utilities/Socket";
+import ChessEventBox from "./LiveEventBoxes/ChessEventBox";
+import ChessEvent from "../types/ChessEvent";
 
 const LiveScoresBox = ({
 	event,
@@ -13,14 +15,14 @@ const LiveScoresBox = ({
 	onScoreUpdate: (score: {}, eventID: string) => void;
 }) => {
 	useEffect(() => {
-		socket.emit("subscribe", event.roomID);
-		socket.on(`scoreUpdate/${event.roomID}`, (data: string) =>
+		socket.emit("subscribe", event._id);
+		socket.on(`scoreUpdate/${event._id}`, (data: string) =>
 			onScoreUpdate(JSON.parse(data), event._id!)
 		);
 
 		return () => {
-			socket.emit("unsubscribe", event.roomID);
-			socket.off(`scoreUpdate/${event.roomID}`, (data: string) =>
+			socket.emit("unsubscribe", event._id);
+			socket.off(`scoreUpdate/${event._id}`, (data: string) =>
 				onScoreUpdate(JSON.parse(data), event._id!)
 			);
 		};
@@ -30,6 +32,8 @@ const LiveScoresBox = ({
 		switch (event.event) {
 			case EventCatagories.FOOTBALL:
 				return <FootballEventBox event={event as FootballEvent} />;
+			case EventCatagories.CHESS:
+				return <ChessEventBox event={event as ChessEvent} />;
 			default:
 				return <></>;
 		}

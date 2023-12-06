@@ -1,12 +1,13 @@
+.liveEventBox.chess {
+	--theme_color: rgb(52, 52, 52);
+}
 .liveEventBox {
 	margin: 5px;
 	min-width: 370px;
 	--theme_color: #04aa6d;
-	background-color: var(--theme_color);
 	border-radius: 2px;
 	scroll-snap-align: center;
-	color: white;
-	box-shadow: 0 0 3px 0 rgb(147, 147, 147);
+	box-shadow: 0 5px 10px rgba(0, 57, 111, 0.15);
 
 	.VS {
 		font-size: 1.3rem;
@@ -14,7 +15,8 @@
 	}
 
 	.eventCategory {
-		background-color: rgba(255, 255, 255, 0.3);
+		background-color: color-mix(in srgb, var(--theme_color) 80%, white 20%);
+		color: white;
 		font-size: 18px;
 		margin: 5px;
 		padding: 2px;
@@ -23,6 +25,12 @@
 		display: flex;
 		width: min-content;
 		align-items: center;
+	}
+	.hr {
+		margin-top: 1rem;
+		margin-bottom: 1rem;
+		border: 0;
+		border-top: 1px solid rgba(0, 0, 0, 0.1);
 	}
 	.footballScoresContainer {
 		display: flex;

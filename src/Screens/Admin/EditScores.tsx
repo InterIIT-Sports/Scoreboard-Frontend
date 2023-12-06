@@ -8,6 +8,8 @@ import FootballEventBox from "../../components/LiveEventBoxes/FootballEventBox";
 import API from "../../Utilities/ApiEndpoints";
 import { useAuthHeader } from "react-auth-kit";
 import { ToastContext } from "../../Utilities/ToastContext";
+import ChessEventBox from "../../components/LiveEventBoxes/ChessEventBox";
+import ChessEvent from "../../types/ChessEvent";
 
 const EditScores = () => {
 	const getAccessToken = useAuthHeader();
@@ -27,7 +29,7 @@ const EditScores = () => {
 		setLoading(false);
 	};
 
-	const handleScoreUpdate = async (id: string, score: FootballScore) => {
+	const handleScoreUpdate = async (id: string, score: any) => {
 		await API.UpdateFootballScores(getAccessToken(), id, score);
 		const newEvents = allEvents.map((e) => {
 			if (e._id === id) return { ...e, score: score };
@@ -49,6 +51,15 @@ const EditScores = () => {
 						onScoreUpdate={(score) => handleScoreUpdate(event._id!, score)}
 						key={i}
 						event={event as FootballEvent}
+					/>
+				);
+			case EventCatagories.CHESS:
+				return (
+					<ChessEventBox
+						isAdmin
+						onScoreUpdate={(score) => handleScoreUpdate(event._id!, score)}
+						key={i}
+						event={event as ChessEvent}
 					/>
 				);
 			default:

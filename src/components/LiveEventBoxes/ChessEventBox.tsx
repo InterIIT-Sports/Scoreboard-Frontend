@@ -1,22 +1,22 @@
 import { StartingDate } from "../../Screens/Admin/components/UpcomingEventsViewer";
-import FootballEvent, { FootballScore } from "../../types/FootballEvent";
+import ChessEvent, { ChessScore } from "../../types/ChessEvent";
 import "./LiveEventBox.css";
-import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
+import GridViewIcon from "@mui/icons-material/GridView";
 
-const FootballEventBox = ({
+const ChessEventBox = ({
 	event,
 	isAdmin,
 	onScoreUpdate,
 }: {
 	isAdmin?: boolean;
-	onScoreUpdate?: (score: FootballScore) => void;
-	event: FootballEvent;
+	onScoreUpdate?: (score: ChessScore) => void;
+	event: ChessEvent;
 }) => {
 	return (
-		<div className="liveEventBox">
+		<div className="liveEventBox chess">
 			<span className="eventCategory">
-				<SportsSoccerIcon />
-				Football
+				<GridViewIcon />
+				Chess
 			</span>
 			<h3 className="fjalla">{event.title}</h3>
 			<h3 style={{ color: "red" }} className="fjalla">
@@ -33,31 +33,31 @@ const FootballEventBox = ({
 			<div className="footballScoresContainer">
 				<div>
 					<h3>{event.teams[0].name}</h3>
-					<p>{event.score.teamA_score}</p>
+					<p>{event.score.teamA_points}</p>
 					{isAdmin && (
 						<>
 							<button
 								onClick={() => {
 									onScoreUpdate!({
 										...event.score,
-										teamA_score: event.score.teamA_score + 1,
+										teamA_points: event.score.teamA_points + 0.5,
 									});
 								}}
 								className="styledButton"
 							>
-								Add 1
+								Add 0.5
 							</button>
 							<button
 								style={{ marginTop: "5px" }}
 								onClick={() => {
 									onScoreUpdate!({
 										...event.score,
-										teamA_score: event.score.teamA_score - 1,
+										teamA_points: event.score.teamA_points - 0.5,
 									});
 								}}
 								className="styledButton"
 							>
-								Minus 1
+								Minus 0.5
 							</button>
 						</>
 					)}
@@ -65,31 +65,31 @@ const FootballEventBox = ({
 				<p className=" fjalla VS">VS</p>
 				<div>
 					<h3>{event.teams[1].name}</h3>
-					<p>{event.score.teamB_score}</p>
+					<p>{event.score.teamB_points}</p>
 					{isAdmin && (
 						<>
 							<button
 								onClick={() => {
 									onScoreUpdate!({
 										...event.score,
-										teamB_score: event.score.teamB_score + 1,
+										teamB_points: event.score.teamB_points + 0.5,
 									});
 								}}
 								className="styledButton"
 							>
-								Add 1
+								Add 0.5
 							</button>
 							<button
 								style={{ marginTop: "5px" }}
 								onClick={() => {
 									onScoreUpdate!({
 										...event.score,
-										teamB_score: event.score.teamB_score - 1,
+										teamB_points: event.score.teamB_points - 0.5,
 									});
 								}}
 								className="styledButton"
 							>
-								Minus 1
+								Minus 0.5
 							</button>
 						</>
 					)}
@@ -99,4 +99,4 @@ const FootballEventBox = ({
 	);
 };
 
-export default FootballEventBox;
+export default ChessEventBox;

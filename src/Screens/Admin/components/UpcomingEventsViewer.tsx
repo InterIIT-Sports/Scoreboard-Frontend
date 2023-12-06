@@ -1,6 +1,6 @@
 import Event from "../../../types/Event";
 
-const StartingDate = 15;
+export const StartingDate = 15;
 
 const UpcomingEventsViewer = ({ events }: { events: Event[] }) => {
 	return (
@@ -12,6 +12,7 @@ const UpcomingEventsViewer = ({ events }: { events: Event[] }) => {
 						<div className="event-event">{event.event}</div>
 						<div className="vertical-line-grey"></div>
 						<span>{event.title}</span>
+						<span>{event.subtitle}</span>
 						<span style={{ color: "rgb(127, 132, 140)" }}>
 							Day {new Date(event.startTime).getDate() - StartingDate + 1} -{" "}
 							{new Date(event.startTime).toLocaleString("en-US", {
