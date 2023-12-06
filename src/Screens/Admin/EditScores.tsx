@@ -3,7 +3,7 @@ import "./EditScores.css";
 import { useEffect, useMemo, useState, useContext } from "react";
 import Event from "../../types/Event";
 import EventCatagories from "../../types/EventCategories";
-import FootballEvent, { FootballScore } from "../../types/FootballEvent";
+import FootballEvent from "../../types/FootballEvent";
 import FootballEventBox from "../../components/LiveEventBoxes/FootballEventBox";
 import API from "../../Utilities/ApiEndpoints";
 import { useAuthHeader } from "react-auth-kit";
@@ -15,6 +15,8 @@ import SquashEvent from "../../types/SquashEvent";
 import TennisEventBox from "../../components/LiveEventBoxes/TennisEventBox";
 import TennisEvent from "../../types/TennisEvent";
 
+const EVENT_START_BUFFER = 10 * 60 * 1000; //in milliseconds
+
 const EditScores = () => {
 	const getAccessToken = useAuthHeader();
 	const setToast = useContext(ToastContext).setToastMessage;
@@ -24,6 +26,15 @@ const EditScores = () => {
 	const [allEvents, setAllEvents] = useState<Event[]>([]);
 	const liveEvents = useMemo(
 		() => allEvents.filter((event) => event.isStarted),
+		[allEvents]
+	);
+	const liveAbleEvents = useMemo(
+		() =>
+			allEvents.filter(
+				(e) =>
+					!e.isCompleted &&
+					(e.startTime as number) <= new Date().getTime() + EVENT_START_BUFFER
+			),
 		[allEvents]
 	);
 
@@ -105,40 +116,44 @@ const EditScores = () => {
 					<>Loading Events Data...</>
 				)}
 				<section className="liveAbleEvents">
-					{allEvents.map((event, i) => (
-						<div key={i}>
-							{event.event} - {event.title} - Start Time:{" "}
-							{new Date(event.startTime).toLocaleString("en-US", {
-								hour: "numeric",
-								minute: "numeric",
-								hour12: true,
-							})}{" "}
-							- {event.isStarted ? "Is Live" : "Not Live"}
-							<ul>
-								{event.teams.map((team, i) => (
-									<li key={i}>{team.name} </li>
-								))}
-							</ul>
-							<button
-								className="styledButton"
-								onClick={async () => {
-									try {
-										await API.ToggleEventStatus(getAccessToken(), event._id!);
-										fetchEvents();
-									} catch (error: any) {
+					{liveAbleEvents.length !== 0 ? (
+						liveAbleEvents.map((event, i) => (
+							<div key={i}>
+								{event.event} - {event.title} - Start Time:{" "}
+								{new Date(event.startTime).toLocaleString("en-US", {
+									hour: "numeric",
+									minute: "numeric",
+									hour12: true,
+								})}{" "}
+								- {event.isStarted ? "Is Live" : "Not Live"}
+								<ul>
+									{event.teams.map((team, i) => (
+										<li key={i}>{team.name} </li>
+									))}
+								</ul>
+								<button
+									className="styledButton"
+									onClick={async () => {
 										try {
-											setToast(JSON.parse(error.request.response).message);
-										} catch {
-											setToast("Could not connect with the Server");
-											console.log(error);
+											await API.ToggleEventStatus(getAccessToken(), event._id!);
+											fetchEvents();
+										} catch (error: any) {
+											try {
+												setToast(JSON.parse(error.request.response).message);
+											} catch {
+												setToast("Could not connect with the Server");
+												console.log(error);
+											}
 										}
-									}
-								}}
-							>
-								Toggle Live
-							</button>
-						</div>
-					))}
+									}}
+								>
+									Toggle Live
+								</button>
+							</div>
+						))
+					) : (
+						<>No Events which can be toggled live!</>
+					)}
 				</section>
 			</div>
 		</div>
