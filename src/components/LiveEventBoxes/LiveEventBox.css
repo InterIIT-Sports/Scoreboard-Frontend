@@ -1,6 +1,12 @@
 .liveEventBox.chess {
 	--theme_color: rgb(52, 52, 52);
 }
+.liveEventBox.squash {
+	--theme_color: rgb(233, 73, 15);
+}
+.liveEventBox.tennis {
+	--theme_color: #9cd10b;
+}
 .liveEventBox {
 	margin: 5px;
 	padding: 5px;
@@ -51,7 +57,9 @@
 	font-weight: 500;
 	text-align: center;
 }
-
+.eventCategory > span {
+	white-space: nowrap;
+}
 .footballScoresContainer h3 {
 	display: inline;
 }

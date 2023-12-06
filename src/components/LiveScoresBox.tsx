@@ -6,6 +6,10 @@ import FootballEventBox from "./LiveEventBoxes/FootballEventBox";
 import { socket } from "../Utilities/Socket";
 import ChessEventBox from "./LiveEventBoxes/ChessEventBox";
 import ChessEvent from "../types/ChessEvent";
+import SquashEventBox from "./LiveEventBoxes/SquashEventBox";
+import SquashEvent from "../types/SquashEvent";
+import TennisEventBox from "./LiveEventBoxes/TennisEventBox";
+import TennisEvent from "../types/TennisEvent";
 
 const LiveScoresBox = ({
 	event,
@@ -34,6 +38,10 @@ const LiveScoresBox = ({
 				return <FootballEventBox event={event as FootballEvent} />;
 			case EventCatagories.CHESS:
 				return <ChessEventBox event={event as ChessEvent} />;
+			case EventCatagories.SQUASH_MEN || EventCatagories.SQUASH_WOMEN:
+				return <SquashEventBox event={event as SquashEvent} />;
+			case EventCatagories.TENNIS_MEN || EventCatagories.TENNIS_WOMEN:
+				return <TennisEventBox event={event as TennisEvent} />;
 			default:
 				return <></>;
 		}

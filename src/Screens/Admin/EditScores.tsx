@@ -10,6 +10,10 @@ import { useAuthHeader } from "react-auth-kit";
 import { ToastContext } from "../../Utilities/ToastContext";
 import ChessEventBox from "../../components/LiveEventBoxes/ChessEventBox";
 import ChessEvent from "../../types/ChessEvent";
+import SquashEventBox from "../../components/LiveEventBoxes/SquashEventBox";
+import SquashEvent from "../../types/SquashEvent";
+import TennisEventBox from "../../components/LiveEventBoxes/TennisEventBox";
+import TennisEvent from "../../types/TennisEvent";
 
 const EditScores = () => {
 	const getAccessToken = useAuthHeader();
@@ -60,6 +64,24 @@ const EditScores = () => {
 						onScoreUpdate={(score) => handleScoreUpdate(event._id!, score)}
 						key={i}
 						event={event as ChessEvent}
+					/>
+				);
+			case EventCatagories.SQUASH_MEN || EventCatagories.SQUASH_WOMEN:
+				return (
+					<SquashEventBox
+						isAdmin
+						onScoreUpdate={(score) => handleScoreUpdate(event._id!, score)}
+						key={i}
+						event={event as SquashEvent}
+					/>
+				);
+			case EventCatagories.TENNIS_MEN || EventCatagories.TENNIS_WOMEN:
+				return (
+					<TennisEventBox
+						isAdmin
+						onScoreUpdate={(score) => handleScoreUpdate(event._id!, score)}
+						key={i}
+						event={event as TennisEvent}
 					/>
 				);
 			default:

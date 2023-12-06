@@ -17,6 +17,7 @@ import API from "../../Utilities/ApiEndpoints";
 import Event from "../../types/Event";
 import { useAuthHeader } from "react-auth-kit";
 import { socket } from "../../Utilities/Socket";
+import { MatchTypes } from "../../types/TennisEvent";
 
 registerCellType(TimeCellType);
 registerCellType(DropdownCellType);
@@ -44,14 +45,15 @@ const getTime = (dateString: string, time: string) => {
 };
 
 const makeEventsArrayForDatabase = (data: any[]) => {
-	const events = data.map((arr) => {
+	const events = data.map((arr: any[]) => {
 		return {
 			event: arr[0],
-			title: arr[1],
-			subtitle: arr[2],
-			startTime: getTime(arr[3], arr[4]),
-			endTime: getTime(arr[3], arr[5]),
-			teams: arr.slice(6, arr.indexOf(null)),
+			matchType: arr[1],
+			title: arr[2],
+			subtitle: arr[3],
+			startTime: getTime(arr[4], arr[5]),
+			endTime: getTime(arr[4], arr[6]),
+			teams: arr.slice(7, arr.indexOf(null, 2)),
 		};
 	});
 	return events;
@@ -146,12 +148,12 @@ const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 		for (let i = 0; i < validRows!.length; i++) {
 			const row: any[] = validRows![i];
 			let last = row.length;
-			last = row.indexOf(null) !== -1 ? row.indexOf(null) : last;
+			last = row.indexOf(null, 2) !== -1 ? row.indexOf(null, 2) : last;
 			last =
-				row.indexOf("") !== -1 && row.indexOf("") < last
-					? row.indexOf("")
+				row.indexOf("", 2) !== -1 && row.indexOf("", 2) < last
+					? row.indexOf("", 2)
 					: last;
-			if (last <= 7) {
+			if (last <= 8) {
 				setToast("Incomplete Details in a Row!");
 				return;
 			}
@@ -222,6 +224,11 @@ const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 									type: "dropdown",
 									source: Object.values(EventCatagories),
 								},
+								{
+									data: "matchType",
+									type: "dropdown",
+									source: Object.values(MatchTypes),
+								},
 								{ data: "title", type: "text" },
 								{ data: "subtitle", type: "text" },
 								{ data: "date", type: "date", correctFormat: true },
@@ -255,6 +262,7 @@ const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 							]}
 							colHeaders={[
 								"Event",
+								"MatchType",
 								"Name",
 								"Subtite",
 								"Date",
@@ -265,7 +273,7 @@ const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 								"Team 3",
 							]}
 							minSpareRows={2}
-							colWidths={[150, 150, 150, 100, 100, 100, 150, 150, 150]}
+							colWidths={[150, 100, 150, 150, 100, 100, 100, 150, 150, 150]}
 							licenseKey="non-commercial-and-evaluation" // for non-commercial use only
 						/>
 					</div>
