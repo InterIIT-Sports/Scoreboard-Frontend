@@ -77,6 +77,9 @@ input[type="submit"]:active,
 	background-clip: text;
 	-webkit-text-fill-color: transparent;
 }
+.navbar {
+	height: 10vh;
+}
 .liveEvents {
 	min-height: 20vh;
 	padding-bottom: 10px;
@@ -84,4 +87,13 @@ input[type="submit"]:active,
 	display: flex;
 	overflow-x: scroll;
 	scroll-snap-type: x proximity;
+}
+
+.footer {
+	height: 50vh;
+}
+@media screen and (max-width: 1000px) {
+	.navbar {
+		height: 70px;
+	}
 }

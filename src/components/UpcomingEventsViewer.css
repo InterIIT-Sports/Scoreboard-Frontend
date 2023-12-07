@@ -1,0 +1,92 @@
+.allEvents {
+	height: 60vh;
+	padding: 10px;
+}
+.allEvents > div {
+	position: relative;
+	height: 100px;
+	border: 3px solid #f2f5f7;
+	margin-block-end: 1px;
+	display: flex;
+	align-items: center;
+	font-size: 1.4rem;
+}
+.allEvents > div > ul::before {
+	content: "Teams:";
+	position: absolute;
+	left: -30px;
+	top: 0;
+	bottom: 0;
+	display: flex;
+	align-items: center;
+}
+.allEvents > div > ul {
+	position: absolute;
+	right: 0;
+	margin-block-start: 0.5em;
+	margin-block-end: 0.5em;
+	margin-right: 10px;
+	list-style-type: upper-alpha;
+	font-size: 1rem;
+}
+.allEvents > div > .vertical-line-blue {
+	background-color: #0d4fad;
+	height: 50%;
+	margin-right: 40px;
+	width: 5px;
+}
+.allEvents > div > .vertical-line-grey {
+	background-color: #ebeef0;
+	height: 50%;
+	margin: 0 30px;
+	width: 3px;
+}
+.allEvents > div > span {
+	margin-right: 30px;
+}
+
+@media screen and (max-width: 1000px) {
+	.allEvents > div {
+		flex-direction: column;
+		height: auto;
+		font-size: 1.2rem;
+	}
+	.allEvents > div > .event-event {
+		margin-top: 10px;
+	}
+	.allEvents > div > .vertical-line-blue {
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		width: 5px;
+		height: 100%;
+	}
+	.allEvents > div > span {
+		margin-top: 10px;
+		margin-right: 0;
+	}
+	.allEvents > div > ul::before {
+		position: absolute;
+		left: 10px;
+		top: -1rem;
+		display: unset;
+	}
+	.allEvents > div > ul {
+		position: relative;
+		margin-block-start: 0;
+		margin-block-end: 0;
+		margin-right: 0;
+		margin-top: 15px;
+		margin-bottom: 10px;
+		width: 100%;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-evenly;
+		padding-inline-start: 0;
+		padding: 0 20px;
+	}
+	.allEvents > div > ul > li {
+		margin-left: 1.1rem;
+	}
+}

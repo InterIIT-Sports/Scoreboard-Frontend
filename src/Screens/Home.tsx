@@ -5,7 +5,7 @@ import { socket } from "../Utilities/Socket";
 import API from "../Utilities/ApiEndpoints";
 import Event from "../types/Event";
 import SplashScreen from "../components/SplashScreen";
-import UpcomingEventsViewer from "./Admin/components/UpcomingEventsViewer";
+import UpcomingEventsViewer from "../components/UpcomingEventsViewer";
 import "./styles/Home.css";
 import PastGamesResultsViewer from "../components/PastGamesResultsViewer";
 import Footer from "../components/Footer/Footer";

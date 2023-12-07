@@ -1,4 +1,5 @@
-import Event from "../../../types/Event";
+import Event from "../types/Event";
+import "./UpcomingEventsViewer.css";
 
 export const StartingDate = 15;
 

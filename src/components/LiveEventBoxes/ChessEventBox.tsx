@@ -1,4 +1,4 @@
-import { StartingDate } from "../../Screens/Admin/components/UpcomingEventsViewer";
+import { StartingDate } from "../UpcomingEventsViewer";
 import ChessEvent, { ChessScore } from "../../types/ChessEvent";
 import "./LiveEventBox.css";
 import GridOnIcon from "@mui/icons-material/GridOn";
