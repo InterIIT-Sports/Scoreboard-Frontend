@@ -11,4 +11,5 @@ export default interface Event {
 	endTime: number | string;
 	teams: any[]; // list of teams who are compeating
 	score: {};
+	winner?: { team: string };
 }

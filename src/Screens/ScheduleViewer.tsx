@@ -18,6 +18,7 @@ const ScheduleViewer = () => {
 
 	useEffect(() => {
 		fetchEvents();
+		window.scrollTo(0, 0);
 	}, []);
 	return (
 		<>

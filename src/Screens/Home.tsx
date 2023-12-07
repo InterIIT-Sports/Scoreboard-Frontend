@@ -57,6 +57,7 @@ const Home = () => {
 						: event
 				)
 			);
+			//TODO: set isComplete to true if event ends and also set winner data
 		};
 
 		socket.on("connect", () => console.log("connected WS"));

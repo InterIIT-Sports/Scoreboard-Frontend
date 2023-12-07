@@ -3,7 +3,8 @@
 }
 .rightContainer {
 	flex-grow: 2;
-	height: 90vh;
+	min-height: 90vh;
+	border-left: 3px solid #ebeef0;
 }
 
 @media screen and (min-width: 900px) {
@@ -15,5 +16,9 @@
 @media screen and (max-width: 1000px) {
 	.content {
 		flex-direction: column;
+	}
+	.rightContainer {
+		border: 0;
+		border-top: 3px solid #ebeef0;
 	}
 }
