@@ -1,4 +1,5 @@
 import Event from "../types/Event";
+import { formatEventName } from "../types/EventCategories";
 import "./UpcomingEventsViewer.css";
 
 export const StartingDate = 15;
@@ -17,7 +18,7 @@ const UpcomingEventsViewer = ({
 				events.map((event, i) => (
 					<div key={i} className="fjalla">
 						<div className="vertical-line-blue"></div>
-						<div className="event-event">{event.event}</div>
+						<div className="event-event">{formatEventName(event.event)}</div>
 						<div className="vertical-line-grey"></div>
 						<span>{event.title}</span>
 						<span>{event.subtitle}</span>
