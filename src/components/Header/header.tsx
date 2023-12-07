@@ -56,21 +56,7 @@ function Header() {
 			window.removeEventListener("scroll", handleScroll);
 		};
 	}, []);
-	const handleAboutLink = () => {
-		const element = document.getElementsByClassName("about-container")[0];
-		if (element) {
-			element.scrollIntoView({ behavior: "smooth" });
-		} else {
-			Navigate("/");
-			setTimeout(() => {
-				const updatedElement =
-					document.getElementsByClassName("about-container")[0];
-				if (updatedElement) {
-					updatedElement.scrollIntoView({ behavior: "smooth" });
-				}
-			}, 500);
-		}
-	};
+
 	const handleFooterLink = () => {
 		const element = document.getElementsByClassName("footer-div")[0];
 		if (element) {
@@ -135,6 +121,11 @@ function Header() {
 										Home
 									</Link>
 								</div>
+							</li>
+							<li className="has-child">
+								<Link to="/" className="link1 links" style={{ color: linkbg }}>
+									Live Scores
+								</Link>
 							</li>
 							<li className="has-child">
 								<Link
