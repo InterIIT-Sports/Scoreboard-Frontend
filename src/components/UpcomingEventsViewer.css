@@ -45,7 +45,7 @@
 	margin-right: 30px;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 950px) {
 	.allEvents > div {
 		flex-direction: column;
 		height: auto;
