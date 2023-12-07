@@ -127,19 +127,12 @@ function Header() {
 									className="about-link links"
 									style={{ color: linkbg }}
 								>
-									<Link to="/" className="links" style={{ color: linkbg }}>
+									<Link
+										to="https://interiit.in/#/"
+										className="links"
+										style={{ color: linkbg }}
+									>
 										Home
-									</Link>
-								</div>
-							</li>
-							<li className="has-child">
-								<div
-									onClick={handleAboutLink}
-									className="about-link links"
-									style={{ color: linkbg }}
-								>
-									<Link to="/" className="links" style={{ color: linkbg }}>
-										About
 									</Link>
 								</div>
 							</li>
