@@ -84,7 +84,17 @@ const Home = () => {
 								onScoreUpdate={updateScoreOfEvent}
 								liveEvents={liveEvents}
 							/>
-							<UpcomingEventsViewer events={upcomingEvents} />
+							<UpcomingEventsViewer
+								heading={
+									<h3
+										style={{ marginTop: "0", marginBlockEnd: "0.5em" }}
+										className="wire"
+									>
+										Upcoming Events
+									</h3>
+								}
+								events={upcomingEvents}
+							/>
 						</div>
 						<PastGamesResultsViewer events={pastEvents} />
 					</div>
