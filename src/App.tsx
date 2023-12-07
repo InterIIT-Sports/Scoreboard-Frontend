@@ -5,6 +5,7 @@ import ToastOverlay from "./components/Toast";
 import SplashScreen from "./components/SplashScreen";
 import { Suspense, lazy } from "react";
 import { Navigate } from "react-router";
+import ScheduleViewer from "./Screens/ScheduleViewer";
 const Home = lazy(() => {
 	return Promise.all([
 		import("./Screens/Home"),
@@ -35,6 +36,7 @@ function App() {
 						<Suspense fallback={<SplashScreen />}>
 							<Routes>
 								<Route path="/" element={<Home />} />
+								<Route path="/schedule" element={<ScheduleViewer />} />
 								<Route
 									path={"/admin/*"}
 									element={<PrivateRoute Component={<AdminDashboard />} />}
