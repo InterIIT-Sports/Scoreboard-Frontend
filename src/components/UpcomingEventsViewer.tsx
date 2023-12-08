@@ -13,7 +13,7 @@ const UpcomingEventsViewer = ({
 }) => {
 	return (
 		<div className={events.length !== 0 ? "allEvents" : "allEvents wire"}>
-			{heading}
+			{events.length !== 0 && heading}
 			{events.length !== 0 ? (
 				events.map((event, i) => (
 					<div key={i} className="fjalla">
