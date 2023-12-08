@@ -14,6 +14,7 @@ import SquashEventBox from "../../components/LiveEventBoxes/SquashEventBox";
 import SquashEvent from "../../types/SquashEvent";
 import TennisEventBox from "../../components/LiveEventBoxes/TennisEventBox";
 import TennisEvent from "../../types/TennisEvent";
+import AthleticsEvent from "../../types/AthleticsEvent";
 
 const EVENT_START_BUFFER = 15 * 60 * 1000; //in milliseconds
 
@@ -119,7 +120,11 @@ const EditScores = () => {
 					{liveAbleEvents.length !== 0 ? (
 						liveAbleEvents.map((event, i) => (
 							<div key={i}>
-								{event.event} - {event.title} -{" "}
+								{event.event} -{" "}
+								{(event as AthleticsEvent).athleticsEventType
+									? (event as AthleticsEvent).athleticsEventType + " - "
+									: null}
+								{event.title} -{" "}
 								{new Date(event.startTime).toLocaleDateString("en-GB")} - Start
 								Time:{" "}
 								{new Date(event.startTime).toLocaleString("en-US", {
