@@ -20,6 +20,7 @@ import { socket } from "../../Utilities/Socket";
 import { MatchTypes } from "../../types/TennisEvent";
 import AthleticsEventTypes from "../../types/AthleticsEventTypes";
 import AthleticsRounds from "../../types/AthleticsRounds";
+import AthleticsEvent from "../../types/AthleticsEvent";
 
 registerCellType(TimeCellType);
 registerCellType(DropdownCellType);
@@ -53,7 +54,7 @@ const makeParticipantsAndTeamsObj = (arr: any[]) => {
 		const name = arr[i];
 		const team = arr[i + 1];
 		t.push(team);
-		p.push(name);
+		p.push({ name, team });
 	}
 	return { teams: t, participants: p };
 };
@@ -153,6 +154,36 @@ const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 		return fEvents as Event[];
 	};
 
+	const formatForAthlTable = (events: AthleticsEvent[]) => {
+		const fEvents: any[] = events.map((e) => {
+			return {
+				...e,
+				date: new Date(e.startTime).toLocaleDateString("en-GB"),
+				startTime: new Date(e.startTime).toLocaleString("en-US", {
+					hour: "numeric",
+					minute: "numeric",
+					second: "numeric",
+					hour12: true,
+				}),
+				endTime: new Date(e.endTime).toLocaleString("en-US", {
+					hour: "numeric",
+					minute: "numeric",
+					second: "numeric",
+					hour12: true,
+				}),
+			};
+		});
+		fEvents.forEach((e) => {
+			e.participants?.forEach((participant: any, i: number) => {
+				let key = "participant" + i;
+				e[key] = participant.name;
+				key = "team" + i;
+				e[key] = participant.team;
+			});
+		});
+		return fEvents as Event[];
+	};
+
 	const fetchEvents = async () => {
 		const result: Event[] = (await API.GetEvents()).data;
 		const otherEvents = result.filter(
@@ -162,6 +193,7 @@ const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 			(e) => e.event === EventCatagories.ATHLETICS
 		);
 		setAllEvents(formatForTable(otherEvents));
+		setAthlEvents(formatForAthlTable(athlEvents as AthleticsEvent[]));
 		setLoading(false);
 	};
 
