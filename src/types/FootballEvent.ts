@@ -1,10 +1,10 @@
 import Event from "./Event";
+import { Team } from "./Team";
 
 export default interface FootballEvent extends Event {
 	teams: { name: string; points: number }[];
 	winner?: {
-		team: string;
-		participants: string[];
+		team: Team;
 	};
 	score: FootballScore;
 }

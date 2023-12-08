@@ -33,20 +33,22 @@ export default PastGamesResultsViewer;
 
 const ResultLog = ({ event }: { event: Event }) => {
 	const getOppName = (e: Event): string => {
-		e.teams.forEach((team) => {
-			if (team !== e.winner?.team) return team;
-		});
+		for (let i = 0; i < e.teams.length; i++) {
+			const team = e.teams[i];
+			if (team.name !== e.winner?.team?.name) return team.name;
+		}
 		return "-";
 	};
 
 	return (
 		<div className="resultLog fjalla">
-			<span className="winner">{event.winner?.team}</span> won{" "}
+			<span className="winner">{event.winner?.team?.name}</span> won{" "}
 			{formatEventName(event.event)}
 			{(event as TennisEvent)?.matchType
 				? "(" + (event as TennisEvent)?.matchType + ")"
 				: null}{" "}
-			{event.title} | {event.subtitle}, against {getOppName(event)}
+			{event.title} | {event.subtitle}, against{" "}
+			<span className="loser">{getOppName(event)}</span>
 		</div>
 	);
 };

@@ -1,9 +1,10 @@
 import Event from "./Event";
+import { Team } from "./Team";
 
 export default interface ChessEvent extends Event {
 	winner?: {
-		team: string;
-		participant: string;
+		team: Team;
+		participant: string[];
 	};
 	score: ChessScore;
 }

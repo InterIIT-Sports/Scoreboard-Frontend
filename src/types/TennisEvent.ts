@@ -1,9 +1,10 @@
 import Event from "./Event";
+import { Team } from "./Team";
 
 export default interface TennisEvent extends Event {
 	matchType: MatchTypes;
 	winner?: {
-		team: string;
+		team: Team;
 		participants: string[];
 	};
 	score: TennisScore;
