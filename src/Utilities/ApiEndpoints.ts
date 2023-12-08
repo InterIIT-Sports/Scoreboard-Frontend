@@ -16,13 +16,9 @@ const API = {
 			{ headers: { Authorization: accessToken } }
 		),
 
-	UpdateFootballScores: (
-		accessToken: string,
-		id: string,
-		score: FootballScore
-	) =>
+	UpdateScore: (accessToken: string, id: string, score: FootballScore) =>
 		axios.put(
-			ServerURL + "events/football/" + id,
+			ServerURL + "events/" + id,
 			{
 				...score,
 			},

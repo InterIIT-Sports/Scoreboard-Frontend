@@ -45,7 +45,7 @@ const EditScores = () => {
 	};
 
 	const handleScoreUpdate = async (id: string, score: any) => {
-		await API.UpdateFootballScores(getAccessToken(), id, score);
+		await API.UpdateScore(getAccessToken(), id, score);
 		const newEvents = allEvents.map((e) => {
 			if (e._id === id) return { ...e, score: score };
 			else return e;
