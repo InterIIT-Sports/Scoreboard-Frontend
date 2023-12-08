@@ -10,6 +10,34 @@
 	display: flex;
 	align-items: center;
 	font-size: 1.4rem;
+
+	.tooltip {
+		font-size: 1rem;
+		color: var(--dark_blue);
+		position: relative;
+		margin-right: 10px;
+		display: inline-block;
+		border-bottom: 1px solid var(--dark_blue); /* If you want dots under the hoverable text */
+	}
+
+	/* Tooltip text */
+	.tooltip .tooltiptext {
+		visibility: hidden;
+		background-color: var(--dark_blue);
+		color: #fff;
+		text-align: center;
+		padding: 5px 10px;
+
+		/* Position the tooltip text*/
+		position: absolute;
+		right: 105%;
+		z-index: 1;
+	}
+
+	/* Show the tooltip text when you mouse over the tooltip container */
+	.tooltip:hover .tooltiptext {
+		visibility: visible;
+	}
 }
 .allEvents > div > ul::before {
 	content: "Teams:";

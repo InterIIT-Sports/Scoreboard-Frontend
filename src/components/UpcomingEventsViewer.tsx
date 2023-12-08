@@ -31,7 +31,7 @@ const UpcomingEventsViewer = ({
 								? (event as AthleticsEvent).title
 								: event.subtitle}
 						</span>
-						<span style={{ color: "rgb(127, 132, 140)" }}>
+						<span style={{ color: "rgb(127, 132, 140)", flexGrow: "1" }}>
 							Day {new Date(event.startTime).getDate() - StartingDate + 1} -{" "}
 							{new Date(event.startTime).toLocaleString("en-US", {
 								hour: "numeric",
@@ -39,13 +39,24 @@ const UpcomingEventsViewer = ({
 								hour12: true,
 							})}{" "}
 						</span>
-						<ul>
-							{event.event === EventCatagories.ATHLETICS
-								? (event as AthleticsEvent).participants?.map((p, i) => (
-										<li key={i}>{p.name}</li>
-								  ))
-								: event.teams.map((team, i) => <li key={i}>{team.name} </li>)}
-						</ul>
+						{event.event === EventCatagories.ATHLETICS ? (
+							<div className="tooltip">
+								Participants
+								<span className="tooltiptext">
+									{(event as AthleticsEvent).participants?.map((p, i) => (
+										<div key={i}>
+											{p.name} : {p.team}
+										</div>
+									))}
+								</span>
+							</div>
+						) : (
+							<ul>
+								{event.teams.map((team, i) => (
+									<li key={i}>{team.name} </li>
+								))}
+							</ul>
+						)}
 					</div>
 				))
 			) : (
