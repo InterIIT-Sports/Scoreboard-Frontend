@@ -1,5 +1,6 @@
+import AthleticsEvent from "../types/AthleticsEvent";
 import Event from "../types/Event";
-import { formatEventName } from "../types/EventCategories";
+import EventCatagories, { formatEventName } from "../types/EventCategories";
 import "./UpcomingEventsViewer.css";
 
 export const StartingDate = 15;
@@ -20,8 +21,16 @@ const UpcomingEventsViewer = ({
 						<div className="vertical-line-blue"></div>
 						<div className="event-event">{formatEventName(event.event)}</div>
 						<div className="vertical-line-grey"></div>
-						<span>{event.title}</span>
-						<span>{event.subtitle}</span>
+						<span>
+							{event.event === EventCatagories.ATHLETICS
+								? (event as AthleticsEvent).athleticsEventType
+								: event.title}
+						</span>
+						<span>
+							{event.event === EventCatagories.ATHLETICS
+								? (event as AthleticsEvent).title
+								: event.subtitle}
+						</span>
 						<span style={{ color: "rgb(127, 132, 140)" }}>
 							Day {new Date(event.startTime).getDate() - StartingDate + 1} -{" "}
 							{new Date(event.startTime).toLocaleString("en-US", {
@@ -31,9 +40,11 @@ const UpcomingEventsViewer = ({
 							})}{" "}
 						</span>
 						<ul>
-							{event.teams.map((team, i) => (
-								<li key={i}>{team.name} </li>
-							))}
+							{event.event === EventCatagories.ATHLETICS
+								? (event as AthleticsEvent).participants?.map((p, i) => (
+										<li key={i}>{p.name}</li>
+								  ))
+								: event.teams.map((team, i) => <li key={i}>{team.name} </li>)}
 						</ul>
 					</div>
 				))
