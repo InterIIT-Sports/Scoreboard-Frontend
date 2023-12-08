@@ -56,7 +56,12 @@ const Home = () => {
 			setEvents((prev) =>
 				prev.map((event) =>
 					eventToBeUpdated.eventID === event._id
-						? { ...event, isStarted: eventToBeUpdated.isStarted }
+						? {
+								...event,
+								isStarted: eventToBeUpdated.isStarted,
+								winner: eventToBeUpdated.winner,
+								isCompleted: eventToBeUpdated.isCompleted,
+						  }
 						: event
 				)
 			);
