@@ -56,7 +56,11 @@ const Footer = () => {
 			</div>
 			<div className="quick-links-block" style={styles.quickLinks}>
 				<h4 className="CRTDH-name-footer1">Quick Links</h4>
-				<Link to="https://interiit.in/#/" className="quick-links-link">
+				<Link
+					target="blank"
+					to="https://interiit.in/#/"
+					className="quick-links-link"
+				>
 					{" "}
 					<p className="quick-links fjalla">
 						<ArrowForwardIcon /> &nbsp;Home
@@ -67,7 +71,11 @@ const Footer = () => {
 						<ArrowForwardIcon /> &nbsp;Schedule
 					</p>
 				</Link>
-				<Link to="/Results" className="quick-links-link">
+				<Link
+					target="blank"
+					to="https://interiit.in/#/Results"
+					className="quick-links-link"
+				>
 					<p className="quick-links fjalla">
 						<ArrowForwardIcon /> &nbsp;Results
 					</p>

@@ -9,10 +9,7 @@ function Header() {
 	const color = "white";
 	// const anticolor = color === "white" ? "black" : "white";
 	const linkbg = color;
-	const handleLinkClick = () => {
-		window.location.href = "/#/Results"; // Set the URL to the desired location
-		window.location.reload();
-	};
+
 	useEffect(() => {
 		const handleScroll = () => {
 			if (window.scrollY > 100) {
@@ -114,6 +111,7 @@ function Header() {
 									style={{ color: linkbg }}
 								>
 									<Link
+										target="blank"
 										to="https://interiit.in/#/"
 										className="links"
 										style={{ color: linkbg }}
@@ -139,8 +137,8 @@ function Header() {
 							<li className="has-child">
 								{/* <a href="https://interiit.in/#/Results" >Results</a> */}
 								<Link
-									to="/Results"
-									onClick={handleLinkClick}
+									target="blank"
+									to="https://interiit.in/#/Results"
 									className="link1 links"
 									style={{ color: linkbg }}
 								>
