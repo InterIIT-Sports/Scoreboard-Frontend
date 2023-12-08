@@ -119,7 +119,9 @@ const EditScores = () => {
 					{liveAbleEvents.length !== 0 ? (
 						liveAbleEvents.map((event, i) => (
 							<div key={i}>
-								{event.event} - {event.title} - Start Time:{" "}
+								{event.event} - {event.title} -{" "}
+								{new Date(event.startTime).toLocaleDateString("en-GB")} - Start
+								Time:{" "}
 								{new Date(event.startTime).toLocaleString("en-US", {
 									hour: "numeric",
 									minute: "numeric",
