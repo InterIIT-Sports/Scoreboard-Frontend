@@ -18,6 +18,8 @@ import Event from "../../types/Event";
 import { useAuthHeader } from "react-auth-kit";
 import { socket } from "../../Utilities/Socket";
 import { MatchTypes } from "../../types/TennisEvent";
+import AthleticsEventTypes from "../../types/AthleticsEventTypes";
+import AthleticsRounds from "../../types/AthleticsRounds";
 
 registerCellType(TimeCellType);
 registerCellType(DropdownCellType);
@@ -44,6 +46,18 @@ const getTime = (dateString: string, time: string) => {
 	return dateObject.getTime();
 };
 
+const makeParticipantsAndTeamsObj = (arr: any[]) => {
+	let t: any[] = [];
+	let p: any[] = [];
+	for (let i = 0; i < arr.indexOf(null); i += 2) {
+		const name = arr[i];
+		const team = arr[i + 1];
+		t.push(team);
+		p.push(name);
+	}
+	return { teams: t, participants: p };
+};
+
 const makeEventsArrayForDatabase = (data: any[]) => {
 	const events = data.map((arr: any[]) => {
 		return {
@@ -53,7 +67,20 @@ const makeEventsArrayForDatabase = (data: any[]) => {
 			subtitle: arr[3],
 			startTime: getTime(arr[4], arr[5]),
 			endTime: getTime(arr[4], arr[6]),
-			teams: arr.slice(7, arr.indexOf(null, 2)),
+			teams: arr.slice(7),
+		};
+	});
+	return events;
+};
+const makeAthlEventsArrayForDatabase = (data: any[]) => {
+	const events = data.map((arr: any[]) => {
+		return {
+			event: EventCatagories.ATHLETICS,
+			athleticsEventType: arr[0],
+			title: arr[1],
+			startTime: getTime(arr[2], arr[3]),
+			endTime: getTime(arr[2], arr[4]),
+			...makeParticipantsAndTeamsObj(arr.slice(5)),
 		};
 	});
 	return events;
@@ -61,10 +88,12 @@ const makeEventsArrayForDatabase = (data: any[]) => {
 
 const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 	const hotRef = useRef<HotTable | null>(null);
+	const athlTableRef = useRef<HotTable | null>(null);
 	const setToast = useContext(ToastContext).setToastMessage;
 	const getAccessToken = useAuthHeader();
 
 	const [allEvents, setAllEvents] = useState<Event[]>([]);
+	const [athlEvents, setAthlEvents] = useState<Event[]>([]);
 	const [loading, setLoading] = useState(true);
 
 	const completedEventsIndexes = useMemo(() => {
@@ -74,6 +103,13 @@ const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 		});
 		return indexes;
 	}, [allEvents]);
+	const completedAthlEventsIndexes = useMemo(() => {
+		let indexes: any[] = [];
+		athlEvents.forEach((e, i) => {
+			if (e.isCompleted || e.isStarted) indexes.push(i);
+		});
+		return indexes;
+	}, [athlEvents]);
 
 	useEffect(() => {
 		const hot = hotRef?.current?.hotInstance;
@@ -119,18 +155,32 @@ const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 
 	const fetchEvents = async () => {
 		const result: Event[] = (await API.GetEvents()).data;
-		setAllEvents(formatForTable(result));
+		const otherEvents = result.filter(
+			(e) => e.event !== EventCatagories.ATHLETICS
+		);
+		const athlEvents = result.filter(
+			(e) => e.event === EventCatagories.ATHLETICS
+		);
+		setAllEvents(formatForTable(otherEvents));
 		setLoading(false);
 	};
 
 	const saveTableData = async () => {
 		const hot = hotRef?.current?.hotInstance;
+		const athlTable = athlTableRef?.current?.hotInstance;
 		const allRows = hot?.getData()!;
+		const athlRows = athlTable?.getData()!;
 		const notCompletedEventsRows = allRows.filter(
 			(row: any[], i) => !completedEventsIndexes.includes(i)
 		);
+		const notCompletedAthlEventsRows = athlRows.filter(
+			(row: any[], i) => !completedAthlEventsIndexes.includes(i)
+		);
 		const validRows = notCompletedEventsRows!.filter((arr) => arr[0] !== null);
-		if (validRows?.length === 0) {
+		const validAthlRows = notCompletedAthlEventsRows!.filter(
+			(arr) => arr[0] !== null
+		);
+		if (validRows?.length === 0 && validAthlRows?.length === 0) {
 			//set schedule as empty
 			try {
 				API.PostSchedule([], getAccessToken());
@@ -158,7 +208,23 @@ const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 				return;
 			}
 		}
-		const data = makeEventsArrayForDatabase(validRows!);
+		for (let i = 0; i < validAthlRows!.length; i++) {
+			const row: any[] = validAthlRows![i];
+			let last = row.length;
+			last = row.indexOf(null, 1) !== -1 ? row.indexOf(null, 1) : last;
+			last =
+				row.indexOf("", 1) !== -1 && row.indexOf("", 1) < last
+					? row.indexOf("", 1)
+					: last;
+			if (last <= 8 || (last - 5) % 2 !== 0) {
+				setToast("Incomplete Details in a Row!");
+				return;
+			}
+		}
+		const data = [
+			...makeEventsArrayForDatabase(validRows),
+			...makeAthlEventsArrayForDatabase(validAthlRows),
+		];
 		//data to be sent to the server
 		try {
 			API.PostSchedule(data, getAccessToken());
@@ -222,7 +288,11 @@ const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 								{
 									data: "event",
 									type: "dropdown",
-									source: Object.values(EventCatagories),
+									source: Object.values(EventCatagories).filter(
+										(s) =>
+											s !== EventCatagories.ATHLETICS &&
+											s !== EventCatagories.CRICKET
+									),
 								},
 								{
 									data: "matchType",
@@ -254,11 +324,6 @@ const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 									type: "dropdown",
 									source: teams.map((team) => team.name),
 								},
-								{
-									data: "team2",
-									type: "dropdown",
-									source: teams.map((team) => team.name),
-								},
 							]}
 							colHeaders={[
 								"Event",
@@ -270,10 +335,164 @@ const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 								"End Time",
 								"Team 1",
 								"Team 2",
-								"Team 3",
 							]}
 							minSpareRows={2}
-							colWidths={[150, 100, 150, 150, 100, 100, 100, 150, 150, 150]}
+							colWidths={[150, 100, 150, 150, 100, 100, 100, 150, 150]}
+							licenseKey="non-commercial-and-evaluation" // for non-commercial use only
+						/>
+						<h3>Athletics Events Table</h3>
+						<HotTable
+							ref={athlTableRef}
+							data={athlEvents}
+							style={{ marginTop: "5px", boxSizing: "border-box" }}
+							rowHeaders={true}
+							columns={[
+								{
+									data: "athleticsEventType",
+									type: "dropdown",
+									source: Object.values(AthleticsEventTypes),
+								},
+								{
+									data: "title",
+									type: "dropdown",
+									source: Object.values(AthleticsRounds),
+								},
+								{ data: "date", type: "date", correctFormat: true },
+								{
+									data: "startTime",
+									type: "time",
+									timeFormat: "h:mm:ss a",
+									correctFormat: true,
+								},
+								{
+									data: "endTime",
+									type: "time",
+									timeFormat: "h:mm:ss a",
+									correctFormat: true,
+								},
+								{
+									data: "participant0",
+									type: "text",
+								},
+								{
+									data: "team0",
+									type: "dropdown",
+									source: teams.map((team) => team.name),
+								},
+								{
+									data: "participant1",
+									type: "text",
+								},
+								{
+									data: "team1",
+									type: "dropdown",
+									source: teams.map((team) => team.name),
+								},
+								{
+									data: "participant2",
+									type: "text",
+								},
+								{
+									data: "team2",
+									type: "dropdown",
+									source: teams.map((team) => team.name),
+								},
+								{
+									data: "participant3",
+									type: "text",
+								},
+								{
+									data: "team3",
+									type: "dropdown",
+									source: teams.map((team) => team.name),
+								},
+								{
+									data: "participant4",
+									type: "text",
+								},
+								{
+									data: "team4",
+									type: "dropdown",
+									source: teams.map((team) => team.name),
+								},
+								{
+									data: "participant5",
+									type: "text",
+								},
+								{
+									data: "team5",
+									type: "dropdown",
+									source: teams.map((team) => team.name),
+								},
+								{
+									data: "participant6",
+									type: "text",
+								},
+								{
+									data: "team6",
+									type: "dropdown",
+									source: teams.map((team) => team.name),
+								},
+								{
+									data: "participant7",
+									type: "text",
+								},
+								{
+									data: "team7",
+									type: "dropdown",
+									source: teams.map((team) => team.name),
+								},
+								{
+									data: "participant8",
+									type: "text",
+								},
+								{
+									data: "team8",
+									type: "dropdown",
+									source: teams.map((team) => team.name),
+								},
+								{
+									data: "participant9",
+									type: "text",
+								},
+								{
+									data: "team9",
+									type: "dropdown",
+									source: teams.map((team) => team.name),
+								},
+							]}
+							colHeaders={[
+								"Event",
+								"Round",
+								"Date",
+								"Start Time",
+								"End Time",
+								"Participant 1",
+								"Team",
+								"Participant 2",
+								"Team",
+								"Participant 3",
+								"Team",
+								"Participant 4",
+								"Team",
+								"Participant 5",
+								"Team",
+								"Participant 6",
+								"Team",
+								"Participant 7",
+								"Team",
+								"Participant 8",
+								"Team",
+								"Participant 9",
+								"Team",
+								"Participant 10",
+								"Team",
+							]}
+							minSpareRows={2}
+							colWidths={[
+								150, 150, 100, 100, 100, 200, 130, 200, 130, 200, 130, 200, 130,
+								200, 130, 200, 130, 200, 130, 200, 130, 200, 130, 200, 130,
+							]}
 							licenseKey="non-commercial-and-evaluation" // for non-commercial use only
 						/>
 					</div>
