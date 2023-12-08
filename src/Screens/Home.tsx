@@ -37,6 +37,9 @@ const Home = () => {
 
 	const fetchEvents = async () => {
 		const result: Event[] = (await API.GetEvents()).data;
+		result.sort(
+			(e1, e2) => (e1.startTime as number) - (e2.startTime as number)
+		);
 		setEvents(result);
 		setIsLoading(false);
 	};
