@@ -1,7 +1,7 @@
 {
 	"name": "interiit_scores_app_ibp",
 	"homepage": "https://interiit-scoreboard.netlify.app",
-	"version": "0.5.0",
+	"version": "0.6.0",
 	"private": true,
 	"dependencies": {
 		"@emotion/react": "^11.11.1",
