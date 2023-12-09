@@ -174,7 +174,7 @@ const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 			};
 		});
 		fEvents.forEach((e) => {
-			e.participants?.forEach((participant: any, i: number) => {
+			e.participants[0].forEach((participant: any, i: number) => {
 				let key = "participant" + i;
 				e[key] = participant.name;
 				key = "team" + i;
