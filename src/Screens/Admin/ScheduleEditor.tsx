@@ -56,7 +56,7 @@ const makeParticipantsAndTeamsObj = (arr: any[]) => {
 		t.push(team);
 		p.push({ name, team });
 	}
-	return { teams: t, participants: p };
+	return { teams: t, participants: [p] };
 };
 
 const makeEventsArrayForDatabase = (data: any[]) => {

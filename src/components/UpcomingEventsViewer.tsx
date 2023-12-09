@@ -43,7 +43,7 @@ const UpcomingEventsViewer = ({
 							<div className="tooltip">
 								Participants
 								<span className="tooltiptext">
-									{(event as AthleticsEvent).participants?.map((p, i) => (
+									{(event as AthleticsEvent).participants[0].map((p, i) => (
 										<div key={i}>
 											{p.name} : {p.team}
 										</div>
