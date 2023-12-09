@@ -84,6 +84,7 @@ input[type="submit"]:active,
 	min-height: 20vh;
 	padding-bottom: 10px;
 	padding-left: 10px;
+	padding-right: 10px;
 	display: flex;
 	overflow-x: scroll;
 	scroll-snap-type: x proximity;
@@ -95,5 +96,9 @@ input[type="submit"]:active,
 @media screen and (max-width: 1000px) {
 	.navbar {
 		height: 70px;
+	}
+	.liveEvents {
+		padding-left: 0;
+		padding-right: 0;
 	}
 }

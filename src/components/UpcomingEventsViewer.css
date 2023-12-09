@@ -1,5 +1,5 @@
 .allEvents {
-	height: 60vh;
+	min-height: 60vh;
 	padding: 10px;
 }
 .allEvents > div {
@@ -83,6 +83,17 @@
 		flex-direction: column;
 		height: auto;
 		font-size: 1.2rem;
+
+		.tooltip {
+			margin-right: 0;
+			margin-bottom: 10px;
+		}
+
+		.tooltip .tooltiptext {
+			top: 100%;
+			right: unset;
+			margin-left: -110%;
+		}
 	}
 	.allEvents > div > .event-event {
 		margin-top: 10px;
