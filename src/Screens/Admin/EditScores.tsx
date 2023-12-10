@@ -132,7 +132,12 @@ const EditScores = () => {
 									minute: "numeric",
 									hour12: true,
 								})}{" "}
-								- {event.isStarted ? "Is Live" : "Not Live"}
+								-{" "}
+								{event.isStarted ? (
+									<span className="chip">"Is Live"</span>
+								) : (
+									"Not Live"
+								)}
 								<ul>
 									{event.teams.map((team, i) => (
 										<li key={i}>{team.name} </li>
@@ -142,10 +147,7 @@ const EditScores = () => {
 									className="styledButton"
 									onClick={async () => {
 										if (event.isStarted) {
-											if (
-												(event.endTime as number) - EVENT_START_BUFFER >
-												new Date().getTime()
-											) {
+											if ((event.endTime as number) > new Date().getTime()) {
 												setToast("Can't end this event right now!");
 												return;
 											}
