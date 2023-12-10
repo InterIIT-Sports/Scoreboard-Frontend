@@ -14,7 +14,8 @@ import SquashEventBox from "../../components/LiveEventBoxes/SquashEventBox";
 import SquashEvent from "../../types/SquashEvent";
 import TennisEventBox from "../../components/LiveEventBoxes/TennisEventBox";
 import TennisEvent from "../../types/TennisEvent";
-import AthleticsEvent from "../../types/AthleticsEvent";
+import AthleticsEvent, { Participant } from "../../types/AthleticsEvent";
+import { AthleticsEventWithDistance } from "../../types/AthleticsEventTypes";
 
 const EVENT_START_BUFFER = 15 * 60 * 1000; //in milliseconds
 
@@ -25,27 +26,24 @@ const EditScores = () => {
 	const [loading, setLoading] = useState(true);
 
 	const [allEvents, setAllEvents] = useState<Event[]>([]);
-	const liveEvents = useMemo(
-		() => allEvents.filter((event) => event.isStarted),
-		[allEvents]
-	);
+	const liveEvents = useMemo(() => allEvents.filter(event => event.isStarted), [allEvents]);
 	const liveAbleEvents = useMemo(
 		() =>
 			allEvents.filter(
-				(e) =>
-					!e.isCompleted &&
-					(e.startTime as number) <= new Date().getTime() + EVENT_START_BUFFER
+				e => !e.isCompleted && (e.startTime as number) <= new Date().getTime() + EVENT_START_BUFFER
 			),
 		[allEvents]
 	);
 	const [eventToToggle, setEventToToggle] = useState<Event>();
 	const confirmToggleDialog = useRef<HTMLDialogElement | null>(null);
+	const athlEventWinnerDialog = useRef<HTMLDialogElement | null>(null);
 
 	const openDialog = () => {
 		confirmToggleDialog.current?.showModal();
 	};
 	const closeDialog = () => {
 		confirmToggleDialog.current?.close();
+		athlEventWinnerDialog.current?.close();
 	};
 
 	const fetchEvents = async () => {
@@ -57,7 +55,7 @@ const EditScores = () => {
 	const handleScoreUpdate = async (id: string, score: any) => {
 		try {
 			await API.UpdateScore(getAccessToken(), id, score);
-			const newEvents = allEvents.map((e) => {
+			const newEvents = allEvents.map(e => {
 				if (e._id === id) return { ...e, score: score };
 				else return e;
 			});
@@ -82,7 +80,7 @@ const EditScores = () => {
 				return (
 					<FootballEventBox
 						isAdmin
-						onScoreUpdate={(score) => handleScoreUpdate(event._id!, score)}
+						onScoreUpdate={score => handleScoreUpdate(event._id!, score)}
 						key={i}
 						event={event as FootballEvent}
 					/>
@@ -91,7 +89,7 @@ const EditScores = () => {
 				return (
 					<ChessEventBox
 						isAdmin
-						onScoreUpdate={(score) => handleScoreUpdate(event._id!, score)}
+						onScoreUpdate={score => handleScoreUpdate(event._id!, score)}
 						key={i}
 						event={event as ChessEvent}
 					/>
@@ -100,7 +98,7 @@ const EditScores = () => {
 				return (
 					<SquashEventBox
 						isAdmin
-						onScoreUpdate={(score) => handleScoreUpdate(event._id!, score)}
+						onScoreUpdate={score => handleScoreUpdate(event._id!, score)}
 						key={i}
 						event={event as SquashEvent}
 					/>
@@ -109,7 +107,7 @@ const EditScores = () => {
 				return (
 					<TennisEventBox
 						isAdmin
-						onScoreUpdate={(score) => handleScoreUpdate(event._id!, score)}
+						onScoreUpdate={score => handleScoreUpdate(event._id!, score)}
 						key={i}
 						event={event as TennisEvent}
 					/>
@@ -131,17 +129,25 @@ const EditScores = () => {
 					Are you sure you want to end this event?
 					<br />{" "}
 					<b>
-						{eventToToggle?.event} {eventToToggle?.title} |{" "}
-						{eventToToggle?.subtitle}
+						{eventToToggle?.event}{" "}
+						{eventToToggle?.event === EventCatagories.ATHLETICS
+							? (eventToToggle as AthleticsEvent)?.athleticsEventType
+							: eventToToggle?.title}{" "}
+						|{" "}
+						{eventToToggle?.event === EventCatagories.ATHLETICS
+							? (eventToToggle as AthleticsEvent)?.title
+							: eventToToggle?.subtitle}
 					</b>
 					<form
-						onSubmit={async (e) => {
+						onSubmit={async e => {
 							e.preventDefault();
+							if (eventToToggle?.event === EventCatagories.ATHLETICS) {
+								confirmToggleDialog.current?.close();
+								athlEventWinnerDialog.current!.showModal();
+								return;
+							}
 							try {
-								await API.ToggleEventStatus(
-									getAccessToken(),
-									eventToToggle!._id!
-								);
+								await API.ToggleEventStatus(getAccessToken(), eventToToggle!._id!);
 								setToast("Successfull");
 								setLoading(true);
 								fetchEvents();
@@ -162,6 +168,29 @@ const EditScores = () => {
 						</button>
 					</form>
 				</dialog>
+				{eventToToggle?.event === EventCatagories.ATHLETICS && (
+					<dialog ref={athlEventWinnerDialog}>
+						<button className="styledButton" onClick={closeDialog}>
+							Close
+						</button>
+						<h3>
+							{(Object.values(AthleticsEventWithDistance) as any[]).includes(
+								(eventToToggle as AthleticsEvent).athleticsEventType
+							)
+								? "Enter Distances (In meter)"
+								: "Enter Times (min:sec:millisec)"}
+						</h3>
+						<AthlEventParticipantDetailsForm
+							event={eventToToggle as AthleticsEvent}
+							onSuccess={() => {
+								athlEventWinnerDialog.current?.close();
+								setEventToToggle(undefined);
+								setLoading(true);
+								fetchEvents();
+							}}
+						/>
+					</dialog>
+				)}
 			</div>
 			<div className="main">
 				{!loading ? (
@@ -181,33 +210,28 @@ const EditScores = () => {
 								{(event as AthleticsEvent).athleticsEventType
 									? (event as AthleticsEvent).athleticsEventType + " - "
 									: null}
-								{event.title} -{" "}
-								{new Date(event.startTime).toLocaleDateString("en-GB")} - Start
+								{event.title} - {new Date(event.startTime).toLocaleDateString("en-GB")} - Start
 								Time:{" "}
 								{new Date(event.startTime).toLocaleString("en-US", {
 									hour: "numeric",
 									minute: "numeric",
 									hour12: true,
 								})}{" "}
-								-{" "}
-								{event.isStarted ? (
-									<span className="chip">Is Live</span>
-								) : (
-									"Not Live"
-								)}
+								- {event.isStarted ? <span className="chip">Is Live</span> : "Not Live"}
 								<ul>
-									{event.teams.map((team, i) => (
-										<li key={i}>{team.name} </li>
-									))}
+									{event.event === EventCatagories.ATHLETICS
+										? (event as AthleticsEvent).participants[0].map((p, i) => (
+												<li key={i}>
+													{p.name} : {p.team}
+												</li>
+										  ))
+										: event.teams.map((team, i) => <li key={i}>{team.name} </li>)}
 								</ul>
 								<button
 									className="styledButton"
 									onClick={async () => {
 										if (event!.isStarted) {
-											if (
-												(event!.endTime as number) >
-												new Date().getTime()
-											) {
+											if ((event!.endTime as number) > new Date().getTime()) {
 												setToast("Can't end this event right now!");
 												return;
 											}
@@ -215,10 +239,7 @@ const EditScores = () => {
 											openDialog();
 										} else {
 											try {
-												await API.ToggleEventStatus(
-													getAccessToken(),
-													event!._id!
-												);
+												await API.ToggleEventStatus(getAccessToken(), event!._id!);
 												setToast("Successfull");
 												setLoading(true);
 												fetchEvents();
@@ -247,3 +268,80 @@ const EditScores = () => {
 };
 
 export default EditScores;
+
+const AthlEventParticipantDetailsForm = ({
+	event,
+	onSuccess,
+}: {
+	event: AthleticsEvent;
+	onSuccess: () => void;
+}) => {
+	const getAccessToken = useAuthHeader();
+	const setToast = useContext(ToastContext).setToastMessage;
+	const [participants, setParticipants] = useState(event.participants[0]);
+
+	const getMillis = (time: string) => {
+		const timeParts = time.split(":");
+		let millis = Number(timeParts[0]) * 60 * 1000;
+		if (timeParts.length >= 2) millis += Number(timeParts[1]) * 1000;
+		if (timeParts.length >= 3) millis += Number(timeParts[2]);
+		return millis;
+	};
+
+	return (
+		<form
+			onSubmit={async e => {
+				e.preventDefault();
+				let newParticipants: Participant[] = [];
+				participants.forEach(p => {
+					if (p.detail === undefined) {
+						setToast("Incomplete Details");
+						return;
+					}
+					newParticipants.push(
+						(Object.values(AthleticsEventWithDistance) as any[]).includes(
+							(event as AthleticsEvent).athleticsEventType
+						)
+							? { name: p.name, team: p.team, distance: Number(p.detail) }
+							: { name: p.name, team: p.team, time: getMillis(p.detail) }
+					);
+				});
+				try {
+					await API.SetAthleticsEventDetails(getAccessToken(), event._id!, newParticipants);
+					await API.ToggleEventStatus(getAccessToken(), event!._id!);
+					setToast("Successfull");
+					onSuccess();
+				} catch (error: any) {
+					try {
+						setToast(JSON.parse(error.request.response).message);
+					} catch {
+						setToast("Could not connect with the Server");
+						console.log(error);
+					}
+				}
+			}}
+		>
+			{participants.map((p, i) => (
+				<div>
+					<label>{p.name}</label>
+					<input
+						name="details"
+						type="text"
+						onChange={e =>
+							setParticipants(
+								participants.map(op =>
+									op.name === p.name ? { ...op, detail: e.target.value } : op
+								)
+							)
+						}
+						value={participants[i].detail}
+						className="styledInput"
+					/>
+				</div>
+			))}
+			<button className="styledButton" type="submit">
+				Submit
+			</button>
+		</form>
+	);
+};

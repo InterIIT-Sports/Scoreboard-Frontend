@@ -2,6 +2,7 @@ import axios from "axios";
 import { UserRole } from "../types/UserRole";
 import { Team } from "../types/Team";
 import { FootballScore } from "../types/FootballEvent";
+import { Participant } from "../types/AthleticsEvent";
 
 export const ServerURL =
 	process.env.NODE_ENV === "production"
@@ -9,6 +10,13 @@ export const ServerURL =
 		: "http://localhost:5000/";
 
 const API = {
+	SetAthleticsEventDetails: (accessToken: string, id: string, participants: Participant[]) =>
+		axios.post(
+			ServerURL + "events/" + id + "/winner",
+			{ participants: participants },
+			{ headers: { Authorization: accessToken } }
+		),
+
 	PostSchedule: (events: any[], accessToken: string) =>
 		axios.patch(
 			ServerURL + "admin/schedule",
@@ -108,13 +116,7 @@ const API = {
 			}
 		),
 
-	LoginWithUsernameAndPassword: ({
-		username,
-		password,
-	}: {
-		username: string;
-		password: string;
-	}) =>
+	LoginWithUsernameAndPassword: ({ username, password }: { username: string; password: string }) =>
 		axios.post(ServerURL + "auth/loginWithUsernameAndPassword", {
 			username: username,
 			password: password,
