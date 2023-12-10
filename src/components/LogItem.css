@@ -1,33 +1,7 @@
-.resultsLogsContainer {
-	padding: 0 5px;
-
-	.resultLog {
-		border-bottom: 1px solid gainsboro;
-		padding: 10px;
-		margin-bottom: 3px;
-
-		.winner {
-			color: green;
-		}
-		.loser {
-			color: red;
-		}
-	}
-
-	.athletic-result-log {
-		display: flex;
-		justify-content: space-between;
-	}
-
-	.tooltip {
-		cursor: pointer;
-		font-size: 1rem;
-		color: var(--dark_blue);
-		position: relative;
-		margin-right: 10px;
-		display: inline-block;
-		border-bottom: 1px solid var(--dark_blue); /* If you want dots under the hoverable text */
-	}
+.log-item {
+	padding: 20px 0;
+	border-bottom: 1px solid gainsboro;
+	cursor: pointer;
 }
 
 .dialogue {
@@ -46,8 +20,8 @@
 
 	.dialogue-box {
 		background-color: white;
-		min-width: 40vw;
-		min-height: 50vh;
+		min-width: 90vw;
+		min-height: 80vh;
 		padding: 10px 20px 16px 20px;
 		border-radius: 16px;
 
@@ -61,6 +35,34 @@
 			.dialogue-close {
 				font-size: 2em;
 				cursor: pointer;
+			}
+		}
+
+		.dialogue-body .log {
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+			padding: 16px 8px;
+			border-bottom: 1px solid gainsboro;
+
+			.log-text {
+				font-size: 1.25em;
+			}
+
+			.log-body {
+				display: flex;
+				justify-items: stretch;
+
+				.log-previous-score {
+					border-right: 1px solid gainsboro;
+					padding: 16px 0;
+					padding-right: 16px;
+				}
+
+				.log-current-score {
+					margin-left: 16px;
+					padding: 16px 0;
+				}
 			}
 		}
 	}

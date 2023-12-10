@@ -62,12 +62,12 @@ const Footer = () => {
 					className="quick-links-link"
 				>
 					{" "}
-					<p className="quick-links fjalla">
+					<p className="quick-links ">
 						<ArrowForwardIcon /> &nbsp;Home
 					</p>
 				</Link>
 				<Link to="/Schedule" className="quick-links-link">
-					<p className="quick-links fjalla">
+					<p className="quick-links ">
 						<ArrowForwardIcon /> &nbsp;Schedule
 					</p>
 				</Link>
@@ -76,14 +76,14 @@ const Footer = () => {
 					to="https://interiit.in/#/Results"
 					className="quick-links-link"
 				>
-					<p className="quick-links fjalla">
+					<p className="quick-links ">
 						<ArrowForwardIcon /> &nbsp;Results
 					</p>
 				</Link>
 			</div>
 			<div style={styles.reachUs}>
 				<h4 className="CRTDH-name-footer1">Reach Us</h4>
-				<p className="Head-office fjalla">
+				<p className="Head-office ">
 					<HomeOutlinedIcon style={{ fontSize: "2rem" }} />
 					&nbsp;&nbsp;Get In Touch
 				</p>
@@ -98,7 +98,7 @@ const Footer = () => {
 					</Link>{" "}
 				</p>
 				<hr></hr>
-				<p className="Head-office fjalla">
+				<p className="Head-office ">
 					<CallOutlinedIcon style={{ fontSize: "2rem" }} />
 					&nbsp;&nbsp;CALL US
 				</p>
@@ -108,7 +108,7 @@ const Footer = () => {
 					Suteekshna Mishra (+91 9044412185) Hospitality Core
 				</p>
 				<hr></hr>
-				<p className="Head-office fjalla">
+				<p className="Head-office ">
 					<EmailOutlinedIcon style={{ fontSize: "2rem" }} />
 					&nbsp;&nbsp;Email
 				</p>

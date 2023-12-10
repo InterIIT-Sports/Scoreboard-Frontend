@@ -10,12 +10,25 @@ export const ServerURL =
 		: "http://localhost:5000/";
 
 const API = {
-	SetAthleticsEventDetails: (accessToken: string, id: string, participants: Participant[]) =>
+	SetAthleticsEventDetails: (
+		accessToken: string,
+		id: string,
+		participants: Participant[]
+	) =>
 		axios.post(
 			ServerURL + "events/" + id + "/winner",
 			{ participants: participants },
 			{ headers: { Authorization: accessToken } }
 		),
+
+	GetEventByID: (accessToken: string, id: string) =>
+		axios.get(ServerURL + "events/" + id, {
+			headers: { Authorization: accessToken },
+		}),
+	GetLogs: (accessToken: string) =>
+		axios.get(ServerURL + "admin/logs", {
+			headers: { Authorization: accessToken },
+		}),
 
 	PostSchedule: (events: any[], accessToken: string) =>
 		axios.patch(
@@ -116,7 +129,13 @@ const API = {
 			}
 		),
 
-	LoginWithUsernameAndPassword: ({ username, password }: { username: string; password: string }) =>
+	LoginWithUsernameAndPassword: ({
+		username,
+		password,
+	}: {
+		username: string;
+		password: string;
+	}) =>
 		axios.post(ServerURL + "auth/loginWithUsernameAndPassword", {
 			username: username,
 			password: password,
