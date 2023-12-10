@@ -9,15 +9,38 @@ const LiveEventsViewer = ({
 	onScoreUpdate: (score: {}, eventID: string) => void;
 }) => {
 	return (
-		<div className={liveEvents.length !== 0 ? "liveEvents" : "liveEvents wire"}>
-			{liveEvents.length !== 0 ? (
-				liveEvents.map((event, i) => (
-					<LiveScoresBox onScoreUpdate={onScoreUpdate} event={event} key={i} />
-				))
-			) : (
-				<>No Live Events Right Now!</>
+		<>
+			{liveEvents.length !== 0 && (
+				<h3
+					style={{
+						marginTop: "0em",
+						marginBlockEnd: "0em",
+						justifyContent: window.innerWidth >= 1000 ? "left" : "center",
+						paddingLeft: window.innerWidth >= 1000 ? "2em" : "0",
+					}}
+					className="wire"
+				>
+					Live Scores
+				</h3>
 			)}
-		</div>
+			<div
+				className={
+					liveEvents.length !== 0 ? "home liveEvents" : "home liveEvents wire"
+				}
+			>
+				{liveEvents.length !== 0 ? (
+					liveEvents.map((event, i) => (
+						<LiveScoresBox
+							onScoreUpdate={onScoreUpdate}
+							event={event}
+							key={i}
+						/>
+					))
+				) : (
+					<>No Live Events Right Now!</>
+				)}
+			</div>
+		</>
 	);
 };
 
