@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import "./EditScores.css";
-import { useEffect, useMemo, useState, useContext } from "react";
+import { useEffect, useMemo, useState, useContext, useRef } from "react";
 import Event from "../../types/Event";
 import EventCatagories from "../../types/EventCategories";
 import FootballEvent from "../../types/FootballEvent";
@@ -38,6 +38,15 @@ const EditScores = () => {
 			),
 		[allEvents]
 	);
+	const [eventToToggle, setEventToToggle] = useState<Event>();
+	const confirmToggleDialog = useRef<HTMLDialogElement | null>(null);
+
+	const openDialog = () => {
+		confirmToggleDialog.current?.showModal();
+	};
+	const closeDialog = () => {
+		confirmToggleDialog.current?.close();
+	};
 
 	const fetchEvents = async () => {
 		const result: Event[] = (await API.GetEvents()).data;
@@ -105,6 +114,45 @@ const EditScores = () => {
 		<div className="usersContainer">
 			<div className="top" style={{ fontWeight: "600" }}>
 				Live Events
+				<dialog ref={confirmToggleDialog}>
+					<button className="styledButton" onClick={closeDialog}>
+						Close
+					</button>
+					<h3>Caution</h3>
+					Are you sure you want to end this event?
+					<br />{" "}
+					<b>
+						{eventToToggle?.event} {eventToToggle?.title} |{" "}
+						{eventToToggle?.subtitle}
+					</b>
+					<form
+						onSubmit={async (e) => {
+							e.preventDefault();
+							try {
+								await API.ToggleEventStatus(
+									getAccessToken(),
+									eventToToggle!._id!
+								);
+								setToast("Successfull");
+								setLoading(true);
+								fetchEvents();
+							} catch (error: any) {
+								try {
+									setToast(JSON.parse(error.request.response).message);
+								} catch {
+									setToast("Could not connect with the Server");
+									console.log(error);
+								}
+							}
+							confirmToggleDialog.current?.close();
+							setEventToToggle(undefined);
+						}}
+					>
+						<button className="styledButton" type="submit">
+							Yes
+						</button>
+					</form>
+				</dialog>
 			</div>
 			<div className="main">
 				{!loading ? (
@@ -146,21 +194,32 @@ const EditScores = () => {
 								<button
 									className="styledButton"
 									onClick={async () => {
-										if (event.isStarted) {
-											if ((event.endTime as number) > new Date().getTime()) {
+										if (eventToToggle!.isStarted) {
+											if (
+												(eventToToggle!.endTime as number) >
+												new Date().getTime()
+											) {
 												setToast("Can't end this event right now!");
 												return;
 											}
-										}
-										try {
-											await API.ToggleEventStatus(getAccessToken(), event._id!);
-											fetchEvents();
-										} catch (error: any) {
+											setEventToToggle(event);
+											openDialog();
+										} else {
 											try {
-												setToast(JSON.parse(error.request.response).message);
-											} catch {
-												setToast("Could not connect with the Server");
-												console.log(error);
+												await API.ToggleEventStatus(
+													getAccessToken(),
+													eventToToggle!._id!
+												);
+												setToast("Successfull");
+												setLoading(true);
+												fetchEvents();
+											} catch (error: any) {
+												try {
+													setToast(JSON.parse(error.request.response).message);
+												} catch {
+													setToast("Could not connect with the Server");
+													console.log(error);
+												}
 											}
 										}
 									}}
