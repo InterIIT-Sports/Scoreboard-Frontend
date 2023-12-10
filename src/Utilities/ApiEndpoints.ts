@@ -9,6 +9,15 @@ export const ServerURL =
 		: "http://localhost:5000/";
 
 const API = {
+	GetEventByID: (accessToken: string, id: string) =>
+		axios.get(ServerURL + "events/" + id, {
+			headers: { Authorization: accessToken },
+		}),
+	GetLogs: (accessToken: string) =>
+		axios.get(ServerURL + "admin/logs", {
+			headers: { Authorization: accessToken },
+		}),
+
 	PostSchedule: (events: any[], accessToken: string) =>
 		axios.patch(
 			ServerURL + "admin/schedule",
@@ -18,7 +27,7 @@ const API = {
 
 	UpdateScore: (accessToken: string, id: string, score: FootballScore) =>
 		axios.put(
-			ServerURL + "events/" + id,
+			ServerURL + "events/updateScore/" + id,
 			{
 				...score,
 			},

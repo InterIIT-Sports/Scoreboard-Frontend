@@ -18,7 +18,5 @@
 	"trailingComma": "es5",
 	"useTabs": true,
 	"embeddedLanguageFormatting": "auto",
-	"vueIndentScriptAndStyle": false,
-	"filepath": "c:\\Users\\romit\\AppData\\Roaming\\Code\\User\\settings.json",
-	"parser": "json"
+	"vueIndentScriptAndStyle": false
 }
