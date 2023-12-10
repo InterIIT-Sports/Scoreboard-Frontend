@@ -10,6 +10,6 @@ export default interface FootballEvent extends Event {
 }
 
 export interface FootballScore {
-	teamA_score: number;
-	teamB_score: number;
+	teamA_points: number;
+	teamB_points: number;
 }

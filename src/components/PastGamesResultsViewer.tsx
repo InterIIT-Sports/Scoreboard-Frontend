@@ -13,7 +13,7 @@ const PastGamesResultsViewer = ({ events }: { events: Event[] }) => {
       ) : (
         <>
           <h3 style={{ marginTop: "0.5em", marginBlockEnd: "0.5em" }} className="wire">
-            Recent Results
+            Recent Updates
           </h3>
           <section className="resultsLogsContainer">
             {events.map((e, i) => (

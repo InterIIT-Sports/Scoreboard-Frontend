@@ -18,7 +18,7 @@ const API = {
 
 	UpdateScore: (accessToken: string, id: string, score: FootballScore) =>
 		axios.put(
-			ServerURL + "events/" + id,
+			ServerURL + "events/updateScore/" + id,
 			{
 				...score,
 			},

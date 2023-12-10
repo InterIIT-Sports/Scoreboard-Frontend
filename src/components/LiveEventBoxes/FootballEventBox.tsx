@@ -42,14 +42,14 @@ const FootballEventBox = ({
 			<hr className="hr" />
 			<div className="footballScoresContainer">
 				<div>
-					<span className="fjalla">{event.score.teamA_score}</span>
+					<span className="fjalla">{event.score.teamA_points}</span>
 					{isAdmin && (
 						<>
 							<button
 								onClick={() => {
 									onScoreUpdate!({
 										...event.score,
-										teamA_score: event.score.teamA_score + 1,
+										teamA_points: event.score.teamA_points + 1,
 									});
 								}}
 								className="styledButton"
@@ -61,7 +61,7 @@ const FootballEventBox = ({
 								onClick={() => {
 									onScoreUpdate!({
 										...event.score,
-										teamA_score: event.score.teamA_score - 1,
+										teamA_points: event.score.teamA_points - 1,
 									});
 								}}
 								className="styledButton"
@@ -73,14 +73,14 @@ const FootballEventBox = ({
 				</div>
 				<p className=" fjalla VS"></p>
 				<div>
-					<span className="fjalla">{event.score.teamB_score}</span>
+					<span className="fjalla">{event.score.teamB_points}</span>
 					{isAdmin && (
 						<>
 							<button
 								onClick={() => {
 									onScoreUpdate!({
 										...event.score,
-										teamB_score: event.score.teamB_score + 1,
+										teamB_points: event.score.teamB_points + 1,
 									});
 								}}
 								className="styledButton"
@@ -92,7 +92,7 @@ const FootballEventBox = ({
 								onClick={() => {
 									onScoreUpdate!({
 										...event.score,
-										teamB_score: event.score.teamB_score - 1,
+										teamB_points: event.score.teamB_points - 1,
 									});
 								}}
 								className="styledButton"

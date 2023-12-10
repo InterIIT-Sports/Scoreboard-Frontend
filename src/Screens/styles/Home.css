@@ -6,6 +6,7 @@
 .bottomContainer {
 	display: flex;
 }
+
 .rightContainer {
 	flex-grow: 1;
 	min-height: 50vh;
@@ -20,18 +21,19 @@
 		flex-wrap: wrap;
 		gap: 0.1rem;
 	}
+}
+
+@media screen and (min-width: 1150px) {
 	.leftContainer {
 		width: 70vw;
 	}
-	.bottomContainer {
-		min-height: 60vh;
-	}
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1150px) {
 	.bottomContainer {
 		flex-direction: column;
 	}
+
 	.rightContainer {
 		border: 0;
 		border-top: 3px solid #ebeef0;

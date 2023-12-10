@@ -55,12 +55,21 @@ const EditScores = () => {
 	};
 
 	const handleScoreUpdate = async (id: string, score: any) => {
-		await API.UpdateScore(getAccessToken(), id, score);
-		const newEvents = allEvents.map((e) => {
-			if (e._id === id) return { ...e, score: score };
-			else return e;
-		});
-		setAllEvents(newEvents);
+		try {
+			await API.UpdateScore(getAccessToken(), id, score);
+			const newEvents = allEvents.map((e) => {
+				if (e._id === id) return { ...e, score: score };
+				else return e;
+			});
+			setAllEvents(newEvents);
+		} catch (error: any) {
+			try {
+				setToast(JSON.parse(error.request.response).message);
+			} catch {
+				setToast("Could not connect with the Server");
+				console.log(error);
+			}
+		}
 	};
 
 	useEffect(() => {
@@ -182,7 +191,7 @@ const EditScores = () => {
 								})}{" "}
 								-{" "}
 								{event.isStarted ? (
-									<span className="chip">"Is Live"</span>
+									<span className="chip">Is Live</span>
 								) : (
 									"Not Live"
 								)}
