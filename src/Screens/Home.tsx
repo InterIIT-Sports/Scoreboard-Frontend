@@ -14,12 +14,15 @@ const Home = () => {
 	const [events, setEvents] = useState<Event[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 
-	const liveEvents = useMemo(() => events.filter(event => event.isStarted), [events]);
+	const liveEvents = useMemo(
+		() => events.filter((event) => event.isStarted),
+		[events]
+	);
 
 	const upcomingEvents = useMemo(
 		() =>
 			events.filter(
-				event =>
+				(event) =>
 					(event.endTime as number) > new Date().getTime() &&
 					event.isStarted === false &&
 					event.isCompleted === false
@@ -27,24 +30,31 @@ const Home = () => {
 		[events]
 	);
 
-	const pastEvents = useMemo(() => events.filter(e => e.isCompleted), [events]);
+	const pastEvents = useMemo(
+		() => events.filter((e) => e.isCompleted),
+		[events]
+	);
 
 	const fetchEvents = async () => {
 		const result: Event[] = (await API.GetEvents()).data;
-		result.sort((e1, e2) => (e1.startTime as number) - (e2.startTime as number));
+		result.sort(
+			(e1, e2) => (e1.startTime as number) - (e2.startTime as number)
+		);
 		setEvents(result);
 		setIsLoading(false);
 	};
 
 	const updateScoreOfEvent = (score: {}, eventID: string) => {
-		setEvents(prev => prev.map(event => (eventID === event._id ? { ...event, score } : event)));
+		setEvents((prev) =>
+			prev.map((event) => (eventID === event._id ? { ...event, score } : event))
+		);
 	};
 
 	useEffect(() => {
 		const updateEventsStatus = (data: string) => {
 			const eventToBeUpdated = JSON.parse(data);
-			setEvents(prev =>
-				prev.map(event =>
+			setEvents((prev) =>
+				prev.map((event) =>
 					eventToBeUpdated.eventID === event._id
 						? {
 								...event,
@@ -55,7 +65,6 @@ const Home = () => {
 						: event
 				)
 			);
-			//TODO: set isComplete to true if event ends and also set winner data
 		};
 
 		socket.on("connect", () => console.log("connected WS"));
@@ -78,12 +87,18 @@ const Home = () => {
 						<Header />
 					</div>
 					<div className="content">
-						<LiveEventsViewer onScoreUpdate={updateScoreOfEvent} liveEvents={liveEvents} />
+						<LiveEventsViewer
+							onScoreUpdate={updateScoreOfEvent}
+							liveEvents={liveEvents}
+						/>
 						<div className="bottomContainer">
 							<div className="leftContainer">
 								<UpcomingEventsViewer
 									heading={
-										<h3 style={{ marginTop: "0", marginBlockEnd: "0.5em" }} className="wire">
+										<h3
+											style={{ marginTop: "0", marginBlockEnd: "0.5em" }}
+											className="wire"
+										>
 											Upcoming Events
 										</h3>
 									}
