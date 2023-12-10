@@ -372,6 +372,11 @@ const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 							colWidths={[150, 100, 150, 150, 100, 100, 100, 150, 150]}
 							licenseKey="non-commercial-and-evaluation" // for non-commercial use only
 						/>
+					</div>
+					<div
+						className="tableContainer"
+						style={{ overflowX: "hidden", maxHeight: "80vh" }}
+					>
 						<h3>Athletics Events Table</h3>
 						<HotTable
 							ref={athlTableRef}
