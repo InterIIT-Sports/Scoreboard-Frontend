@@ -194,9 +194,9 @@ const EditScores = () => {
 								<button
 									className="styledButton"
 									onClick={async () => {
-										if (eventToToggle!.isStarted) {
+										if (event!.isStarted) {
 											if (
-												(eventToToggle!.endTime as number) >
+												(event!.endTime as number) >
 												new Date().getTime()
 											) {
 												setToast("Can't end this event right now!");
@@ -208,7 +208,7 @@ const EditScores = () => {
 											try {
 												await API.ToggleEventStatus(
 													getAccessToken(),
-													eventToToggle!._id!
+													event!._id!
 												);
 												setToast("Successfull");
 												setLoading(true);

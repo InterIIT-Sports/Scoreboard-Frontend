@@ -361,7 +361,7 @@ const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 								"Event",
 								"MatchType",
 								"Name",
-								"Subtite",
+								"Subtitle",
 								"Date",
 								"Start Time",
 								"End Time",
