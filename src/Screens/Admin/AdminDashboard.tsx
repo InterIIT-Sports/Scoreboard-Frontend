@@ -8,6 +8,7 @@ import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import ScoreboardIcon from "@mui/icons-material/Scoreboard";
 import Diversity2Icon from "@mui/icons-material/Diversity2";
 import TableChartIcon from "@mui/icons-material/TableChart";
+import AssignmentIcon from '@mui/icons-material/Assignment';
 import Users from "./Users";
 import EditScores from "./EditScores";
 import { useAuthHeader, useAuthUser, useSignOut } from "react-auth-kit";
@@ -20,6 +21,7 @@ import { ToastContext } from "../../Utilities/ToastContext";
 import Teams from "./Teams";
 import { Team } from "../../types/Team";
 import ScheduleEditor from "./ScheduleEditor";
+import LogsViewer from "./components/LogsViewer";
 
 const AdminDashboard = () => {
 	const urlParam = useParams();
@@ -37,12 +39,12 @@ const AdminDashboard = () => {
 	const SideBarItems = useRef([
 		...(user.current.role === UserRole.ADMIN
 			? [
-					{
-						title: "Users",
-						linkTo: "users",
-						icon: PeopleAltIcon,
-					},
-			  ]
+				{
+					title: "Users",
+					linkTo: "users",
+					icon: PeopleAltIcon,
+				},
+			]
 			: []),
 		{
 			title: "Edit Scores",
@@ -51,21 +53,30 @@ const AdminDashboard = () => {
 		},
 		...(user.current.role === UserRole.ADMIN
 			? [
-					{
-						title: "Teams",
-						linkTo: "teams",
-						icon: Diversity2Icon,
-					},
-			  ]
+				{
+					title: "Teams",
+					linkTo: "teams",
+					icon: Diversity2Icon,
+				},
+			]
 			: []),
 		...(user.current.role === UserRole.ADMIN
 			? [
-					{
-						title: "Schedule",
-						linkTo: "schedule",
-						icon: TableChartIcon,
-					},
-			  ]
+				{
+					title: "Schedule",
+					linkTo: "schedule",
+					icon: TableChartIcon,
+				},
+			]
+			: []),
+		...(user.current.role === UserRole.ADMIN
+			? [
+				{
+					title: "Logs",
+					linkTo: "logs",
+					icon: AssignmentIcon,
+				},
+			]
 			: []),
 	]);
 
@@ -73,17 +84,17 @@ const AdminDashboard = () => {
 		return [
 			...(user.current.role === UserRole.ADMIN
 				? [
-						{
-							linkTo: "users",
-							element: (
-								<Users
-									onUserAdd={handleAddUser}
-									onDelete={handleUserDelete}
-									users={allUsers}
-								/>
-							),
-						},
-				  ]
+					{
+						linkTo: "users",
+						element: (
+							<Users
+								onUserAdd={handleAddUser}
+								onDelete={handleUserDelete}
+								users={allUsers}
+							/>
+						),
+					},
+				]
 				: []),
 			{
 				linkTo: "edit_scores",
@@ -91,25 +102,33 @@ const AdminDashboard = () => {
 			},
 			...(user.current.role === UserRole.ADMIN
 				? [
-						{
-							linkTo: "teams",
-							element: (
-								<Teams
-									teams={allTeams}
-									onTeamAdd={handleAddTeam}
-									onTeamDelete={handleDeleteTeam}
-								/>
-							),
-						},
-				  ]
+					{
+						linkTo: "teams",
+						element: (
+							<Teams
+								teams={allTeams}
+								onTeamAdd={handleAddTeam}
+								onTeamDelete={handleDeleteTeam}
+							/>
+						),
+					},
+				]
 				: []),
 			...(user.current.role === UserRole.ADMIN
 				? [
-						{
-							linkTo: "schedule",
-							element: <ScheduleEditor teams={allTeams} />,
-						},
-				  ]
+					{
+						linkTo: "schedule",
+						element: <ScheduleEditor teams={allTeams} />,
+					},
+				]
+				: []),
+			...(user.current.role === UserRole.ADMIN
+				? [
+					{
+						linkTo: "logs",
+						element: <LogsViewer />,
+					},
+				]
 				: []),
 		];
 	};

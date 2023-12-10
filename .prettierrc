@@ -19,6 +19,6 @@
 	"useTabs": true,
 	"embeddedLanguageFormatting": "auto",
 	"vueIndentScriptAndStyle": false,
-	"filepath": "d:\\Web Dev\\interiit_scores_app_ibp\\.prettierrc",
-	"parser": "yaml"
+	"filepath": "c:\\Users\\romit\\AppData\\Roaming\\Code\\User\\settings.json",
+	"parser": "json"
 }
