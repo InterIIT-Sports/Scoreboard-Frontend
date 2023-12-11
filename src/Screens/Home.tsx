@@ -10,6 +10,8 @@ import "./styles/Home.css";
 import PastGamesResultsViewer from "../components/PastGamesResultsViewer";
 import Footer from "../components/Footer/Footer";
 
+const UPCOMING_EVENTS_LIMIT_BUFFER = 12 * 60 * 60 * 1000;
+
 const Home = () => {
 	const [events, setEvents] = useState<Event[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
@@ -105,7 +107,11 @@ const Home = () => {
 											Upcoming Events
 										</h3>
 									}
-									events={upcomingEvents}
+									events={upcomingEvents.filter(
+										(e) =>
+											(e.startTime as number) <
+											Date.now() + UPCOMING_EVENTS_LIMIT_BUFFER
+									)}
 								/>
 							</div>
 							<PastGamesResultsViewer events={pastEvents} />
