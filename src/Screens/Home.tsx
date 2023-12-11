@@ -30,10 +30,13 @@ const Home = () => {
 		[events]
 	);
 
-	const pastEvents = useMemo(
-		() => events.filter((e) => e.isCompleted),
-		[events]
-	);
+	const pastEvents = useMemo(() => {
+		let fEvents = events.filter((e) => e.isCompleted);
+		fEvents.sort((e1, e2) => (e1.endTime as number) - (e2.endTime as number));
+		fEvents.reverse();
+		return fEvents;
+		// recently ended events first
+	}, [events]);
 
 	const fetchEvents = async () => {
 		const result: Event[] = (await API.GetEvents()).data;

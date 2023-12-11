@@ -1,5 +1,6 @@
 .resultsLogsContainer {
 	padding: 0 5px;
+	padding-bottom: 2em;
 
 	.resultLog {
 		border-bottom: 1px solid gainsboro;
