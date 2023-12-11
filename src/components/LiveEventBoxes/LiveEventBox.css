@@ -1,6 +1,9 @@
 .liveEventBox.chess {
 	--theme_color: rgb(52, 52, 52);
 }
+.liveEventBox.cricket {
+	--theme_color: #2255a4;
+}
 .liveEventBox.squash {
 	--theme_color: rgb(233, 73, 15);
 }
@@ -36,7 +39,7 @@
 		display: flex;
 		width: min-content;
 		align-items: center;
-		gap: 8px;
+		gap: 3px;
 	}
 	.hr {
 		margin-top: 1rem;

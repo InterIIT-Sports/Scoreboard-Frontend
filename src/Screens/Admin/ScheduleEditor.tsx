@@ -7,7 +7,7 @@ import {
 	DropdownCellType,
 	DateCellType,
 } from "handsontable/cellTypes";
-import { registerPlugin, ExportFile } from "handsontable/plugins";
+import { registerPlugin, ExportFile, CopyPaste } from "handsontable/plugins";
 import EventCatagories from "../../types/EventCategories";
 import { Team } from "../../types/Team";
 import { useRef, useContext, useState, useEffect, useMemo } from "react";
@@ -27,6 +27,7 @@ registerCellType(DropdownCellType);
 registerCellType(DateCellType);
 
 registerPlugin(ExportFile);
+registerPlugin(CopyPaste);
 
 const getTime = (dateString: string, time: string) => {
 	var dateParts = dateString.split("/");
@@ -68,7 +69,8 @@ const makeEventsArrayForDatabase = (data: any[]) => {
 			subtitle: arr[3],
 			startTime: getTime(arr[4], arr[5]),
 			endTime: getTime(arr[4], arr[6]),
-			teams: arr.slice(7),
+			teams: arr.slice(7, 9),
+			eventLink: arr[9],
 		};
 	});
 	return events;
@@ -312,6 +314,7 @@ const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 						style={{ overflowX: "hidden", maxHeight: "80vh" }}
 					>
 						<HotTable
+							copyPaste={true}
 							ref={hotRef}
 							data={allEvents}
 							style={{ marginTop: "5px", boxSizing: "border-box" }}
@@ -321,9 +324,7 @@ const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 									data: "event",
 									type: "dropdown",
 									source: Object.values(EventCatagories).filter(
-										(s) =>
-											s !== EventCatagories.ATHLETICS &&
-											s !== EventCatagories.CRICKET
+										(s) => s !== EventCatagories.ATHLETICS
 									),
 								},
 								{
@@ -356,10 +357,11 @@ const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 									type: "dropdown",
 									source: teams.map((team) => team.name),
 								},
+								{ data: "eventLink", type: "text" },
 							]}
 							colHeaders={[
 								"Event",
-								"MatchType",
+								"MatchType?",
 								"Name",
 								"Subtitle",
 								"Date",
@@ -367,9 +369,10 @@ const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 								"End Time",
 								"Team 1",
 								"Team 2",
+								"Score Link (for Cricket)",
 							]}
 							minSpareRows={2}
-							colWidths={[150, 100, 150, 150, 100, 100, 100, 150, 150]}
+							colWidths={[150, 100, 150, 150, 100, 100, 100, 150, 150, 250]}
 							licenseKey="non-commercial-and-evaluation" // for non-commercial use only
 						/>
 					</div>

@@ -30,6 +30,11 @@
 		border-bottom: 1px solid var(--dark_blue); /* If you want dots under the hoverable text */
 	}
 }
+.resultLog > a {
+	color: var(--dark_blue);
+	border-bottom: 1px solid var(--dark_blue);
+	text-decoration: none;
+}
 
 .dialogue {
 	position: fixed;

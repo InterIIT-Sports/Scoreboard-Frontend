@@ -10,6 +10,8 @@ import SquashEventBox from "./LiveEventBoxes/SquashEventBox";
 import SquashEvent from "../types/SquashEvent";
 import TennisEventBox from "./LiveEventBoxes/TennisEventBox";
 import TennisEvent from "../types/TennisEvent";
+import CricketEventBox from "./LiveEventBoxes/CricketEventBox";
+import CricketEvent from "../types/CricketEvent";
 
 const LiveScoresBox = ({
 	event,
@@ -42,6 +44,8 @@ const LiveScoresBox = ({
 				return <SquashEventBox event={event as SquashEvent} />;
 			case EventCatagories.TENNIS_MEN || EventCatagories.TENNIS_WOMEN:
 				return <TennisEventBox event={event as TennisEvent} />;
+			case EventCatagories.CRICKET:
+				return <CricketEventBox event={event as CricketEvent} />;
 			default:
 				return <></>;
 		}

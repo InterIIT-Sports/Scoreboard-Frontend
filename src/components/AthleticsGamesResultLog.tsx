@@ -78,7 +78,7 @@ const AthleticsGamesResultLog: React.FC<AthleticsGamesResultLogProps> = ({
 					{formatEventName(event.athleticsEventType)} {event.title} concluded.
 				</span>
 				<div className="tooltip" onClick={() => setDialogueOpen(true)}>
-					View results
+					View Results
 				</div>
 				{/* TODO: Add view results */}
 			</div>
