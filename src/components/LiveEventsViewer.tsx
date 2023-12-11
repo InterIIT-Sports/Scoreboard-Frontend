@@ -16,8 +16,9 @@ const LiveEventsViewer = ({
 						marginTop: "0em",
 						marginBlockEnd: "0em",
 						justifyContent: "center",
-						paddingTop: "15px",
-						fontSize: "1.7em",
+						paddingTop: "10px",
+						paddingBottom: "10px",
+						fontSize: "1.8em",
 						fontWeight: 900,
 					}}
 					className="wire"
