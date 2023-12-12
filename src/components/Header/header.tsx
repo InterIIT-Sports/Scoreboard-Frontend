@@ -127,7 +127,8 @@ function Header() {
 							</li>
 							<li className="has-child">
 								<Link
-									to="/Schedule"
+									target="blank"
+									to="https://interiit.in/#/Schedule"
 									className="link1 links"
 									style={{ color: linkbg }}
 								>

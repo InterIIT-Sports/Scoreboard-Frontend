@@ -36,7 +36,6 @@ function App() {
 						<Suspense fallback={<SplashScreen />}>
 							<Routes>
 								<Route path="/" element={<Home />} />
-								<Route path="/schedule" element={<ScheduleViewer />} />
 								<Route
 									path={"/admin/*"}
 									element={<PrivateRoute Component={<AdminDashboard />} />}

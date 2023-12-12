@@ -66,7 +66,11 @@ const Footer = () => {
 						<ArrowForwardIcon /> &nbsp;Home
 					</p>
 				</Link>
-				<Link to="/Schedule" className="quick-links-link">
+				<Link
+					target="blank"
+					to="https://interiit.in/#/Schedule"
+					className="quick-links-link"
+				>
 					<p className="quick-links ">
 						<ArrowForwardIcon /> &nbsp;Schedule
 					</p>
