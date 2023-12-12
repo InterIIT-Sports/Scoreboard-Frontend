@@ -29,7 +29,8 @@
 	.sidebar {
 		position: fixed;
 		bottom: 0;
-		/* flex-direction: row; */
+		z-index: 999;
+		background-color: white;
 		height: min-content;
 		width: 100vw;
 
