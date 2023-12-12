@@ -26,11 +26,16 @@ const EditScores = () => {
 	const [loading, setLoading] = useState(true);
 
 	const [allEvents, setAllEvents] = useState<Event[]>([]);
-	const liveEvents = useMemo(() => allEvents.filter(event => event.isStarted), [allEvents]);
+	const liveEvents = useMemo(
+		() => allEvents.filter((event) => event.isStarted),
+		[allEvents]
+	);
 	const liveAbleEvents = useMemo(
 		() =>
 			allEvents.filter(
-				e => !e.isCompleted && (e.startTime as number) <= new Date().getTime() + EVENT_START_BUFFER
+				(e) =>
+					!e.isCompleted &&
+					(e.startTime as number) <= new Date().getTime() + EVENT_START_BUFFER
 			),
 		[allEvents]
 	);
@@ -55,7 +60,7 @@ const EditScores = () => {
 	const handleScoreUpdate = async (id: string, score: any) => {
 		try {
 			await API.UpdateScore(getAccessToken(), id, score);
-			const newEvents = allEvents.map(e => {
+			const newEvents = allEvents.map((e) => {
 				if (e._id === id) return { ...e, score: score };
 				else return e;
 			});
@@ -75,12 +80,13 @@ const EditScores = () => {
 	}, []);
 
 	const getEventBox = (event: Event, i: number): React.JSX.Element => {
+		console.log(event.event);
 		switch (event.event) {
 			case EventCatagories.FOOTBALL:
 				return (
 					<FootballEventBox
 						isAdmin
-						onScoreUpdate={score => handleScoreUpdate(event._id!, score)}
+						onScoreUpdate={(score) => handleScoreUpdate(event._id!, score)}
 						key={i}
 						event={event as FootballEvent}
 					/>
@@ -89,30 +95,33 @@ const EditScores = () => {
 				return (
 					<ChessEventBox
 						isAdmin
-						onScoreUpdate={score => handleScoreUpdate(event._id!, score)}
+						onScoreUpdate={(score) => handleScoreUpdate(event._id!, score)}
 						key={i}
 						event={event as ChessEvent}
 					/>
 				);
-			case EventCatagories.SQUASH_MEN || EventCatagories.SQUASH_WOMEN:
+			case EventCatagories.SQUASH_MEN:
+			case EventCatagories.SQUASH_WOMEN:
 				return (
 					<SquashEventBox
 						isAdmin
-						onScoreUpdate={score => handleScoreUpdate(event._id!, score)}
+						onScoreUpdate={(score) => handleScoreUpdate(event._id!, score)}
 						key={i}
 						event={event as SquashEvent}
 					/>
 				);
-			case EventCatagories.TENNIS_MEN || EventCatagories.TENNIS_WOMEN:
+			case EventCatagories.TENNIS_MEN:
+			case EventCatagories.TENNIS_WOMEN:
 				return (
 					<TennisEventBox
 						isAdmin
-						onScoreUpdate={score => handleScoreUpdate(event._id!, score)}
+						onScoreUpdate={(score) => handleScoreUpdate(event._id!, score)}
 						key={i}
 						event={event as TennisEvent}
 					/>
 				);
 			default:
+				console.log("no card" + event.event);
 				return <></>;
 		}
 	};
@@ -139,7 +148,7 @@ const EditScores = () => {
 							: eventToToggle?.subtitle}
 					</b>
 					<form
-						onSubmit={async e => {
+						onSubmit={async (e) => {
 							e.preventDefault();
 							if (eventToToggle?.event === EventCatagories.ATHLETICS) {
 								confirmToggleDialog.current?.close();
@@ -147,7 +156,10 @@ const EditScores = () => {
 								return;
 							}
 							try {
-								await API.ToggleEventStatus(getAccessToken(), eventToToggle!._id!);
+								await API.ToggleEventStatus(
+									getAccessToken(),
+									eventToToggle!._id!
+								);
 								setToast("Successfull");
 								setLoading(true);
 								fetchEvents();
@@ -210,14 +222,20 @@ const EditScores = () => {
 								{(event as AthleticsEvent).athleticsEventType
 									? (event as AthleticsEvent).athleticsEventType + " - "
 									: null}
-								{event.title} - {new Date(event.startTime).toLocaleDateString("en-GB")} - Start
+								{event.title} -{" "}
+								{new Date(event.startTime).toLocaleDateString("en-GB")} - Start
 								Time:{" "}
 								{new Date(event.startTime).toLocaleString("en-US", {
 									hour: "numeric",
 									minute: "numeric",
 									hour12: true,
 								})}{" "}
-								- {event.isStarted ? <span className="chip">Is Live</span> : "Not Live"}
+								-{" "}
+								{event.isStarted ? (
+									<span className="chip">Is Live</span>
+								) : (
+									"Not Live"
+								)}
 								<ul>
 									{event.event === EventCatagories.ATHLETICS
 										? (event as AthleticsEvent).participants[0].map((p, i) => (
@@ -225,7 +243,9 @@ const EditScores = () => {
 													{p.name} : {p.team}
 												</li>
 										  ))
-										: event.teams.map((team, i) => <li key={i}>{team.name} </li>)}
+										: event.teams.map((team, i) => (
+												<li key={i}>{team.name} </li>
+										  ))}
 								</ul>
 								<button
 									className="styledButton"
@@ -239,7 +259,10 @@ const EditScores = () => {
 											openDialog();
 										} else {
 											try {
-												await API.ToggleEventStatus(getAccessToken(), event!._id!);
+												await API.ToggleEventStatus(
+													getAccessToken(),
+													event!._id!
+												);
 												setToast("Successfull");
 												setLoading(true);
 												fetchEvents();
@@ -290,10 +313,10 @@ const AthlEventParticipantDetailsForm = ({
 
 	return (
 		<form
-			onSubmit={async e => {
+			onSubmit={async (e) => {
 				e.preventDefault();
 				let newParticipants: Participant[] = [];
-				participants.forEach(p => {
+				participants.forEach((p) => {
 					if (p.detail === undefined) {
 						setToast("Incomplete Details");
 						return;
@@ -307,7 +330,11 @@ const AthlEventParticipantDetailsForm = ({
 					);
 				});
 				try {
-					await API.SetAthleticsEventDetails(getAccessToken(), event._id!, newParticipants);
+					await API.SetAthleticsEventDetails(
+						getAccessToken(),
+						event._id!,
+						newParticipants
+					);
 					await API.ToggleEventStatus(getAccessToken(), event!._id!);
 					setToast("Successfull");
 					onSuccess();
@@ -327,9 +354,9 @@ const AthlEventParticipantDetailsForm = ({
 					<input
 						name="details"
 						type="text"
-						onChange={e =>
+						onChange={(e) =>
 							setParticipants(
-								participants.map(op =>
+								participants.map((op) =>
 									op.name === p.name ? { ...op, detail: e.target.value } : op
 								)
 							)

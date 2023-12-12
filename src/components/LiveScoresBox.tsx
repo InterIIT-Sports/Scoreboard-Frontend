@@ -40,9 +40,11 @@ const LiveScoresBox = ({
 				return <FootballEventBox event={event as FootballEvent} />;
 			case EventCatagories.CHESS:
 				return <ChessEventBox event={event as ChessEvent} />;
-			case EventCatagories.SQUASH_MEN || EventCatagories.SQUASH_WOMEN:
+			case EventCatagories.SQUASH_MEN:
+			case EventCatagories.SQUASH_WOMEN:
 				return <SquashEventBox event={event as SquashEvent} />;
-			case EventCatagories.TENNIS_MEN || EventCatagories.TENNIS_WOMEN:
+			case EventCatagories.TENNIS_MEN:
+			case EventCatagories.TENNIS_WOMEN:
 				return <TennisEventBox event={event as TennisEvent} />;
 			case EventCatagories.CRICKET:
 				return <CricketEventBox event={event as CricketEvent} />;
