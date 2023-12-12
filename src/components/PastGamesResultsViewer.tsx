@@ -47,16 +47,27 @@ const ResultLog = ({ event }: { event: Event }) => {
 		return <AthleticsGamesResultLog event={event as AthleticsEvent} />;
 	else if (event.event === EventCatagories.CRICKET)
 		return <CricketGameResultLog event={event as CricketEvent} />;
-	else
-		return (
-			<div className="resultLog fjalla">
-				<span className="winner">{event.winner?.team?.name}</span> won{" "}
-				{formatEventName(event.event)}
-				{!!(event as TennisEvent)?.matchType
-					? "(" + (event as TennisEvent)?.matchType + ")"
-					: null}{" "}
-				{event.title} | {event.subtitle}, against{" "}
-				<span className="loser">{getOppName(event)}</span>
-			</div>
-		);
+	else {
+		if (event.winner?.team === undefined || event.winner?.team === null)
+			return (
+				<div className="resultLog fjalla">
+					{formatEventName(event.event)} {event.title} | {event.subtitle},
+					between <span className="winner">{event.teams[0].name}</span> and{" "}
+					<span className="winner">{event.teams[1].name}</span> concluded with a
+					Draw.
+				</div>
+			);
+		else
+			return (
+				<div className="resultLog fjalla">
+					<span className="winner">{event.winner?.team?.name}</span> won{" "}
+					{formatEventName(event.event)}
+					{!!(event as TennisEvent)?.matchType
+						? "(" + (event as TennisEvent)?.matchType + ")"
+						: null}{" "}
+					{event.title} | {event.subtitle}, against{" "}
+					<span className="loser">{getOppName(event)}</span>
+				</div>
+			);
+	}
 };

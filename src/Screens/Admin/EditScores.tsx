@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import "./EditScores.css";
 import { useEffect, useMemo, useState, useContext, useRef } from "react";
-import Event from "../../types/Event";
+import Event, { EventExceptAthleticsOrCricket } from "../../types/Event";
 import EventCatagories from "../../types/EventCategories";
 import FootballEvent from "../../types/FootballEvent";
 import FootballEventBox from "../../components/LiveEventBoxes/FootballEventBox";
@@ -16,6 +16,7 @@ import TennisEventBox from "../../components/LiveEventBoxes/TennisEventBox";
 import TennisEvent from "../../types/TennisEvent";
 import AthleticsEvent, { Participant } from "../../types/AthleticsEvent";
 import { AthleticsEventWithDistance } from "../../types/AthleticsEventTypes";
+import { Team } from "../../types/Team";
 
 const EVENT_START_BUFFER = 15 * 60 * 1000; //in milliseconds
 
@@ -42,6 +43,7 @@ const EditScores = () => {
 	const [eventToToggle, setEventToToggle] = useState<Event>();
 	const confirmToggleDialog = useRef<HTMLDialogElement | null>(null);
 	const athlEventWinnerDialog = useRef<HTMLDialogElement | null>(null);
+	const [manualWinner, setManualWinner] = useState<string>("DRAW");
 
 	const openDialog = () => {
 		confirmToggleDialog.current?.showModal();
@@ -80,7 +82,6 @@ const EditScores = () => {
 	}, []);
 
 	const getEventBox = (event: Event, i: number): React.JSX.Element => {
-		console.log(event.event);
 		switch (event.event) {
 			case EventCatagories.FOOTBALL:
 				return (
@@ -147,6 +148,33 @@ const EditScores = () => {
 							? (eventToToggle as AthleticsEvent)?.title
 							: eventToToggle?.subtitle}
 					</b>
+					<br />
+					{eventToToggle?.event !== EventCatagories.ATHLETICS &&
+						eventToToggle?.event !== EventCatagories.CRICKET &&
+						(eventToToggle as EventExceptAthleticsOrCricket)?.score
+							.teamA_points ===
+							(eventToToggle as EventExceptAthleticsOrCricket)?.score
+								.teamB_points && (
+							<>
+								The Teams have same score.
+								<br />
+								<label>Set Winner Manually: </label>
+								<select
+									onChange={(e) => setManualWinner(e.target.value)}
+									value={manualWinner}
+									style={{ position: "unset" }}
+									className="styledButton dropdown"
+								>
+									<option value="DRAW">DRAW</option>
+									<option value={eventToToggle?.teams[0].name}>
+										{eventToToggle?.teams[0].name}
+									</option>
+									<option value={eventToToggle?.teams[1].name}>
+										{eventToToggle?.teams[1].name}
+									</option>
+								</select>
+							</>
+						)}
 					<form
 						onSubmit={async (e) => {
 							e.preventDefault();
@@ -156,6 +184,19 @@ const EditScores = () => {
 								return;
 							}
 							try {
+								if (manualWinner !== "DRAW") {
+									const winner = {
+										team: eventToToggle!.teams.find(
+											(t) => t.name === manualWinner
+										) as Team,
+									};
+									console.log(winner);
+									API.SetWinnerManually(
+										getAccessToken(),
+										eventToToggle!._id!,
+										winner
+									);
+								}
 								await API.ToggleEventStatus(
 									getAccessToken(),
 									eventToToggle!._id!
@@ -256,6 +297,7 @@ const EditScores = () => {
 												return;
 											}
 											setEventToToggle(event);
+											setManualWinner("DRAW");
 											openDialog();
 										} else {
 											try {

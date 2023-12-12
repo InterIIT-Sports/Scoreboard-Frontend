@@ -16,7 +16,7 @@ const LiveEventsViewer = ({
 						marginTop: "0em",
 						marginBlockEnd: "0em",
 						justifyContent: "center",
-						paddingTop: window.innerWidth > 1000 ? "10px" : "0px",
+						paddingTop: window.innerWidth > 900 ? "10px" : "0px",
 						paddingBottom: "10px",
 						fontSize: "1.8em",
 						fontWeight: 900,

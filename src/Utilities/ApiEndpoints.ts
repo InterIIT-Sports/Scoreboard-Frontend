@@ -10,6 +10,16 @@ export const ServerURL =
 		: "http://localhost:5000/";
 
 const API = {
+	SetWinnerManually: (
+		accessToken: string,
+		id: string,
+		winner: { team: Team }
+	) =>
+		axios.post(
+			ServerURL + "events/" + id + "/winner",
+			{ team: winner.team._id },
+			{ headers: { Authorization: accessToken } }
+		),
 	SetAthleticsEventDetails: (
 		accessToken: string,
 		id: string,
