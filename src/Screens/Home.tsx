@@ -34,7 +34,9 @@ const Home = () => {
 
 	const pastEvents = useMemo(() => {
 		let fEvents = events.filter((e) => e.isCompleted);
-		fEvents.sort((e1, e2) => (e1.endTime as number) - (e2.endTime as number));
+		fEvents.sort(
+			(e1, e2) => (e1.startTime as number) - (e2.startTime as number)
+		);
 		fEvents.reverse();
 		return fEvents;
 		// recently ended events first

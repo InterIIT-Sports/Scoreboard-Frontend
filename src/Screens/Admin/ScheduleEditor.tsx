@@ -366,13 +366,13 @@ const ScheduleEditor = ({ teams }: { teams: Team[] }) => {
 								"Subtitle",
 								"Date",
 								"Start Time",
-								"End Time",
+								"Estimated End Time",
 								"Team 1",
 								"Team 2",
 								"Score Link (for Cricket)",
 							]}
 							minSpareRows={2}
-							colWidths={[150, 100, 150, 150, 100, 100, 100, 150, 150, 250]}
+							colWidths={[150, 100, 150, 150, 100, 100, 150, 150, 150, 250]}
 							licenseKey="non-commercial-and-evaluation" // for non-commercial use only
 						/>
 					</div>

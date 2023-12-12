@@ -251,7 +251,7 @@ const EditScores = () => {
 									className="styledButton"
 									onClick={async () => {
 										if (event!.isStarted) {
-											if ((event!.endTime as number) > new Date().getTime()) {
+											if ((event!.startTime as number) > new Date().getTime()) {
 												setToast("Can't end this event right now!");
 												return;
 											}
