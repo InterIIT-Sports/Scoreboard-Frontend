@@ -1,14 +1,18 @@
 import "./SplashScreen.css";
-import irpLogo from "../imgs/lR&P-logo.webp";
+import interIITLogo from "../imgs/interIIT-logo.webp";
+import irnpLogo from "../imgs/IRP Logo.svg";
 
 const SplashScreen = () => {
-  return (
-    <>
-      <div className="splashScreen">
-        <img className="logo" src={irpLogo} alt="IR&P logo" />
-      </div>
-    </>
-  );
+	return (
+		<>
+			<div className="splashScreen">
+				<img className="logo" src={interIITLogo} alt="InterIIT 2023 logo" />
+				<div className="irp">
+					Developer Under <img src={irnpLogo} alt="IR&P Logo"></img>
+				</div>
+			</div>
+		</>
+	);
 };
 
 export default SplashScreen;
