@@ -8,7 +8,7 @@ const SplashScreen = () => {
 			<div className="splashScreen">
 				<img className="logo" src={interIITLogo} alt="InterIIT 2023 logo" />
 				<div className="irp">
-					Developer Under <img src={irnpLogo} alt="IR&P Logo"></img>
+					Developed Under <img src={irnpLogo} alt="IR&P Logo"></img>
 				</div>
 			</div>
 		</>
