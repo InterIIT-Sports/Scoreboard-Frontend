@@ -190,7 +190,6 @@ const EditScores = () => {
 											(t) => t.name === manualWinner
 										) as Team,
 									};
-									console.log(winner);
 									API.SetWinnerManually(
 										getAccessToken(),
 										eventToToggle!._id!,
