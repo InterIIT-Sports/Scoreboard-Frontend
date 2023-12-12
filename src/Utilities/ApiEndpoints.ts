@@ -5,9 +5,7 @@ import { FootballScore } from "../types/FootballEvent";
 import { Participant } from "../types/AthleticsEvent";
 
 export const ServerURL =
-	process.env.NODE_ENV === "production"
-		? "https://interiit-sports-server.cyclic.app/"
-		: "http://localhost:5000/";
+	process.env.NODE_ENV === "production" ? "/api/" : "http://localhost:5000/";
 
 const API = {
 	SetWinnerManually: (
