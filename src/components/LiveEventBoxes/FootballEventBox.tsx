@@ -1,4 +1,4 @@
-import { StartingDate } from "../UpcomingEventsViewer";
+import { StartingDate } from "../../App";
 import FootballEvent, { FootballScore } from "../../types/FootballEvent";
 import "./LiveEventBox.css";
 import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";

@@ -1,9 +1,8 @@
+import { StartingDate } from "../App";
 import AthleticsEvent from "../types/AthleticsEvent";
 import Event from "../types/Event";
 import EventCatagories, { formatEventName } from "../types/EventCategories";
 import "./UpcomingEventsViewer.css";
-
-export const StartingDate = 15;
 
 const UpcomingEventsViewer = ({
 	events,
