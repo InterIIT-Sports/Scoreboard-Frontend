@@ -106,7 +106,7 @@ const Home = () => {
 											style={{ marginTop: "0", marginBlockEnd: "0.5em" }}
 											className="wire"
 										>
-											Upcoming Events
+											Upcoming Events!
 										</h3>
 									}
 									events={upcomingEvents.filter(
