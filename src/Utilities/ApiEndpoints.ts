@@ -4,10 +4,10 @@ import { Team } from "../types/Team";
 import { FootballScore } from "../types/FootballEvent";
 import { Participant } from "../types/AthleticsEvent";
 
-export const ServerURL =
-	process.env.NODE_ENV === "production"
-		? "https://interiit-sports-server.cyclic.app/"
-		: "http://localhost:5000/";
+export const RootURL =
+	process.env.NODE_ENV === "production" ? "/" : "http://localhost:5000/";
+
+const ServerURL = RootURL + "api/"; //URL for API Endpoints
 
 const API = {
 	SetWinnerManually: (

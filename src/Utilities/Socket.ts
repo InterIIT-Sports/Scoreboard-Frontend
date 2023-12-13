@@ -1,4 +1,4 @@
 import { io } from "socket.io-client";
-import { ServerURL } from "./ApiEndpoints";
+import { RootURL } from "./ApiEndpoints";
 
-export const socket = io(ServerURL);
+export const socket = io(RootURL);
