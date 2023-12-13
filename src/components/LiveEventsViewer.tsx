@@ -23,7 +23,7 @@ const LiveEventsViewer = ({
 					}}
 					className="wire"
 				>
-					Live Scores
+					Live Scores!
 				</h3>
 			)}
 			<div
