@@ -1,4 +1,4 @@
-import { StartingDate } from "../UpcomingEventsViewer";
+import { StartingDate } from "../../App";
 import EventCatagories from "../../types/EventCategories";
 import TennisEvent, { TennisScore } from "../../types/TennisEvent";
 import "./LiveEventBox.css";

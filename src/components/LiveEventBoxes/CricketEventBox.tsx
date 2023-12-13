@@ -1,4 +1,4 @@
-import { StartingDate } from "../UpcomingEventsViewer";
+import { StartingDate } from "../../App";
 import "./LiveEventBox.css";
 import SportsCricketIcon from "@mui/icons-material/SportsCricket";
 import CricketEvent from "../../types/CricketEvent";

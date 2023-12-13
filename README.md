@@ -1,9 +1,14 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and pushed to _InterIIT-Sports Organization_
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and pushed to [_InterIIT-Sports Organization_](https://github.com/InterIIT-Sports)
 
 ## Features
 
 - Home Page allowing viewers to see the Live Events Scores, Upcoming Events List, and also the Recent Updates about the games which have ended.
 - Admin Pages (protected) that allows admins to add volunteers, teams and events through the Schedule Table. The Live Scores can be sent to the server from here. Also has a Logs page.
+- A User Manual for guiding the user with the various features of the admin panel can be found [here](https://docs.google.com/document/d/1KpjU-qifs7S4cfy7ImXSCwoF4ycOys0Esmv7cccqAgA)
+
+## Remarks for further development and use for different Events
+
+No Event (InterIIT 2023) Specific data has been used or taken for consideration in the writing of the application except the `StartingDate` variable in the `App.tsx` file (`src` folder) which has been set to 15 to represent the starting date of the InterIIT 2023 Sports meet at IIT Gandhinagar. This can change be changed to whenever a particular event is starting.
 
 ## Available Scripts
 
