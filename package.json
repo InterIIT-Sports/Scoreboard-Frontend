@@ -1,6 +1,6 @@
 {
 	"name": "interiit_scores_app_ibp",
-	"homepage": "https://interiit-scoreboard.netlify.app",
+	"homepage": "https://scoreboard.interiit.in/",
 	"version": "1.0.5",
 	"private": true,
 	"dependencies": {
