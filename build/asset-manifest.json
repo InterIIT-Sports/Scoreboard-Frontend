@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/static/css/main.ecbebcd0.css",
+    "main.css": "/static/css/main.1cd2f0e6.css",
     "main.js": "/static/js/main.44273fb9.js",
     "static/css/748.05defaec.chunk.css": "/static/css/748.05defaec.chunk.css",
     "static/js/748.35c1458e.chunk.js": "/static/js/748.35c1458e.chunk.js",
@@ -14,7 +14,7 @@
     "static/media/IRP Logo.svg": "/static/media/IRP Logo.d89f793d4f1bfdb7164a4ecfeec4c2b2.svg",
     "static/media/interIIT-logo.webp": "/static/media/interIIT-logo.64643f9264c74ee86959.webp",
     "index.html": "/index.html",
-    "main.ecbebcd0.css.map": "/static/css/main.ecbebcd0.css.map",
+    "main.1cd2f0e6.css.map": "/static/css/main.1cd2f0e6.css.map",
     "main.44273fb9.js.map": "/static/js/main.44273fb9.js.map",
     "748.05defaec.chunk.css.map": "/static/css/748.05defaec.chunk.css.map",
     "748.35c1458e.chunk.js.map": "/static/js/748.35c1458e.chunk.js.map",
@@ -27,7 +27,7 @@
     "945.b1cdf865.chunk.js.map": "/static/js/945.b1cdf865.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.ecbebcd0.css",
+    "static/css/main.1cd2f0e6.css",
     "static/js/main.44273fb9.js"
   ]
 }
