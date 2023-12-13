@@ -15,7 +15,7 @@ const Home = lazy(() => {
 const Login = lazy(() => import("./Screens/Login"));
 const AdminDashboard = lazy(() => import("./Screens/Admin/AdminDashboard"));
 
-export const StartingDate = 15;
+export const StartingDate = 14;
 
 function App() {
 	const PrivateRoute = ({ Component }: { Component: React.JSX.Element }) => {
