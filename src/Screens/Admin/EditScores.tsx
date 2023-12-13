@@ -18,7 +18,7 @@ import AthleticsEvent, { Participant } from "../../types/AthleticsEvent";
 import { AthleticsEventWithDistance } from "../../types/AthleticsEventTypes";
 import { Team } from "../../types/Team";
 
-const EVENT_START_BUFFER = 15 * 60 * 1000; //in milliseconds
+const EVENT_START_BUFFER = 15 * 60 * 1000; //the duration BEFORE the startTime from when an event can be started in milliseconds
 
 const EditScores = () => {
 	const getAccessToken = useAuthHeader();
