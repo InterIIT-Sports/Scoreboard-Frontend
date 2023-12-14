@@ -116,7 +116,11 @@ const Home = () => {
 									)}
 								/>
 							</div>
-							<PastGamesResultsViewer events={pastEvents} />
+							<PastGamesResultsViewer
+								events={
+									pastEvents.length <= 50 ? pastEvents : pastEvents.slice(0, 49)
+								}
+							/>
 						</div>
 					</div>
 					<Footer />
