@@ -8,7 +8,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Remarks for further development and use for different Events
 
-No Event (InterIIT 2023) Specific data has been used or taken for consideration in the writing of the application except the `StartingDate` variable in the `App.tsx` file (`src` folder) which has been set to 15 to represent the starting date of the InterIIT 2023 Sports meet at IIT Gandhinagar. This can change be changed to whenever a particular event is starting.
+No Event (InterIIT 2023) Specific data has been used or taken for consideration in the writing of the application except the `StartingDate` variable in the `App.tsx` file (`src` folder) which has been set to 14 to represent the starting date of the InterIIT 2023 Sports meet at IIT Gandhinagar. This can change be changed to whenever a particular event is starting.
 
 ## Available Scripts
 
