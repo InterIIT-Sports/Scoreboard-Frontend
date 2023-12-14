@@ -41,7 +41,11 @@ const getTime = (dateString: string, time: string) => {
 		let seconds =
 			(Number(timeParts[0]) * 60 + Number(timeParts[1])) * 60 +
 			Number(timeParts[2]);
-		if (timeParts[3] === "pm" || timeParts[3] === "PM") seconds += 12 * 60 * 60;
+		if (
+			(timeParts[3] === "pm" && Number(timeParts[0]) !== 12) ||
+			(timeParts[3] === "PM" && Number(timeParts[0]) !== 12)
+		)
+			seconds += 12 * 60 * 60;
 		return seconds;
 	}
 	dateObject.setTime(dateObject.getTime() + getSeconds(time) * 1000);
