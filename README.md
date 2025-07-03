@@ -5,7 +5,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - Home Page allowing viewers to see the Live Events Scores, Upcoming Events List, and also the Recent Updates about the games which have ended.
 - Admin Pages (protected) that allows admins to add volunteers, teams and events through the Schedule Table. The Live Scores can be sent to the server from here. Also has a Logs page.
 - A User Manual for guiding the user with the various features of the admin panel can be found [here](https://docs.google.com/document/d/1KpjU-qifs7S4cfy7ImXSCwoF4ycOys0Esmv7cccqAgA)
-![home](./Screenshots/HomePage2)
+![home](./Screenshots/HomePage2.png)
 ![events](./Screenshots/LiveEventsPage-Admin.png)
 ![schedule](./Screenshots/Schedule-Admin.png)
 
